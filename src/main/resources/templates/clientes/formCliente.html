@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SACC | Nuevo Cliente</title>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/jumbotron.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/sticky-footer-navbar.css}">
+  </head>
+
+  <body>
+    <!-- MENU -->
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">SACC</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menu 1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Menu 2</a>
+            </li>          
+          </ul>  
+          <a class="btn btn-primary" href="#">Ingresar</a>&nbsp;
+          <a class="btn btn-primary" href="#">Registrarse</a>
+        </div>
+      </nav>
+    </header>
+    <!--END MENU-->
+    <main role="main">     
+      <hr>
+      <div class="container"> 
+        <div class="card">
+          <h4 class="card-header"><strong>Nuevo Cliente</strong></h4>              
+          <div class="card-body">
+            <form class="needs-validation">              
+              <div class="row">
+                <div class="col-md-4"> 
+                  <div class="form-group">
+                    <label for="rfc" class="form-label">RFC</label>
+                    <input type="text" class="form-control" id="rfc" autocomplete="off" required>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <label for="regimen" class="form-label">Régimen Fiscal</label>
+                  <select class="form-control" id="regimen" required>
+                    <option selected>Régimen fiscal personas morales (General)</option>
+                  </select>
+                </div>
+              </div>
+              <hr>
+              <h5>Personas Fisicas</h5>
+              <p>Escriba el nombre y apellidos del cliente si el régimen fiscal seleccionado es Personas Fisicas</p>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" autocomplete="off">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="aPaterno" class="form-label">Apellido Paterno</label>
+                    <input type="text" class="form-control" id="aPaterno" autocomplete="off">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="aMaterno" class="form-label">Apellido Materno</label>
+                    <input type="text" class="form-control" id="aMaterno" autocomplete="off">
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <h5>Personas Morales</h5>
+              <p>Escriba el nombre de la empresa si el régimen fiscal seleccionado es Personas Morales</p>            
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <label for="razonSocial" class="form-label">Razón Social</label>
+                    <input type="text" class="form-control" id="razonSocial" autocomplete="off">
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <h5>Contacto</h5>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="telefono1" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="telefono1" autocomplete="off" required>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="telefono1" class="form-label">Teléfono Alternativo <span class="text-muted">(Opcional)</span></label>
+                    <input type="text" class="form-control" id="telefono1" autocomplete="off" >
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="correo" class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="correo" autocomplete="off" required>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="correo" class="form-label">Correo Electrónico Alternativo <span class="text-muted">(Opcional)</span></label>
+                    <input type="email" class="form-control" id="correo" autocomplete="off">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" id="direccion" autocomplete="off" placeholder="Calle, número, colonia, ciudad, estado" required>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="codigoPostal" class="form-label">Codigo Postal</label>
+                    <input type="text" class="form-control" id="codigoPostal" autocomplete="off" required>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <button type="submit" title="Quiero registrarme." class="btn btn-primary">Registrarse</button>  
+            </form>
+          </div>
+        </div>
+      </div> <!-- /container -->
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>
+          &copy; 2019 EmpleosApp, Inc. | WebApp Desarrollada con Spring Boot 2.1.2 | Autor: Iv&aacute;n E. Tinajero D&iacute;az | &middot; <a href="#">Privacy</a>
+          &middot; <a href="#">Terms</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> 
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script> 
+  </body>
+</html>
