@@ -1,5 +1,6 @@
 package com.cfm.sacc.clientes.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import com.cfm.sacc.clientes.model.Cliente;
+import com.cfm.sacc.util.GUIDGenerator;
+import com.cfm.sacc.util.LogHandler;
+import com.cfm.sacc.util.Parseador;
 import com.cfm.sacc.ws.client.IClientWsService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -29,16 +33,17 @@ public class ClienteService implements IClienteService{
 	
 	@Override
 	public List<Cliente> getClientes() {
+		List<Cliente> flagList;
 		try {
 			JsonNode response = (JsonNode) clientWsService.consumeService(urlClientesActivos, null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response);
-			System.out.println("JSON NODE: " + json);
 			return objectMapper.readValue(json, new TypeReference<List<Cliente>>(){});
 		} catch (Exception e) {
-			// AGREGAR LOG
+			String uid = GUIDGenerator.generateGUID();
+			LogHandler.info(uid, getClass(), "getCliente"+Parseador.objectToJson(uid, e));
 			e.printStackTrace();
+			flagList = new ArrayList<>();
 		}
-		// retornan lista vacia
-		return null;
+		return flagList;
 	}
 }

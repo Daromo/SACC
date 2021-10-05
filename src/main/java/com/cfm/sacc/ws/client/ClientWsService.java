@@ -3,8 +3,6 @@ package com.cfm.sacc.ws.client;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.cbor.MappingJackson2CborHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -27,7 +25,6 @@ public class ClientWsService implements IClientWsService {
 		Object responseObject = null;
 		ResponseEntity<JsonNode> responseService = restTemplate.exchange(url, typeMethod, requestService, JsonNode.class);
 		responseObject = responseService.getBody();
-		System.out.println("PRUEBA");
 		return responseObject;
 	}
 

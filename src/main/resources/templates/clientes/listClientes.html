@@ -39,17 +39,23 @@
               <tbody>
                 <tr th:each="clienteTemp : ${clientes}">
                   <td th:text="${clienteTemp.rfc}"></td>
-                  <td th:text="${clienteTemp.razonSocial}"></td>
+                  <td>
+                    <span th:if="${clienteTemp.razonSocial != null}" th:text="${clienteTemp.razonSocial}"></span>
+                    <span th:unless="${clienteTemp.razonSocial != null}" th:text="${clienteTemp.apPaternoCliente} +' '+ ${clienteTemp.apMaternoCliente} +' '+ ${clienteTemp.nombreCliente}"></span>
+                  </td>
                   <td th:text="${clienteTemp.idRegimenFiscal}"></td>
                   <td>
-                    <span th:if="${clienteTemp.status='A'}" class="badge bg-success">Activo</span>
-                    <span th:unless="${clienteTemp.status}" class="badge bg-danger">Inactivo</span>
+                    <span th:if="${clienteTemp.status='A'}" class="badge bg-info">Activo</span>
                   </td>
-                  <td>Botones</td>
+                  <td>
+                  	<a href="#" class="btn btn-success btn-sm" role="button" title="Ver datos del cliente."><i class="fa fa-user" aria-hidden="true"></i></a>
+                  	<a href="#" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
+                    <a href="#" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Baja cliente."><i class="fa fa-lock" aria-hidden="true"></i></a>
+                  </td>
                 </tr>
               </tbody>
             </table>
-            <div class="row">
+            <!--<div class="row">
               <div class="col-md-2"></div>
               <div class="col-md-8">
                 <nav aria-label="Pagination">
@@ -61,7 +67,7 @@
                 </nav>
               </div>
               <div class="col-md-2"></div>
-            </div>
+            </div>-->
           </div>
         </div>
       </div> <!-- /container -->
@@ -77,9 +83,6 @@
       </div>
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>     
   </body>
