@@ -1,0 +1,46 @@
+<nav th:fragment="menu-principal" class="container-xxl flex-wrap flex-md-wrap">
+    <a class="navbar-brand" href="/">
+        <img th:src="@{/img/ejemplo.svg}" width="30" height="30" alt="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAlMarkup"
+        aria-controls="navbarNavAlMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="oi oi-menu"></span>Menu
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAlMarkup">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navContabilidad" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Respaldos
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navContabilidad">
+                    <li><a class="dropdown-item" href="/respaldos/contabilidad">Contabilidad</a></li>
+                    <li><a class="dropdown-item" href="/respaldos/nominas">Nominas</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="/respaldos/nuevo">Agregar Respaldo</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navContabilidad" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Empresas
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navContabilidad">
+                    <li><a class="dropdown-item" href="#">Lista de Empresas</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Nueva Empresa</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disable">Otros</a>
+            </li>
+        </ul>
+    </div>
+
+    <a style="font-family: var(--bs-font-sans-serif); color:white; margin-right: 1rem;">Hola
+    <span >[[${nameUserLog}]]</span></a>
+</nav>

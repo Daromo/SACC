@@ -1,9 +1,8 @@
-package com.cfm.sacc.service;
+package com.cfm.sacc.clientes.service;
 
 import java.util.List;
 
-import com.cfm.sacc.model.Cliente;
-
+import com.cfm.sacc.clientes.model.Cliente;
 
 public interface IClienteService {
 	List<Cliente> getClientes();

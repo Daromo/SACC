@@ -1,4 +1,4 @@
-package com.cfm.sacc.model;
+package com.cfm.sacc.clientes.model;
 
 import java.util.Date;
 
