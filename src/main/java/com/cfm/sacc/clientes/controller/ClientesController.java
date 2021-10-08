@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,8 +33,12 @@ public class ClientesController {
 		return "clientes/listClientes";
 	}
 	
-	@PostMapping("/nuevo")
-	public String addCliente() {
-		return "clientes/formCliente";
+	@GetMapping("/view/{rfc}")
+	public String verDetalle(@PathVariable("rfc") String clienteRFC, Model model) {
+		List<Cliente> lista = clientesService.findClienteByRFC(clienteRFC);
+		String uid = GUIDGenerator.generateGUID();
+		LogHandler.info(uid, getClass(), "verDetalle"+Parseador.objectToJson(uid, lista));
+		model.addAttribute("cliente", lista);
+		return "clientes/detalleCliente";
 	}
 }

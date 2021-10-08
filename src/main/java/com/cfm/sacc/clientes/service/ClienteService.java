@@ -3,6 +3,7 @@ package com.cfm.sacc.clientes.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -28,8 +29,14 @@ public class ClienteService implements IClienteService{
 	@Autowired
 	ObjectMapper objectMapper;
 	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	@Value("${clientes.activos.url}")
 	String urlClientesActivos;
+	
+	@Value("${clientes.buscar.rfc.url}")
+	String urlBuscarCliente;
 	
 	@Override
 	public List<Cliente> getClientes() {
@@ -41,7 +48,22 @@ public class ClienteService implements IClienteService{
 		} catch (Exception e) {
 			String uid = GUIDGenerator.generateGUID();
 			LogHandler.info(uid, getClass(), "getCliente"+Parseador.objectToJson(uid, e));
-			e.printStackTrace();
+			flagList = new ArrayList<>();
+		}
+		return flagList;
+	}
+
+	@Override
+	public List<Cliente> findClienteByRFC(String clienteRFC) {
+		String url = urlBuscarCliente.concat("/").concat(clienteRFC);
+		List<Cliente> flagList;
+		try {
+			JsonNode response = (JsonNode) clientWsService.consumeService(url, null, HttpMethod.GET, APPLICATION_JSON);
+			String json = objectMapper.writeValueAsString(response);
+			return objectMapper.readValue(json, new TypeReference<List<Cliente>>(){});
+		} catch (Exception e) {
+			String uid = GUIDGenerator.generateGUID();
+			LogHandler.info(uid, getClass(), "getCliente"+Parseador.objectToJson(uid, e));
 			flagList = new ArrayList<>();
 		}
 		return flagList;

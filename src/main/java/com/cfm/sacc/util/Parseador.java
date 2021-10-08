@@ -8,12 +8,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public final class Parseador {
+
+	private Parseador() {
 	
-	private Parseador() {	    
-	  }
-	
+	}
+
 	public static java.lang.String objectToJson(java.lang.String uid, Object contenedor) {
-		
+
 		final ObjectMapper objectMapper = new ObjectMapper();
 
 		objectMapper.registerModule(new JavaTimeModule());
@@ -26,10 +27,10 @@ public final class Parseador {
 
 		try {
 			respuestaJson = objectMapper.writeValueAsString(contenedor);
-		} catch (java.lang.Exception exception) {			
+		} catch (java.lang.Exception exception) {
 			LogHandler.error(uid, Parseador.class, "Error en jsonToObject >> ", exception);
 		}
 
 		return respuestaJson;
-	}	
+	}
 }

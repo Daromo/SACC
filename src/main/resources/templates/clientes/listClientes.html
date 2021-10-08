@@ -1,32 +1,30 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
 
     <title>SACC | Listado de Clientes</title>
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" th:href="@{/bootstrap/css/jumbotron.css}">
-    <link rel="stylesheet" th:href="@{/bootstrap/css/sticky-footer-navbar.css}">
+    <link th:rel="stylesheet" th:href="@{/bootstrap/css/jumbotron.css}">
+    <link th:rel="stylesheet" th:href="@{/bootstrap/css/sticky-footer-navbar.css}">
     <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
   </head>
 
   <body>
-	<header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-primary"></header>
+	<header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark"></header>
     <main role="main">     
-      <hr>
-      <div class="container"> 
-
+      <div class="container mt-4"> 
         <div class="card">
           <h4 class="card-header"><strong>Listado de Clientes</strong></h4>
           <div class="card-body">
             <hr>
             <table id="tblCliente" class="table table-hover">
+              <caption>Resultados de los clientes activos</caption>
               <thead class="thead-light">
                 <tr>
                   <th scope="col">RFC</th>
@@ -48,30 +46,16 @@
                     <span th:if="${clienteTemp.status='A'}" class="badge bg-info">Activo</span>
                   </td>
                   <td>
-                  	<a href="#" class="btn btn-success btn-sm" role="button" title="Ver datos del cliente."><i class="fa fa-user" aria-hidden="true"></i></a>
+                  	<a th:href="@{/clientes/view/{rfc} (rfc=${clienteTemp.rfc}) }" class="btn btn-success btn-sm" role="button" title="Ver datos del cliente."><i class="fa fa-user" aria-hidden="true"></i></a>
                   	<a href="#" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
                     <a href="#" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Baja cliente."><i class="fa fa-lock" aria-hidden="true"></i></a>
                   </td>
                 </tr>
               </tbody>
             </table>
-            <!--<div class="row">
-              <div class="col-md-2"></div>
-              <div class="col-md-8">
-                <nav aria-label="Pagination">
-                  <ul class="pagination justify-content-center">
-                    <li class="page-item" th:each="page : ${totalPages}">
-                      <a class="page-link" th:href="@{|/?page=${page}|}" th:text="${page}"></a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-              <div class="col-md-2"></div>
-            </div>-->
           </div>
         </div>
       </div> <!-- /container -->
-
     </main>
 
     <footer class="footer">
@@ -82,8 +66,9 @@
         </p>
       </div>
     </footer>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>     
+    
+    <script th:src="@{/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    
   </body>
 </html>
