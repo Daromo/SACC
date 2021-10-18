@@ -10,138 +10,126 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" th:href="@{/bootstrap/css/jumbotron.css}">
     <link rel="stylesheet" th:href="@{/bootstrap/css/sticky-footer-navbar.css}">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+	
   </head>
-
   <body>
-    <!-- MENU -->
-    <header>
-      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">SACC</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menu 1</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Menu 2</a>
-            </li>          
-          </ul>  
-          <a class="btn btn-primary" href="#">Ingresar</a>&nbsp;
-          <a class="btn btn-primary" href="#">Registrarse</a>
-        </div>
-      </nav>
-    </header>
-    <!--END MENU-->
-    <main role="main">     
-      <hr>
-      <div class="container"> 
-        <div class="card">
-          <h4 class="card-header"><strong>Nuevo Cliente</strong></h4>              
+	<header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
+    <main role="main">
+      <div class="container">
+		<hr style="border: 0; height: 0px; width:0%;">
+        <div class="card border-0 col-md-8">
+          <h4 class="card-header border-info"><strong>Nuevo Cliente</strong></h4>              
           <div class="card-body">
-            <form class="needs-validation">              
-              <div class="row">
-                <div class="col-md-4"> 
+            <form class="needs-validation" th:object="${Cliente}" th:action="@{/clientes/guardar/}" method="post">             
+              <!-- SECTION GENERALES -->
+              <section class="row pb-3 border">
+                <div class="card-header"><strong>Generales</strong></div>
+                <div class="col-md-6 mt-2"> 
                   <div class="form-group">
-                    <label for="rfc" class="form-label">RFC</label>
+                    <label for="rfc" class="form-label">Cliente RFC</label>
                     <input type="text" class="form-control" id="rfc" autocomplete="off" required>
                   </div>
                 </div>
-                <div class="col-md-5">
-                  <label for="regimen" class="form-label">Régimen Fiscal</label>
-                  <select class="form-control" id="regimen" required>
-                    <option selected>Régimen fiscal personas morales (General)</option>
+                <div class="col-md-6 mt-2">
+                  <label for="regimenFiscal" class="form-label">Régimen Fiscal</label>
+                  <select class="form-select" id="regimenFiscal">
+                    <option th:each="regimenTemp: ${listaRegimen}" th:text="${regimenTemp.nombre}" th:value="${regimenTemp.id}">
                   </select>
                 </div>
-              </div>
+              </section>
+              <hr style="border: 0; height: 0px; width:0%;">
+              <!-- SECTION TIPO REGIMEN -->
+              <section class="row border">
+              	<div class="card-header"><strong>Tipo Régimen</strong></div>
+                <div class="row pb-3 pt-2">
+                  <strong>Personas Morales</strong>
+                  <div class="col-md-12 mt-2">
+                    <div class="form-group">
+                      <label for="razonSocial" class="form-label">Razón Social</label>
+                      <input type="text" class="form-control" id="razonSocial" autocomplete="off">
+                    </div>
+                  </div>
+                </div>
+                <div class="row pb-3">
+                  <strong>Personas Fisicas</strong>
+                  <div class="col-md-4 mt-2">
+                    <div class="form-group">
+                      <label for="nombreCliente" class="form-label">Nombre</label>
+                      <input type="text" class="form-control" id="nombreCliente" autocomplete="off">
+                    </div>
+                  </div>
+                  <div class="col-md-4 mt-2">
+                    <div class="form-group">
+                      <label for="apPaternoCliente" class="form-label">Apellido Paterno</label>
+                      <input type="text" class="form-control" id="apPaternoCliente" autocomplete="off">
+                    </div>
+                  </div>
+                  <div class="col-md-4 mt-2">
+                    <div class="form-group">
+                      <label for="apMaternoCliente" class="form-label">Apellido Materno</label>
+                      <input type="text" class="form-control" id="apMaternoCliente" autocomplete="off">
+                    </div>
+                  </div>
+                </div>
+              </section>
+              
+              <!-- CONTACTO -->
+              <hr style="border: 0; height: 0px; width:0%;">
+              <section class="row border pb-3">
+                <div class="card-header"><strong>Contacto</strong></div>
+                <div class="row">
+                  <div class="col-md-6 mt-2">
+                    <div class="form-group">
+                      <label for="telefono1" class="form-label">Teléfono</label>
+                      <input type="text" class="form-control" id="telefono1" autocomplete="off" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mt-2">
+                    <div class="form-group">
+                      <label for="telefono2" class="form-label">Teléfono Alternativo <span
+                          class="text-muted">(Opcional)</span></label>
+                      <input type="text" class="form-control" id="telefono2" autocomplete="off">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mt-2">
+                    <div class="form-group">
+                      <label for="correo" class="form-label">Correo Electrónico</label>
+                      <input type="email" class="form-control" id="correo" autocomplete="off" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mt-2">
+                    <div class="form-group">
+                      <label for="correoAlternativo" class="form-label">Correo Electrónico Alternativo <span
+                          class="text-muted">(Opcional)</span></label>
+                      <input type="email" class="form-control" id="correoAlternativo" autocomplete="off">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mt-2">
+                    <div class="form-group">
+                      <label for="domicilio" class="form-label">Domicilio</label>
+                      <input type="text" class="form-control" id="domicilio" autocomplete="off"
+                        placeholder="Calle, número, colonia, ciudad, estado" required>
+                    </div>
+                  </div>
+                  <div class="col-md-3 mt-2">
+                    <div class="form-group">
+                      <label for="codigoPostal" class="form-label">Codigo Postal</label>
+                      <input type="text" class="form-control" id="codigoPostal" autocomplete="off" required>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
               <hr>
-              <h5>Personas Fisicas</h5>
-              <p>Escriba el nombre y apellidos del cliente si el régimen fiscal seleccionado es Personas Fisicas</p>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" autocomplete="off">
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="aPaterno" class="form-label">Apellido Paterno</label>
-                    <input type="text" class="form-control" id="aPaterno" autocomplete="off">
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="aMaterno" class="form-label">Apellido Materno</label>
-                    <input type="text" class="form-control" id="aMaterno" autocomplete="off">
-                  </div>
-                </div>
-              </div>
-              <hr>
-              <h5>Personas Morales</h5>
-              <p>Escriba el nombre de la empresa si el régimen fiscal seleccionado es Personas Morales</p>            
-              <div class="row">
-                <div class="col-md-8">
-                  <div class="form-group">
-                    <label for="razonSocial" class="form-label">Razón Social</label>
-                    <input type="text" class="form-control" id="razonSocial" autocomplete="off">
-                  </div>
-                </div>
-              </div>
-              <hr>
-              <h5>Contacto</h5>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="telefono1" class="form-label">Teléfono</label>
-                    <input type="text" class="form-control" id="telefono1" autocomplete="off" required>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="telefono1" class="form-label">Teléfono Alternativo <span class="text-muted">(Opcional)</span></label>
-                    <input type="text" class="form-control" id="telefono1" autocomplete="off" >
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="correo" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="correo" autocomplete="off" required>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="correo" class="form-label">Correo Electrónico Alternativo <span class="text-muted">(Opcional)</span></label>
-                    <input type="email" class="form-control" id="correo" autocomplete="off">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="direccion" class="form-label">Dirección</label>
-                    <input type="text" class="form-control" id="direccion" autocomplete="off" placeholder="Calle, número, colonia, ciudad, estado" required>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label for="codigoPostal" class="form-label">Codigo Postal</label>
-                    <input type="text" class="form-control" id="codigoPostal" autocomplete="off" required>
-                  </div>
-                </div>
-              </div>
-              <hr>
-              <button type="submit" title="Quiero registrarme." class="btn btn-primary">Registrarse</button>  
+              <button type="submit" title="Agregar Nuevo cliente" class="btn btn-primary">Guardar</button>  
             </form>
           </div>
         </div>
@@ -151,16 +139,35 @@
     <footer class="footer">
       <div class="container">
         <p>
-          &copy; 2019 EmpleosApp, Inc. | WebApp Desarrollada con Spring Boot 2.1.2 | Autor: Iv&aacute;n E. Tinajero D&iacute;az | &middot; <a href="#">Privacy</a>
+          &copy;Sistema de Administración y Control de Cobranza</a>
           &middot; <a href="#">Terms</a>
         </p>
       </div>
     </footer>
+    
+    	<script type="text/javascript">
+		$( function() {
+		    $("#regimenFiscal").change( function() {
+		        if ($(this).val() === "601") {
+		            $("#razonSocial").prop("disabled", false);
+		            $("#nombreCliente").prop("disabled", true);
+		            $("#apPaternoCliente").prop("disabled", true);
+		            $("#apMaternoCliente").prop("disabled", true);
+		            document.getElementById("nombreCliente").value = "";
+		            document.getElementById("apPaternoCliente").value = "";
+		            document.getElementById("apMaternoCliente").value = "";
+		        } else {
+		            $("#nombreCliente").prop("disabled", false);
+		            $("#apPaternoCliente").prop("disabled", false);
+		            $("#apMaternoCliente").prop("disabled", false);
+		            $("#razonSocial").prop("disabled", true);
+		            document.getElementById("razonSocial").value = "";
+		        }
+		    });
+		});
+	</script>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> 
-    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script> 
+	<script th:src="@{/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
   </body>
 </html>

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
 
     <title>SACC | Detalle Cliente</title>
     <!-- Bootstrap core CSS -->
@@ -16,9 +15,7 @@
   </head>
 
   <body>
-
-    <header th:insert="fragments/menu :: menu-principal"></header>
-
+    <header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark"></header>
     <main role="main">
       <hr>
       <div class="container">
@@ -27,10 +24,10 @@
             <div class="card">
               <h4 class="card-header">Acerca del cliente<strong></strong></h4>              
               <div class="card-body">
-                <h6 class="card-title"><strong>Nombre:</strong><span th:text="${cliente.razonSocial}"></span></h5>
+                <h6 class="card-title"><strong>Nombre: </strong><span th:text="${cliente.razonSocial}"></span></h5>
                 <h6 class="card-title"><strong>RFC: </strong><span th:text="${cliente.rfc}"></span></h6>                
-                <h6 class="card-title"><strong>Régimen Fiscal:</strong><span th:text="${cliente.idRegimenFiscal}"></span></h6>
-                <h6 class="card-title"><strong>Status:</strong><span th:text="${cliente.status}></span></h6>
+                <h6 class="card-title"><strong>Régimen Fiscal: </strong><span th:text="${cliente.regimenFiscal.nombreRegimen}"></span></h6>
+                <h6 class="card-title"><strong>Status: </strong><span th:text="${cliente.status}"></span></h6>
                 <hr>
                 <span>Contacto</span>
                 <h6 class="card-title"><strong>Telefono: </strong></h6>

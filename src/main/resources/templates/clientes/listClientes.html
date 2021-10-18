@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SACC | Listado de Clientes</title>
+    <title>SACC | Clientes Activos</title>
     <!-- Bootstrap core CSS -->
     <link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Custom styles for this template -->
@@ -23,15 +23,17 @@
           <h4 class="card-header"><strong>Listado de Clientes</strong></h4>
           <div class="card-body">
             <hr>
+            <!-- DIV PARA MOSTRAR ALGUN ERROR DURANTE EL PROCESO PARA DAR DE BAJA A UN CLIENTE -->
+			<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>			
             <table id="tblCliente" class="table table-hover">
-              <caption>Resultados de los clientes activos</caption>
+              <caption>Lista de clientes activos</caption>
               <thead class="thead-light">
                 <tr>
                   <th scope="col">RFC</th>
                   <th scope="col">Nombre Cliente</th>
                   <th scope="col">Regimen Fiscal</th>
                   <th scope="col">Estatus</th>
-                  <th scope="col">Operaciones</th>
+                  <th scope="col">Opciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -41,14 +43,14 @@
                     <span th:if="${clienteTemp.razonSocial != null}" th:text="${clienteTemp.razonSocial}"></span>
                     <span th:unless="${clienteTemp.razonSocial != null}" th:text="${clienteTemp.apPaternoCliente} +' '+ ${clienteTemp.apMaternoCliente} +' '+ ${clienteTemp.nombreCliente}"></span>
                   </td>
-                  <td th:text="${clienteTemp.idRegimenFiscal}"></td>
+                  <td th:text="${clienteTemp.regimenFiscal.nombre}"></td>
                   <td>
                     <span th:if="${clienteTemp.status='A'}" class="badge bg-info">Activo</span>
                   </td>
                   <td>
                   	<a th:href="@{/clientes/view/{rfc} (rfc=${clienteTemp.rfc}) }" class="btn btn-success btn-sm" role="button" title="Ver datos del cliente."><i class="fa fa-user" aria-hidden="true"></i></a>
                   	<a href="#" class="btn btn-success btn-sm" role="button" title="Editar el registro."><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
-                    <a href="#" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Baja cliente."><i class="fa fa-lock" aria-hidden="true"></i></a>
+                    <a th:href="@{/clientes/baja/{rfc} (rfc=${clienteTemp.rfc}) }" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Baja cliente."><i class="fa fa-lock" aria-hidden="true"></i></a>
                   </td>
                 </tr>
               </tbody>
@@ -57,8 +59,7 @@
         </div>
       </div> <!-- /container -->
     </main>
-
-    <footer class="footer">
+	<footer class="footer">
       <div class="container">
         <p>
           &copy; 2019 EmpleosApp, Inc. | WebApp Desarrollada con Spring Boot 2.1.2 | Autor: Iv&aacute;n E. Tinajero D&iacute;az | &middot; <a href="#">Privacy</a>

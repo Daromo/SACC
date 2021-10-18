@@ -24,8 +24,8 @@ public class ClientWsService implements IClientWsService {
 			
 		Object responseObject = null;
 		ResponseEntity<JsonNode> responseService = restTemplate.exchange(url, typeMethod, requestService, JsonNode.class);
-		responseObject = responseService.getBody();
-		return responseObject;
+		//responseObject = responseService.getBody();
+		return responseService;
 	}
 
 

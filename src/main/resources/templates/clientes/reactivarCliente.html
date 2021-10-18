@@ -1,0 +1,74 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SACC | Reactivar Cliente</title>
+    <!-- Bootstrap core CSS -->
+    <link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- Custom styles for this template -->
+    <link th:rel="stylesheet" th:href="@{/bootstrap/css/jumbotron.css}">
+    <link th:rel="stylesheet" th:href="@{/bootstrap/css/sticky-footer-navbar.css}">
+    <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+  </head>
+
+  <body>
+	<header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark"></header>
+    <main role="main">     
+      <div class="container mt-4"> 
+        <div class="card">
+          <h4 class="card-header"><strong>Clientes Inactivos</strong></h4>
+          <div class="card-body">
+            <hr>
+            <h6>Settings</h6>
+			<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>			
+            <table id="tblCliente" class="table table-hover">
+              <caption>Lista de clientes inactivos</caption>
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">RFC</th>
+                  <th scope="col">Nombre Cliente</th>
+                  <th scope="col">Regimen Fiscal</th>
+                  <th scope="col">Estatus</th>
+                  <th scope="col">Opciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="clienteTemp : ${clientes}">
+                  <td th:text="${clienteTemp.rfc}"></td>
+                  <td>
+                    <span th:if="${clienteTemp.razonSocial != null}" th:text="${clienteTemp.razonSocial}"></span>
+                    <span th:unless="${clienteTemp.razonSocial != null}" th:text="${clienteTemp.apPaternoCliente} +' '+ ${clienteTemp.apMaternoCliente} +' '+ ${clienteTemp.nombreCliente}"></span>
+                  </td>
+                  <td th:text="${clienteTemp.regimenFiscal.nombre}"></td>
+                  <td>
+                    <span th:if="${clienteTemp.status='I'}" class="badge bg-danger">Inactivo</span>
+                    <span th:unless="${clienteTemp.status='A'}" class="badge bg-info">Activo</span>
+                  </td>
+                  <td>
+                    <a th:href="@{/clientes/reactivar/{rfc} (rfc=${clienteTemp.rfc}) }" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Baja cliente."><i class="fa fa-lock" aria-hidden="true"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div> <!-- /container -->
+    </main>
+	<footer class="footer">
+      <div class="container">
+        <p>
+          &copy; 2019 EmpleosApp, Inc. | WebApp Desarrollada con Spring Boot 2.1.2 | Autor: Iv&aacute;n E. Tinajero D&iacute;az | &middot; <a href="#">Privacy</a>
+          &middot; <a href="#">Terms</a>
+        </p>
+      </div>
+    </footer>
+    
+    <script th:src="@{/jquery-3.6.0.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    
+  </body>
+</html>

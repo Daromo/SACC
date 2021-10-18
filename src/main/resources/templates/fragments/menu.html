@@ -1,7 +1,6 @@
 <nav th:fragment="menu-principal" class="container-xxl flex-wrap flex-md-wrap">
     <a class="navbar-brand" href="/">
-        <!-- <img th:src="@{/img/ejemplo.svg}" width="30" height="30" alt="">  -->
-        <span>SACC</span>
+    	<img th:src="@{/img/cfm.svg}" width="60" height="50" alt="">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAlMarkup"
         aria-controls="navbarNavAlMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,12 +13,12 @@
                     Clientes
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navContabilidad">
-                    <li><a class="dropdown-item" href="/respaldos/contabilidad">Nuevo Cliente</a></li>
+                    <li><a class="dropdown-item" href="/clientes/nuevo/">Nuevo Cliente</a></li>
                     <li><a class="dropdown-item" href="/clientes/">Consultar Clientes</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="/respaldos/nuevo">Reingreso Cliente</a></li>
+                    <li><a class="dropdown-item" href="/clientes/inactivos/">Reingreso Cliente</a></li>
                 </ul>
             </li>
             <li class="nav-item">
@@ -31,6 +30,6 @@
         </ul>
     </div>
 
-    <a style="font-family: var(--bs-font-sans-serif); color:white; margin-right: 1rem;">Hola
-    <span >[[${nameUserLog}]]</span></a>
+    <!--<a style="font-family: var(--bs-font-sans-serif); color:white; margin-right: 1rem;">Hola
+    <span >[[${nameUserLog}]]</span></a>-->
 </nav>

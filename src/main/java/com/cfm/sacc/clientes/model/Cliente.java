@@ -1,6 +1,7 @@
 package com.cfm.sacc.clientes.model;
 
 import java.util.Date;
+import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +10,8 @@ import lombok.Setter;
 @Setter
 public class Cliente {
 	private String rfc;
-	private Integer idRegimenFiscal;
+	//SE UTILIZA MAP PARA REALIZAR EL MAPEO DEL JSON
+	private Map<String, Object> regimenFiscal;
 	private String nombreCliente;
 	private String apPaternoCliente;
 	private String apMaternoCliente;
