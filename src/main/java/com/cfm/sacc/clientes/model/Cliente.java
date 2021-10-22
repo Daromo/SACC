@@ -19,10 +19,10 @@ public class Cliente {
 	private Date fechaIngreso;
 	private Date lastUpdate;
 	private char status;
-	private Integer telefono1;
-	private Integer telefono2;
+	private String telefono1;
+	private String telefono2;
 	private String correo;
 	private String correoAlternativo;
 	private String domicilio;
-	private Integer codigoPostal;
+	private String codigoPostal;
 }

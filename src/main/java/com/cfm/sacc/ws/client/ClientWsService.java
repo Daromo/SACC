@@ -27,6 +27,4 @@ public class ClientWsService implements IClientWsService {
 		//responseObject = responseService.getBody();
 		return responseService;
 	}
-
-
 }

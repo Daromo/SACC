@@ -14,7 +14,6 @@
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
-	
   </head>
   <body>
 	<header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
@@ -22,22 +21,24 @@
       <div class="container">
 		<hr style="border: 0; height: 0px; width:0%;">
         <div class="card border-0 col-md-8">
-          <h4 class="card-header border-info"><strong>Nuevo Cliente</strong></h4>              
+          <h4 class="card-header border-info"><strong>Nuevo Cliente</strong></h4>
+          <h6 class="p-2">Settings</h6>
+		  <div class="alert alert-danger" role="alert" th:text="${success}" th:if="${success}"></div>             
           <div class="card-body">
             <form class="needs-validation" th:object="${Cliente}" th:action="@{/clientes/guardar/}" method="post">             
               <!-- SECTION GENERALES -->
               <section class="row pb-3 border">
                 <div class="card-header"><strong>Generales</strong></div>
-                <div class="col-md-6 mt-2"> 
+                <div class="col-md-6 mt-2">
                   <div class="form-group">
                     <label for="rfc" class="form-label">Cliente RFC</label>
-                    <input type="text" class="form-control" id="rfc" autocomplete="off" required>
+                    <input type="text" class="form-control" id="rfc" name="rfc" autocomplete="off" required>
                   </div>
                 </div>
                 <div class="col-md-6 mt-2">
                   <label for="regimenFiscal" class="form-label">Régimen Fiscal</label>
-                  <select class="form-select" id="regimenFiscal">
-                    <option th:each="regimenTemp: ${listaRegimen}" th:text="${regimenTemp.nombre}" th:value="${regimenTemp.id}">
+                  <select class="form-select" id="regimenFiscal" name="regimenFiscal">
+                    <option th:each="regimenTemp: ${listaRegimen}" th:text="${regimenTemp.nombre}" th:value="${regimenTemp.id}|"></option>
                   </select>
                 </div>
               </section>
@@ -50,7 +51,7 @@
                   <div class="col-md-12 mt-2">
                     <div class="form-group">
                       <label for="razonSocial" class="form-label">Razón Social</label>
-                      <input type="text" class="form-control" id="razonSocial" autocomplete="off">
+                      <input type="text" class="form-control" id="razonSocial" name="razonSocial" autocomplete="off">
                     </div>
                   </div>
                 </div>
@@ -59,19 +60,19 @@
                   <div class="col-md-4 mt-2">
                     <div class="form-group">
                       <label for="nombreCliente" class="form-label">Nombre</label>
-                      <input type="text" class="form-control" id="nombreCliente" autocomplete="off">
+                      <input type="text" class="form-control" id="nombreCliente" name="nombreCliente" autocomplete="off">
                     </div>
                   </div>
                   <div class="col-md-4 mt-2">
                     <div class="form-group">
                       <label for="apPaternoCliente" class="form-label">Apellido Paterno</label>
-                      <input type="text" class="form-control" id="apPaternoCliente" autocomplete="off">
+                      <input type="text" class="form-control" id="apPaternoCliente" name="apPaternoCliente" autocomplete="off">
                     </div>
                   </div>
                   <div class="col-md-4 mt-2">
                     <div class="form-group">
                       <label for="apMaternoCliente" class="form-label">Apellido Materno</label>
-                      <input type="text" class="form-control" id="apMaternoCliente" autocomplete="off">
+                      <input type="text" class="form-control" id="apMaternoCliente" name="apMaternoCliente" autocomplete="off">
                     </div>
                   </div>
                 </div>
@@ -85,14 +86,14 @@
                   <div class="col-md-6 mt-2">
                     <div class="form-group">
                       <label for="telefono1" class="form-label">Teléfono</label>
-                      <input type="text" class="form-control" id="telefono1" autocomplete="off" required>
+                      <input type="text" class="form-control" id="telefono1" name="telefono1" autocomplete="off" required>
                     </div>
                   </div>
                   <div class="col-md-6 mt-2">
                     <div class="form-group">
                       <label for="telefono2" class="form-label">Teléfono Alternativo <span
                           class="text-muted">(Opcional)</span></label>
-                      <input type="text" class="form-control" id="telefono2" autocomplete="off">
+                      <input type="text" class="form-control" id="telefono2" name="telefono2" autocomplete="off">
                     </div>
                   </div>
                 </div>
@@ -100,14 +101,14 @@
                   <div class="col-md-6 mt-2">
                     <div class="form-group">
                       <label for="correo" class="form-label">Correo Electrónico</label>
-                      <input type="email" class="form-control" id="correo" autocomplete="off" required>
+                      <input type="email" class="form-control" id="correo" name="correo" autocomplete="off" required>
                     </div>
                   </div>
                   <div class="col-md-6 mt-2">
                     <div class="form-group">
                       <label for="correoAlternativo" class="form-label">Correo Electrónico Alternativo <span
                           class="text-muted">(Opcional)</span></label>
-                      <input type="email" class="form-control" id="correoAlternativo" autocomplete="off">
+                      <input type="email" class="form-control" id="correoAlternativo" name="correoAlternativo" autocomplete="off">
                     </div>
                   </div>
                 </div>
@@ -115,14 +116,14 @@
                   <div class="col-md-6 mt-2">
                     <div class="form-group">
                       <label for="domicilio" class="form-label">Domicilio</label>
-                      <input type="text" class="form-control" id="domicilio" autocomplete="off"
+                      <input type="text" class="form-control" id="domicilio" name="domicilio" autocomplete="off"
                         placeholder="Calle, número, colonia, ciudad, estado" required>
                     </div>
                   </div>
                   <div class="col-md-3 mt-2">
                     <div class="form-group">
                       <label for="codigoPostal" class="form-label">Codigo Postal</label>
-                      <input type="text" class="form-control" id="codigoPostal" autocomplete="off" required>
+                      <input type="text" class="form-control" id="codigoPostal" name="codigoPostal" autocomplete="off" required>
                     </div>
                   </div>
                 </div>
@@ -145,9 +146,9 @@
       </div>
     </footer>
     
-    	<script type="text/javascript">
+    <script type="text/javascript">
 		$( function() {
-		    $("#regimenFiscal").change( function() {
+		    $("#regimenFiscal").change(function(){
 		        if ($(this).val() === "601") {
 		            $("#razonSocial").prop("disabled", false);
 		            $("#nombreCliente").prop("disabled", true);

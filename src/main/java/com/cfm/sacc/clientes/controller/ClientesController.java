@@ -15,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cfm.sacc.clientes.model.Cliente;
 import com.cfm.sacc.clientes.model.RegimenFiscal;
 import com.cfm.sacc.clientes.service.IClienteService;
-import com.cfm.sacc.exception.BusinessException;
 import com.cfm.sacc.util.GUIDGenerator;
 import com.cfm.sacc.util.LogHandler;
 import com.cfm.sacc.util.Parseador;
@@ -77,20 +76,25 @@ public class ClientesController {
 			return null;
 	}
 	
-	@GetMapping("/nuevo/")
-	public String renderFormNewCliente(Cliente cliente, Model model) throws BusinessException{
+	@GetMapping("/nuevo")
+	public String renderFormNewCliente(Cliente cliente, Model model){
 		//OBTENEMOS EL CATALOGO DE LOS REGIMENES FISCALES PARA LLENAR EL SELECT EN EL FRONT
 		List<RegimenFiscal> lista = clientesService.getRegimenFiscal();
 		String uid = GUIDGenerator.generateGUID();
-		LogHandler.info(uid, getClass(), "getClientesInactivos"+Parseador.objectToJson(uid, lista));
+		LogHandler.info(uid, getClass(), "getListaRegimen"+Parseador.objectToJson(uid, lista));
 		model.addAttribute("listaRegimen", lista);
 		return "clientes/formCliente";
 	}
 	
 	@PostMapping("/guardar/")
 	public void addNewCliente(Cliente cliente) {
+		//SPRING BOOT REALIZA EL DATA BINDING POR MEDIO DE LOS NAME DE LOS INPUT 
 		String uid = GUIDGenerator.generateGUID();
-		LogHandler.info(uid, getClass(), "Agreagar Nuevo cliente"+Parseador.objectToJson(uid, "BEAN"));
+		LogHandler.info(uid, getClass(), "Agreagar Nuevo cliente"+Parseador.objectToJson(uid, cliente));
+		/*HttpStatus statusCode = clientesService.addCliente(cliente);
+		if(statusCode == HttpStatus.OK) {
+			//REGISTRO GUARDADO CORRECTAMENTE
+			System.out.println("REGISTRO GUARDADO CORRECTAMENTE");
+		}*/
 	}
-	
 }

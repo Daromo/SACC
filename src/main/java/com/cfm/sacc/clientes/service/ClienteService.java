@@ -13,7 +13,6 @@ import org.springframework.web.client.ResourceAccessException;
 
 import com.cfm.sacc.clientes.model.Cliente;
 import com.cfm.sacc.clientes.model.RegimenFiscal;
-import com.cfm.sacc.exception.BusinessException;
 import com.cfm.sacc.util.GUIDGenerator;
 import com.cfm.sacc.util.LogHandler;
 import com.cfm.sacc.util.Parseador;
@@ -51,6 +50,9 @@ public class ClienteService implements IClienteService{
 	
 	@Value("${clientes.lista.regimen.url}")
 	String urlListaRegimenFiscales;
+	
+	@Value("${clientes.agregar.url}")
+	String urlAgregarCliente;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -116,7 +118,7 @@ public class ClienteService implements IClienteService{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<RegimenFiscal> getRegimenFiscal()throws BusinessException{
+	public List<RegimenFiscal> getRegimenFiscal(){
 		List<RegimenFiscal> flagList;
 		try {
 			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlListaRegimenFiscales, null, HttpMethod.GET, APPLICATION_JSON);
@@ -127,10 +129,16 @@ public class ClienteService implements IClienteService{
 			LogHandler.info(uid, getClass(), "getRegimenFiscal"+Parseador.objectToJson(uid, e));
 			flagList = new ArrayList<>();
 		} catch (ResourceAccessException e) {
-			System.out.println("ERROR EN EL SERVICIO");
 			flagList = new ArrayList<>();
 		}
 		
 		return flagList;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public HttpStatus addCliente(Cliente cliente) {
+		ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlAgregarCliente, cliente, HttpMethod.POST, APPLICATION_JSON);
+		return response.getStatusCode();
 	}	
 }
