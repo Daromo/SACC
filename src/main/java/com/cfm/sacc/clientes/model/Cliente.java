@@ -11,7 +11,8 @@ import lombok.Setter;
 public class Cliente {
 	private String rfc;
 	//SE UTILIZA MAP PARA REALIZAR EL MAPEO DEL JSON
-	private Map<String, Object> regimenFiscal;
+	private Integer regimenFiscalId;
+	private Map<String,Object> regimenFiscal;
 	private String nombreCliente;
 	private String apPaternoCliente;
 	private String apMaternoCliente;

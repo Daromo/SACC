@@ -17,28 +17,27 @@
   </head>
   <body>
 	<header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
-    <main role="main">
-      <div class="container">
-		<hr style="border: 0; height: 0px; width:0%;">
-        <div class="card border-0 col-md-8">
+      <div class="container col-md-8">
+        <div class="card border-0">
           <h4 class="card-header border-info"><strong>Nuevo Cliente</strong></h4>
           <h6 class="p-2">Settings</h6>
 		  <div class="alert alert-danger" role="alert" th:text="${success}" th:if="${success}"></div>             
           <div class="card-body">
-            <form class="needs-validation" th:object="${Cliente}" th:action="@{/clientes/guardar/}" method="post">             
+            <form class="needs-validation" th:object="${cliente}" th:action="@{/clientes/guardar}" method="post">             
               <!-- SECTION GENERALES -->
               <section class="row pb-3 border">
                 <div class="card-header"><strong>Generales</strong></div>
                 <div class="col-md-6 mt-2">
                   <div class="form-group">
                     <label for="rfc" class="form-label">Cliente RFC</label>
-                    <input type="text" class="form-control" id="rfc" name="rfc" autocomplete="off" required>
+                    <input th:value="${cliente.rfc}" type="text" class="form-control" id="rfc" name="rfc" autocomplete="off" required>
                   </div>
                 </div>
                 <div class="col-md-6 mt-2">
                   <label for="regimenFiscal" class="form-label">Régimen Fiscal</label>
-                  <select class="form-select" id="regimenFiscal" name="regimenFiscal">
-                    <option th:each="regimenTemp: ${listaRegimen}" th:text="${regimenTemp.nombre}" th:value="${regimenTemp.id}|"></option>
+                  <select class="form-select" id="regimenFiscalId" name="regimenFiscalId">
+                  	<option selected value="0">Seleccionar régimen fiscal</option>
+                    <option th:each="regimenTemp: ${listaRegimen}" th:text="${regimenTemp.nombre}" th:value="${regimenTemp.id}"></option>
                   </select>
                 </div>
               </section>
@@ -134,8 +133,8 @@
             </form>
           </div>
         </div>
-      </div> <!-- /container -->
-    </main>
+      </div>
+      <!-- /container -->
 
     <footer class="footer">
       <div class="container">
@@ -167,7 +166,6 @@
 		    });
 		});
 	</script>
-
 	<script th:src="@{/jquery-3.6.0.min.js}"></script>
     <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
   </body>

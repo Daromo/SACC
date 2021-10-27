@@ -1,45 +1,56 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>SACC | Detalle Cliente</title>
     <!-- Bootstrap core CSS -->
     <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
     <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
   </head>
+<body>
+	<header th:insert="fragments/menu :: menu-principal"
+		class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<h4 class="card-header">
+						Acerca del cliente<strong></strong>
+					</h4>
+					<div class="card-body">
+						<h6 class="card-title">
+							<strong>Nombre: </strong><span th:text="${cliente.razonSocial}"></span>
+							</h5>
+							<h6 class="card-title">
+								<strong>RFC: </strong><span th:text="${cliente.rfc}"></span>
+							</h6>
+							<h6 class="card-title">
+								<strong>Régimen Fiscal: </strong><span
+									th:text="${cliente.regimenFiscal.nombre}"></span>
+							</h6>
+							<h6 class="card-title">
+								<strong>Status: </strong><span th:text="${cliente.status}"></span>
+							</h6>
+							<hr>
+							<span>Contacto</span>
+							<h6 class="card-title">
+								<strong>Telefono: </strong>
+							</h6>
+							<a class="btn btn-primary" href="#" role="button"
+								title="Quiero aplicar para esta oferta de trabajo."><i
+								class="fas fa-file" aria-hidden="true"></i>Regresar</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-  <body>
-    <header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark"></header>
-    <main role="main">
-      <hr>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <h4 class="card-header">Acerca del cliente<strong></strong></h4>              
-              <div class="card-body">
-                <h6 class="card-title"><strong>Nombre: </strong><span th:text="${cliente.razonSocial}"></span></h5>
-                <h6 class="card-title"><strong>RFC: </strong><span th:text="${cliente.rfc}"></span></h6>                
-                <h6 class="card-title"><strong>Régimen Fiscal: </strong><span th:text="${cliente.regimenFiscal.nombreRegimen}"></span></h6>
-                <h6 class="card-title"><strong>Status: </strong><span th:text="${cliente.status}"></span></h6>
-                <hr>
-                <span>Contacto</span>
-                <h6 class="card-title"><strong>Telefono: </strong></h6>
-                <a class="btn btn-primary" href="#" role="button" title="Quiero aplicar para esta oferta de trabajo."><i class="fas fa-file" aria-hidden="true"></i>Regresar</a>                            
-              </div>
-            </div>  
-          </div>
-        </div>
-      </div>
-    </main>
-    
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
-  </body>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+</body>
 </html>

@@ -10,15 +10,12 @@
     <!-- Bootstrap core CSS -->
     <link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Custom styles for this template -->
-    <link th:rel="stylesheet" th:href="@{/bootstrap/css/jumbotron.css}">
     <link th:rel="stylesheet" th:href="@{/bootstrap/css/sticky-footer-navbar.css}">
     <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
   </head>
-
   <body>
-	<header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark"></header>
-    <main role="main">     
-      <div class="container mt-4"> 
+	<header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
+      <div class="container"> 
         <div class="card">
           <h4 class="card-header"><strong>Clientes Inactivos</strong></h4>
           <div class="card-body">
@@ -49,7 +46,7 @@
                     <span th:unless="${clienteTemp.status='A'}" class="badge bg-info">Activo</span>
                   </td>
                   <td>
-                    <a th:href="@{/clientes/reactivar/{rfc} (rfc=${clienteTemp.rfc}) }" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Baja cliente."><i class="fa fa-lock" aria-hidden="true"></i></a>
+                    <a th:href="@{/clientes/reactivar/{rfc} (rfc=${clienteTemp.rfc}) }" onclick="return confirm('¿Estas seguro?')" class="btn btn-success btn-sm" role="button" title="Reactivar cliente">Reactivar</a>
                   </td>
                 </tr>
               </tbody>
@@ -57,7 +54,6 @@
           </div>
         </div>
       </div> <!-- /container -->
-    </main>
 	<footer class="footer">
       <div class="container">
         <p>

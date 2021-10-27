@@ -83,18 +83,28 @@ public class ClientesController {
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "getListaRegimen"+Parseador.objectToJson(uid, lista));
 		model.addAttribute("listaRegimen", lista);
-		return "clientes/formCliente";
+		return "clientes/formNuevoCliente";
 	}
 	
-	@PostMapping("/guardar/")
+	@GetMapping("/edit/{rfc}")
+	public String editFormNewCliente(@PathVariable("rfc") String clienteRFC, Model model){
+		//OBTENEMOS EL CATALOGO DE LOS REGIMENES FISCALES PARA LLENAR EL SELECT EN EL FRONT
+		Cliente cliente = clientesService.findByRFC(clienteRFC);
+		String uid = GUIDGenerator.generateGUID();
+		LogHandler.info(uid, getClass(), "getListaRegimen"+Parseador.objectToJson(uid, cliente));
+		model.addAttribute("cliente", cliente);
+		return "clientes/formNuevoCliente";
+	}
+	
+	@PostMapping("/guardar")
 	public void addNewCliente(Cliente cliente) {
 		//SPRING BOOT REALIZA EL DATA BINDING POR MEDIO DE LOS NAME DE LOS INPUT 
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "Agreagar Nuevo cliente"+Parseador.objectToJson(uid, cliente));
-		/*HttpStatus statusCode = clientesService.addCliente(cliente);
+		HttpStatus statusCode = clientesService.addCliente(cliente);
 		if(statusCode == HttpStatus.OK) {
 			//REGISTRO GUARDADO CORRECTAMENTE
 			System.out.println("REGISTRO GUARDADO CORRECTAMENTE");
-		}*/
+		}
 	}
 }
