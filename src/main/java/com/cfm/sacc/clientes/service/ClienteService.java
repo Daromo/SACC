@@ -54,6 +54,9 @@ public class ClienteService implements IClienteService{
 	@Value("${clientes.agregar.url}")
 	String urlAgregarCliente;
 	
+	@Value("${clientes.modificar.url}")
+	String urlModificarCliente;
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Cliente> getClientesActivos(){
@@ -138,7 +141,7 @@ public class ClienteService implements IClienteService{
 	@SuppressWarnings("unchecked")
 	@Override
 	public HttpStatus addCliente(Cliente cliente) {
-		ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlAgregarCliente, cliente, HttpMethod.POST, APPLICATION_JSON);
+		ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlModificarCliente, cliente, HttpMethod.PUT, APPLICATION_JSON);
 		return response.getStatusCode();
 	}	
 }

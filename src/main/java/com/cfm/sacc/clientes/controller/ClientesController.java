@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -26,7 +27,7 @@ public class ClientesController {
 	IClienteService clientesService;
 	
 	//LISTAR CLIENTES ACTIVOS
-	@GetMapping("/")
+	@GetMapping("/activos")
 	public String getClientes(Model model){		
 		List<Cliente> lista = clientesService.getClientesActivos();
 		String uid = GUIDGenerator.generateGUID();
@@ -61,17 +62,17 @@ public class ClientesController {
 		LogHandler.info(uid, getClass(), "bajaCliente "+Parseador.objectToJson(uid, statusCode));
 		if (statusCode == HttpStatus.OK)		
 			redirectAttributes.addFlashAttribute("success", "Cliente dado de baja");
-		return "redirect:/clientes/";
+		return "redirect:/clientes/inactivos/";
 	}
 	
 	@GetMapping("/reactivar/{rfc}")
-	public String reactivarCliente(@PathVariable("rfc") String clienteRFC, RedirectAttributes redirectAttributes ) {
+	public String reactivarCliente(@PathVariable("rfc") String clienteRFC, RedirectAttributes redirectAttributes) {
 		HttpStatus statusCode = clientesService.reactivarCliente(clienteRFC);
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "reactivarCliente "+Parseador.objectToJson(uid, statusCode));
 		if (statusCode == HttpStatus.OK) {
 			redirectAttributes.addFlashAttribute("success", "Status modificado");
-			return "redirect:/clientes/inactivos/";
+			return "redirect:/clientes/activos/";
 		}else
 			return null;
 	}
@@ -82,29 +83,38 @@ public class ClientesController {
 		List<RegimenFiscal> lista = clientesService.getRegimenFiscal();
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "getListaRegimen"+Parseador.objectToJson(uid, lista));
+		model.addAttribute("titulo", "Nuevo Cliente");
 		model.addAttribute("listaRegimen", lista);
-		return "clientes/formNuevoCliente";
+		if(lista.isEmpty())
+			model.addAttribute("error", "Error para obtener la lista de regimen fiscal, por favor intente mas tarde");
+		return "clientes/formCliente";
 	}
 	
 	@GetMapping("/edit/{rfc}")
-	public String editFormNewCliente(@PathVariable("rfc") String clienteRFC, Model model){
+	public String renderFormEditCliente(@PathVariable("rfc") String clienteRFC, Model model){
 		//OBTENEMOS EL CATALOGO DE LOS REGIMENES FISCALES PARA LLENAR EL SELECT EN EL FRONT
 		Cliente cliente = clientesService.findByRFC(clienteRFC);
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "getListaRegimen"+Parseador.objectToJson(uid, cliente));
+		List<RegimenFiscal> lista = clientesService.getRegimenFiscal();
+
+		model.addAttribute("listaRegimen", lista);
+		model.addAttribute("titulo", "Modificar Cliente");
 		model.addAttribute("cliente", cliente);
-		return "clientes/formNuevoCliente";
+		return "clientes/formCliente";
 	}
 	
 	@PostMapping("/guardar")
-	public void addNewCliente(Cliente cliente) {
-		//SPRING BOOT REALIZA EL DATA BINDING POR MEDIO DE LOS NAME DE LOS INPUT 
+	public String addCliente(Cliente cliente, RedirectAttributes redirectAttributes) {
+		//SPRING BOOT REALIZA EL DATA BINDING POR MEDIO DEL NAME DE LOS INPUT'S
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "Agreagar Nuevo cliente"+Parseador.objectToJson(uid, cliente));
 		HttpStatus statusCode = clientesService.addCliente(cliente);
 		if(statusCode == HttpStatus.OK) {
-			//REGISTRO GUARDADO CORRECTAMENTE
-			System.out.println("REGISTRO GUARDADO CORRECTAMENTE");
+			redirectAttributes.addFlashAttribute("success", "Registro almacenado");
+			return "redirect:/clientes/activos/";
 		}
+		return null;
 	}
+	
 }

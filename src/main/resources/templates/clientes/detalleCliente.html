@@ -38,11 +38,20 @@
 							<hr>
 							<span>Contacto</span>
 							<h6 class="card-title">
-								<strong>Telefono: </strong>
+								<strong>Telefono: </strong><span
+									th:text="${cliente.telefono1}"></span>
 							</h6>
-							<a class="btn btn-primary" href="#" role="button"
-								title="Quiero aplicar para esta oferta de trabajo."><i
-								class="fas fa-file" aria-hidden="true"></i>Regresar</a>
+							<h6 class="card-title">
+								<strong>Fecha Registro: </strong><span
+									th:text="${cliente.fechaIngreso}"></span>
+							</h6>
+							<h6 class="card-title">
+								<strong>Ultima Modificacion: </strong><span
+									th:text="${cliente.lastUpdate}"></span>
+							</h6>
+							<a class="btn btn-primary" href="#" role="button">
+								<i class="fas fa-file" aria-hidden="true"></i>Regresar
+							</a>
 					</div>
 				</div>
 			</div>

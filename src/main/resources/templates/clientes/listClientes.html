@@ -16,7 +16,6 @@
 
   <body>
 	<header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
-      
       <div class="container"> 
         <div class="card">
           <h4 class="card-header"><strong>Listado de Clientes</strong></h4>
@@ -24,7 +23,7 @@
             <hr>
             <!-- DIV PARA MOSTRAR ALGUN ERROR DURANTE EL PROCESO PARA DAR DE BAJA A UN CLIENTE -->
 			<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>			
-            <table id="tblCliente" class="table table-hover">
+            <table id="tblCliente" class="table table-hover col-sm-12">
               <caption>Lista de clientes activos</caption>
               <thead class="thead-light">
                 <tr>
@@ -32,7 +31,7 @@
                   <th scope="col">Nombre Cliente</th>
                   <th scope="col">Regimen Fiscal</th>
                   <th scope="col">Estatus</th>
-                  <th scope="col">Opciones</th>
+                  <th scope="col" colspan="3">Opciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -47,7 +46,7 @@
                     <span th:if="${clienteTemp.status='A'}" class="badge bg-info">Activo</span>
                   </td>
                   <td>
-                  	<a class="btn btn-success btn-sm" href="#">Modificar</a>
+                  	<a class="btn btn-success btn-sm" th:href="@{/clientes/edit/{rfc} (rfc=${clienteTemp.rfc})}">Modificar</a>
                   </td>
                   <td>
                   	<a class="btn btn-outline-primary btn-sm" th:href="@{/clientes/view/{rfc} (rfc=${clienteTemp.rfc}) }" role="button">Ver</a>
@@ -60,7 +59,9 @@
             </table>
           </div>
         </div>
-      </div> <!-- /container -->
+      </div>
+      <!-- container -->
+      
 	<footer class="footer">
       <div class="container">
         <p>
