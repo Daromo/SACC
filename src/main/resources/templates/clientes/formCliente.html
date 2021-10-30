@@ -22,7 +22,9 @@
         <div class="card border-0">
           <h4 class="card-header border-info"><strong th:text="${titulo}"></strong></h4>
           <div class="pt-2">
-          	<div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+          	<div class="alert alert-danger" role="alert" th:if="${listaRegimen.empty}">
+          		¡Ups!ha ocurrido un error para obtener el nombre de los regímenes fiscales, vuelva a intentarlo más tarde.
+          	</div>
           </div>             
           <div class="card-body">
             <form class="needs-validation" th:object="${cliente}" th:action="@{/clientes/guardar}" th:method="post">             
@@ -130,13 +132,15 @@
                   </div>
                 </div>
               </section>
-
               <hr>
               <button type="submit" title="Agregar Nuevo cliente" class="btn btn-primary">Guardar</button>  
             </form>
           </div>
         </div>
       </div>
+      <input type="hidden" th:field="*{fechaIngreso}" id="fechaIngreso">
+      <input type="hidden" th:field="*{lastUpdate}" id="lastUpdate">
+      <input type="hidden" th:field="*{status}" id="status">
       <!-- /container -->
 
     <footer class="footer">

@@ -7,14 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cfm.sacc.clientes.model.Cliente;
-import com.cfm.sacc.clientes.model.RegimenFiscal;
 import com.cfm.sacc.clientes.service.IClienteService;
 import com.cfm.sacc.util.GUIDGenerator;
 import com.cfm.sacc.util.LogHandler;
@@ -79,26 +78,28 @@ public class ClientesController {
 	
 	@GetMapping("/nuevo")
 	public String renderFormNewCliente(Cliente cliente, Model model){
-		//OBTENEMOS EL CATALOGO DE LOS REGIMENES FISCALES PARA LLENAR EL SELECT EN EL FRONT
+		/*OBTENEMOS EL CATALOGO DE LOS REGIMENES FISCALES PARA LLENAR EL SELECT EN EL FRONT
 		List<RegimenFiscal> lista = clientesService.getRegimenFiscal();
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "getListaRegimen"+Parseador.objectToJson(uid, lista));
-		model.addAttribute("titulo", "Nuevo Cliente");
 		model.addAttribute("listaRegimen", lista);
 		if(lista.isEmpty())
-			model.addAttribute("error", "Error para obtener la lista de regimen fiscal, por favor intente mas tarde");
+			model.addAttribute("error", "Error para obtener la lista de regimen fiscal, por favor intente mas tarde");*/
+		
+		model.addAttribute("titulo", "Nuevo Cliente");
 		return "clientes/formCliente";
 	}
 	
 	@GetMapping("/edit/{rfc}")
 	public String renderFormEditCliente(@PathVariable("rfc") String clienteRFC, Model model){
-		//OBTENEMOS EL CATALOGO DE LOS REGIMENES FISCALES PARA LLENAR EL SELECT EN EL FRONT
+		/*OBTENEMOS EL CATALOGO DE LOS REGIMENES FISCALES PARA LLENAR EL SELECT EN EL FRONT
+		model.addAttribute("listaRegimen", lista);
+		List<RegimenFiscal> lista = clientesService.getRegimenFiscal();*/
+		
 		Cliente cliente = clientesService.findByRFC(clienteRFC);
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "getListaRegimen"+Parseador.objectToJson(uid, cliente));
-		List<RegimenFiscal> lista = clientesService.getRegimenFiscal();
-
-		model.addAttribute("listaRegimen", lista);
+		
 		model.addAttribute("titulo", "Modificar Cliente");
 		model.addAttribute("cliente", cliente);
 		return "clientes/formCliente";
@@ -117,4 +118,8 @@ public class ClientesController {
 		return null;
 	}
 	
+	@ModelAttribute
+	public void setGenericos(Model model) {
+		model.addAttribute("listaRegimen", clientesService.getRegimenFiscal());
+	}
 }
