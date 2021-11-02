@@ -141,7 +141,11 @@ public class ClienteService implements IClienteService{
 	@SuppressWarnings("unchecked")
 	@Override
 	public HttpStatus addCliente(Cliente cliente) {
-		ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlModificarCliente, cliente, HttpMethod.PUT, APPLICATION_JSON);
+		ResponseEntity<JsonNode> response;
+		if (cliente.getFechaIngreso() == null) {
+			response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlAgregarCliente, cliente, HttpMethod.POST, APPLICATION_JSON);
+		}else
+			response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlModificarCliente, cliente, HttpMethod.PUT, APPLICATION_JSON);
 		return response.getStatusCode();
 	}	
 }

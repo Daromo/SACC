@@ -1,12 +1,17 @@
 package com.cfm.sacc.clientes.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +32,7 @@ public class ClientesController {
 	
 	//LISTAR CLIENTES ACTIVOS
 	@GetMapping("/activos")
-	public String getClientes(Model model){		
+	public String getClientesActivos(Model model){		
 		List<Cliente> lista = clientesService.getClientesActivos();
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "getClientesActivos"+Parseador.objectToJson(uid, lista));
@@ -70,35 +75,23 @@ public class ClientesController {
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "reactivarCliente "+Parseador.objectToJson(uid, statusCode));
 		if (statusCode == HttpStatus.OK) {
-			redirectAttributes.addFlashAttribute("success", "Status modificado");
+			redirectAttributes.addFlashAttribute("success", "Registro actualizado con éxito.");
 			return "redirect:/clientes/activos/";
 		}else
 			return null;
 	}
 	
 	@GetMapping("/nuevo")
-	public String renderFormNewCliente(Cliente cliente, Model model){
-		/*OBTENEMOS EL CATALOGO DE LOS REGIMENES FISCALES PARA LLENAR EL SELECT EN EL FRONT
-		List<RegimenFiscal> lista = clientesService.getRegimenFiscal();
-		String uid = GUIDGenerator.generateGUID();
-		LogHandler.info(uid, getClass(), "getListaRegimen"+Parseador.objectToJson(uid, lista));
-		model.addAttribute("listaRegimen", lista);
-		if(lista.isEmpty())
-			model.addAttribute("error", "Error para obtener la lista de regimen fiscal, por favor intente mas tarde");*/
-		
+	public String renderFormNewCliente(Cliente cliente, Model model){		
 		model.addAttribute("titulo", "Nuevo Cliente");
 		return "clientes/formCliente";
 	}
 	
 	@GetMapping("/edit/{rfc}")
-	public String renderFormEditCliente(@PathVariable("rfc") String clienteRFC, Model model){
-		/*OBTENEMOS EL CATALOGO DE LOS REGIMENES FISCALES PARA LLENAR EL SELECT EN EL FRONT
-		model.addAttribute("listaRegimen", lista);
-		List<RegimenFiscal> lista = clientesService.getRegimenFiscal();*/
-		
+	public String renderFormEditCliente(@PathVariable("rfc") String clienteRFC, Model model){		
 		Cliente cliente = clientesService.findByRFC(clienteRFC);
 		String uid = GUIDGenerator.generateGUID();
-		LogHandler.info(uid, getClass(), "getListaRegimen"+Parseador.objectToJson(uid, cliente));
+		LogHandler.info(uid, getClass(), "modificarCliente: "+Parseador.objectToJson(uid, cliente));
 		
 		model.addAttribute("titulo", "Modificar Cliente");
 		model.addAttribute("cliente", cliente);
@@ -107,12 +100,11 @@ public class ClientesController {
 	
 	@PostMapping("/guardar")
 	public String addCliente(Cliente cliente, RedirectAttributes redirectAttributes) {
-		//SPRING BOOT REALIZA EL DATA BINDING POR MEDIO DEL NAME DE LOS INPUT'S
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "Agreagar Nuevo cliente"+Parseador.objectToJson(uid, cliente));
 		HttpStatus statusCode = clientesService.addCliente(cliente);
 		if(statusCode == HttpStatus.OK) {
-			redirectAttributes.addFlashAttribute("success", "Registro almacenado");
+			redirectAttributes.addFlashAttribute("success", "Registro guardado con éxito.");
 			return "redirect:/clientes/activos/";
 		}
 		return null;
@@ -120,6 +112,20 @@ public class ClientesController {
 	
 	@ModelAttribute
 	public void setGenericos(Model model) {
+		Cliente clienteSearch = new Cliente();
 		model.addAttribute("listaRegimen", clientesService.getRegimenFiscal());
+		model.addAttribute("search",clienteSearch);
+	}
+	
+	/*
+	 * PERZONALIZAR EL DATA BINDING PARA LOS TIPO DE DATOS:
+	 * Date : SE DEFINE UN FORMATO PARA LA FECHA Y SE PERMITIR CADENAS VACIAS 
+	 * String: SETTEA COMO NULL LOS STRING QUE SE ENCUENTRAN VACIOS DURANTE EL DATA BINDING
+	 */
+	@InitBinder
+	public void initBinder(WebDataBinder webDataBinder) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		webDataBinder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+		//webDataBinder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 	}
 }

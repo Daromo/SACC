@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -25,7 +25,7 @@
           	<div class="alert alert-danger" role="alert" th:if="${listaRegimen.empty}">
           		¡Ups!ha ocurrido un error para obtener el nombre de los regímenes fiscales, vuelva a intentarlo más tarde.
           	</div>
-          </div>             
+          </div>        
           <div class="card-body">
             <form class="needs-validation" th:object="${cliente}" th:action="@{/clientes/guardar}" th:method="post">             
               <!-- SECTION GENERALES -->
@@ -33,12 +33,12 @@
                 <div class="card-header"><strong>Generales</strong></div>
                 <div class="col-md-5 mt-2">
                   <div class="form-group">
-                    <label for="rfc" class="form-label">Cliente RFC <b class="obligatorio">*</b></label>
-                    <input th:value="${cliente.rfc}" type="text" class="form-control" id="rfc" name="rfc" maxlength="13" minlength="12" autocomplete="off" required>
+                    <label for="rfc" class="form-label">Cliente RFC <strong class="obligatorio">*</strong></label>
+                    <input th:value="${cliente.rfc}" th:field="*{rfc}" type="text" class="form-control" id="rfc" maxlength="13" minlength="12" autocomplete="off" required>
                   </div>
                 </div>
                 <div class="col-md-7 mt-2">
-                  <label for="regimenFiscal" class="form-label">Régimen Fiscal <b class="obligatorio">*</b></label>
+                  <label for="regimenFiscal" class="form-label">Régimen Fiscal <strong class="obligatorio">*</strong></label>
                   <select class="form-select" id="regimenFiscalId" name="regimenFiscalId">
                   	<option disabled selected th:if="${titulo != 'Modificar Cliente'}">Seleccionar régimen fiscal</option>
                     <option th:if="${titulo != 'Nuevo Cliente'}" th:each="regimenTemp: ${listaRegimen}" th:text="${regimenTemp.nombre}" th:selected="${regimenTemp.id == cliente.regimenFiscal.id}" th:value="${regimenTemp.id}"></option>
@@ -54,8 +54,8 @@
                   <strong>Personas Morales</strong>
                   <div class="col-md-12 mt-2">
                     <div class="form-group">
-                      <label for="razonSocial" class="form-label">Razón Social <b class="obligatorio">*</b></label>
-                      <input th:value="${cliente.razonSocial}" type="text" class="form-control" id="razonSocial" name="razonSocial" autocomplete="off">
+                      <label for="razonSocial" class="form-label">Razón Social <strong class="obligatorio">*</strong></label>
+                      <input th:value="${cliente.razonSocial}" th:field="*{razonSocial}" type="text" class="form-control" id="" autocomplete="off">
                     </div>
                   </div>
                 </div>
@@ -63,20 +63,20 @@
                   <strong>Personas Fisicas</strong>
                   <div class="col-md-4 mt-2">
                     <div class="form-group">
-                      <label for="nombreCliente" class="form-label">Nombre <b class="obligatorio">*</b></label>
-                      <input th:value="${cliente.nombreCliente}" type="text" class="form-control" id="nombreCliente" name="nombreCliente" autocomplete="off">
+                      <label for="nombreCliente" class="form-label">Nombre <strong class="obligatorio">*</strong></label>
+                      <input th:value="${cliente.nombreCliente}" th:field="*{nombreCliente}" type="text" class="form-control" id="nombreCliente" autocomplete="off">
                     </div>
                   </div>
                   <div class="col-md-4 mt-2">
                     <div class="form-group">
-                      <label for="apPaternoCliente" class="form-label">Apellido Paterno <b class="obligatorio">*</b></label>
-                      <input th:value="${cliente.apPaternoCliente}" type="text" class="form-control" id="apPaternoCliente" name="apPaternoCliente" autocomplete="off">
+                      <label for="apPaternoCliente" class="form-label">Apellido Paterno <strong class="obligatorio">*</strong></label>
+                      <input th:value="${cliente.apPaternoCliente}" th:field="*{apPaternoCliente}" type="text" class="form-control" id="apPaternoCliente" autocomplete="off">
                     </div>
                   </div>
                   <div class="col-md-4 mt-2">
                     <div class="form-group">
-                      <label for="apMaternoCliente" class="form-label">Apellido Materno <b class="obligatorio">*</b></label>
-                      <input th:value="${cliente.apMaternoCliente}" type="text" class="form-control" id="apMaternoCliente" name="apMaternoCliente" autocomplete="off">
+                      <label for="apMaternoCliente" class="form-label">Apellido Materno <strong class="obligatorio">*</strong></label>
+                      <input th:value="${cliente.apMaternoCliente}" th:field="*{apMaternoCliente}" type="text" class="form-control" id="apMaternoCliente" autocomplete="off">
                     </div>
                   </div>
                 </div>
@@ -89,48 +89,53 @@
                 <div class="row">
                   <div class="col-md-6 mt-2">
                     <div class="form-group">
-                      <label for="telefono1" class="form-label">Teléfono <b class="obligatorio">*</b></label>
-                      <input th:value="${cliente.telefono1}" type="text" class="form-control" id="telefono1" name="telefono1" autocomplete="off" required>
+                      <label for="telefono1" class="form-label">Teléfono <strong class="obligatorio">*</strong></label>
+                      <input th:value="${cliente.telefono1}" th:field="*{telefono1}" type="text" maxlength="10" class="form-control" id="telefono1" autocomplete="off" required>
                     </div>
                   </div>
                   <div class="col-md-6 mt-2">
                     <div class="form-group">
                       <label for="telefono2" class="form-label">Teléfono Alternativo <span
                           class="text-muted">(Opcional)</span></label>
-                      <input th:value="${cliente.telefono2}" type="text" class="form-control" id="telefono2" name="telefono2" autocomplete="off">
+                      <input th:value="${cliente.telefono2}" th:field="*{telefono2}" type="text" maxlength="10" class="form-control" id="telefono2" autocomplete="off">
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6 mt-2">
                     <div class="form-group">
-                      <label for="correo" class="form-label">Correo Electrónico <b class="obligatorio">*</b></label>
-                      <input th:value="${cliente.correo}" type="email" class="form-control" id="correo" name="correo" autocomplete="off" required>
+                      <label for="correo" class="form-label">Correo Electrónico <strong class="obligatorio">*</strong></label>
+                      <input th:value="${cliente.correo}" th:field="*{correo}" type="email" class="form-control" id="correo" autocomplete="off" required>
                     </div>
                   </div>
                   <div class="col-md-6 mt-2">
                     <div class="form-group">
                       <label for="correoAlternativo" class="form-label">Correo Electrónico Alternativo <span
                           class="text-muted">(Opcional)</span></label>
-                      <input th:value="${cliente.correoAlternativo}" type="email" class="form-control" id="correoAlternativo" name="correoAlternativo" autocomplete="off">
+                      <input th:value="${cliente.correoAlternativo}" th:field="*{correoAlternativo}" type="email" class="form-control" id="correoAlternativo" autocomplete="off">
                     </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6 mt-2">
                     <div class="form-group">
-                      <label for="domicilio" class="form-label">Domicilio <b class="obligatorio">*</b></label>
-                      <input th:value="${cliente.domicilio}" type="text" class="form-control" id="domicilio" name="domicilio" autocomplete="off"
+                      <label for="domicilio" class="form-label">Domicilio <strong class="obligatorio">*</strong></label>
+                      <input th:value="${cliente.domicilio}" th:field="*{domicilio}" type="text" class="form-control" id="domicilio" autocomplete="off"
                         placeholder="Calle, número, colonia, ciudad, estado" required>
                     </div>
                   </div>
                   <div class="col-md-3 mt-2">
                     <div class="form-group">
-                      <label for="codigoPostal" class="form-label">Codigo Postal <b class="obligatorio">*</b></label>
-                      <input th:value="${cliente.codigoPostal}" type="text" class="form-control" id="codigoPostal" name="codigoPostal" autocomplete="off" required>
+                      <label for="codigoPostal" class="form-label">Codigo Postal <strong class="obligatorio">*</strong></label>
+                      <input th:value="${cliente.codigoPostal}" th:field="*{codigoPostal}" type="text" maxlength="5" class="form-control" id="codigoPostal" autocomplete="off" required>
                     </div>
                   </div>
                 </div>
+              </section>
+              <section>
+              	<input type="hidden" th:field="*{fechaIngreso}" id="fechaIngreso">
+      			<input type="hidden" th:field="*{lastUpdate}" id="lastUpdate">
+      			<input type="hidden" th:field="*{status}" id="status">
               </section>
               <hr>
               <button type="submit" title="Agregar Nuevo cliente" class="btn btn-primary">Guardar</button>  
@@ -138,9 +143,6 @@
           </div>
         </div>
       </div>
-      <input type="hidden" th:field="*{fechaIngreso}" id="fechaIngreso">
-      <input type="hidden" th:field="*{lastUpdate}" id="lastUpdate">
-      <input type="hidden" th:field="*{status}" id="status">
       <!-- /container -->
 
     <footer class="footer">
