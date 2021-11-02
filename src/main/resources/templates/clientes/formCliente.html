@@ -1,181 +1,205 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org"lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-    <title>SACC | Nuevo Cliente</title>
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" th:href="@{/bootstrap/css/sticky-footer-navbar.css}">
-    <link rel="stylesheet" th:href="@{/css/custom.css}">
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
-  </head>
-  <body>
-	<header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
-      <div class="container col-md-8">
-        <div class="card border-0">
-          <h4 class="card-header border-info"><strong th:text="${titulo}"></strong></h4>
-          <div class="pt-2">
-          	<div class="alert alert-danger" role="alert" th:if="${listaRegimen.empty}">
-          		¡Ups!ha ocurrido un error para obtener el nombre de los regímenes fiscales, vuelva a intentarlo más tarde.
-          	</div>
-          </div>        
-          <div class="card-body">
-            <form class="needs-validation" th:object="${cliente}" th:action="@{/clientes/guardar}" th:method="post">             
-              <!-- SECTION GENERALES -->
-              <section class="row pb-3 border">
-                <div class="card-header"><strong>Generales</strong></div>
-                <div class="col-md-5 mt-2">
-                  <div class="form-group">
-                    <label for="rfc" class="form-label">Cliente RFC <strong class="obligatorio">*</strong></label>
-                    <input th:value="${cliente.rfc}" th:field="*{rfc}" type="text" class="form-control" id="rfc" maxlength="13" minlength="12" autocomplete="off" required>
-                  </div>
-                </div>
-                <div class="col-md-7 mt-2">
-                  <label for="regimenFiscal" class="form-label">Régimen Fiscal <strong class="obligatorio">*</strong></label>
-                  <select class="form-select" id="regimenFiscalId" name="regimenFiscalId">
-                  	<option disabled selected th:if="${titulo != 'Modificar Cliente'}">Seleccionar régimen fiscal</option>
-                    <option th:if="${titulo != 'Nuevo Cliente'}" th:each="regimenTemp: ${listaRegimen}" th:text="${regimenTemp.nombre}" th:selected="${regimenTemp.id == cliente.regimenFiscal.id}" th:value="${regimenTemp.id}"></option>
-                    <option th:unless="${titulo != 'Nuevo Cliente'}" th:each="regimenTemp: ${listaRegimen}" th:text="${regimenTemp.nombre}" th:value="${regimenTemp.id}"></option>
-                  </select>
-                </div>
-              </section>
-              <hr style="border: 0; height: 0px; width:0%;">
-              <!-- SECTION TIPO REGIMEN -->
-              <section class="row border">
-              	<div class="card-header"><strong>Tipo Régimen</strong></div>
-                <div class="row pb-3 pt-2">
-                  <strong>Personas Morales</strong>
-                  <div class="col-md-12 mt-2">
-                    <div class="form-group">
-                      <label for="razonSocial" class="form-label">Razón Social <strong class="obligatorio">*</strong></label>
-                      <input th:value="${cliente.razonSocial}" th:field="*{razonSocial}" type="text" class="form-control" id="" autocomplete="off">
-                    </div>
-                  </div>
-                </div>
-                <div class="row pb-3">
-                  <strong>Personas Fisicas</strong>
-                  <div class="col-md-4 mt-2">
-                    <div class="form-group">
-                      <label for="nombreCliente" class="form-label">Nombre <strong class="obligatorio">*</strong></label>
-                      <input th:value="${cliente.nombreCliente}" th:field="*{nombreCliente}" type="text" class="form-control" id="nombreCliente" autocomplete="off">
-                    </div>
-                  </div>
-                  <div class="col-md-4 mt-2">
-                    <div class="form-group">
-                      <label for="apPaternoCliente" class="form-label">Apellido Paterno <strong class="obligatorio">*</strong></label>
-                      <input th:value="${cliente.apPaternoCliente}" th:field="*{apPaternoCliente}" type="text" class="form-control" id="apPaternoCliente" autocomplete="off">
-                    </div>
-                  </div>
-                  <div class="col-md-4 mt-2">
-                    <div class="form-group">
-                      <label for="apMaternoCliente" class="form-label">Apellido Materno <strong class="obligatorio">*</strong></label>
-                      <input th:value="${cliente.apMaternoCliente}" th:field="*{apMaternoCliente}" type="text" class="form-control" id="apMaternoCliente" autocomplete="off">
-                    </div>
-                  </div>
-                </div>
-              </section>
-              
-              <!-- CONTACTO -->
-              <hr style="border: 0; height: 0px; width:0%;">
-              <section class="row border pb-3">
-                <div class="card-header"><strong>Contacto</strong></div>
-                <div class="row">
-                  <div class="col-md-6 mt-2">
-                    <div class="form-group">
-                      <label for="telefono1" class="form-label">Teléfono <strong class="obligatorio">*</strong></label>
-                      <input th:value="${cliente.telefono1}" th:field="*{telefono1}" type="text" maxlength="10" class="form-control" id="telefono1" autocomplete="off" required>
-                    </div>
-                  </div>
-                  <div class="col-md-6 mt-2">
-                    <div class="form-group">
-                      <label for="telefono2" class="form-label">Teléfono Alternativo <span
-                          class="text-muted">(Opcional)</span></label>
-                      <input th:value="${cliente.telefono2}" th:field="*{telefono2}" type="text" maxlength="10" class="form-control" id="telefono2" autocomplete="off">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 mt-2">
-                    <div class="form-group">
-                      <label for="correo" class="form-label">Correo Electrónico <strong class="obligatorio">*</strong></label>
-                      <input th:value="${cliente.correo}" th:field="*{correo}" type="email" class="form-control" id="correo" autocomplete="off" required>
-                    </div>
-                  </div>
-                  <div class="col-md-6 mt-2">
-                    <div class="form-group">
-                      <label for="correoAlternativo" class="form-label">Correo Electrónico Alternativo <span
-                          class="text-muted">(Opcional)</span></label>
-                      <input th:value="${cliente.correoAlternativo}" th:field="*{correoAlternativo}" type="email" class="form-control" id="correoAlternativo" autocomplete="off">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6 mt-2">
-                    <div class="form-group">
-                      <label for="domicilio" class="form-label">Domicilio <strong class="obligatorio">*</strong></label>
-                      <input th:value="${cliente.domicilio}" th:field="*{domicilio}" type="text" class="form-control" id="domicilio" autocomplete="off"
-                        placeholder="Calle, número, colonia, ciudad, estado" required>
-                    </div>
-                  </div>
-                  <div class="col-md-3 mt-2">
-                    <div class="form-group">
-                      <label for="codigoPostal" class="form-label">Codigo Postal <strong class="obligatorio">*</strong></label>
-                      <input th:value="${cliente.codigoPostal}" th:field="*{codigoPostal}" type="text" maxlength="5" class="form-control" id="codigoPostal" autocomplete="off" required>
-                    </div>
-                  </div>
-                </div>
-              </section>
-              <section>
-              	<input type="hidden" th:field="*{fechaIngreso}" id="fechaIngreso">
-      			<input type="hidden" th:field="*{lastUpdate}" id="lastUpdate">
-      			<input type="hidden" th:field="*{status}" id="status">
-              </section>
-              <hr>
-              <button type="submit" title="Agregar Nuevo cliente" class="btn btn-primary">Guardar</button>  
-            </form>
-          </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SACC | Nuevo Cliente</title>
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" th:href="@{/bootstrap/css/sticky-footer-navbar.css}">
+  <link rel="stylesheet" th:href="@{/css/custom.css}">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+</head>
+
+<body>
+  <header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  </header>
+  <div class="container col-md-8">
+    <div class="card border-0">
+      <h4 class="card-header border-info"><strong th:text="${titulo}"></strong></h4>
+      <div class="pt-2">
+        <div class="alert alert-danger" role="alert" th:if="${listaRegimen.empty}">
+          ¡Ups!ha ocurrido un error para obtener el nombre de los regímenes fiscales, vuelva a intentarlo más tarde.
         </div>
       </div>
-      <!-- /container -->
+      <div class="card-body">
+        <form class="needs-validation" th:object="${cliente}" th:action="@{/clientes/guardar}" th:method="post">
+          <!-- SECTION GENERALES -->
+          <section class="row pb-3 border">
+            <div class="card-header"><strong>Generales</strong></div>
+            <div class="col-md-5 mt-2">
+              <div class="form-group">
+                <label for="rfc" class="form-label">Cliente RFC <strong class="obligatorio">*</strong></label>
+                <input th:value="${cliente.rfc}" th:field="*{rfc}" type="text" class="form-control" id="rfc"
+                  maxlength="13" minlength="12" autocomplete="off" required>
+              </div>
+            </div>
+            <div class="col-md-7 mt-2">
+              <label for="regimenFiscal" class="form-label">Régimen Fiscal <strong
+                  class="obligatorio">*</strong></label>
+              <select class="form-select" id="regimenFiscalId" name="regimenFiscalId">
+                <option disabled selected th:if="${titulo != 'Modificar Cliente'}">Seleccionar régimen fiscal</option>
+                <option th:if="${titulo != 'Nuevo Cliente'}" th:each="regimenTemp: ${listaRegimen}"
+                  th:text="${regimenTemp.nombre}" th:selected="${regimenTemp.id == cliente.regimenFiscal.id}"
+                  th:value="${regimenTemp.id}"></option>
+                <option th:unless="${titulo != 'Nuevo Cliente'}" th:each="regimenTemp: ${listaRegimen}"
+                  th:text="${regimenTemp.nombre}" th:value="${regimenTemp.id}"></option>
+              </select>
+            </div>
+          </section>
+          <hr style="border: 0; height: 0px; width:0%;">
+          
+          <!-- SECTION TIPO REGIMEN -->
+          <section class="row border">
+            <div class="card-header"><strong>Tipo Régimen</strong></div>
+            <div class="row pb-3 pt-2">
+              <strong>Personas Morales</strong>
+              <div class="col-md-12 mt-2">
+                <div class="form-group">
+                  <label for="razonSocial" class="form-label">Razón Social <strong
+                      class="obligatorio">*</strong></label>
+                  <input th:value="${cliente.razonSocial}" th:field="*{razonSocial}" type="text" class="form-control"
+                    id="" autocomplete="off">
+                </div>
+              </div>
+            </div>
+            <div class="row pb-3">
+              <strong>Personas Fisicas</strong>
+              <div class="col-md-4 mt-2">
+                <div class="form-group">
+                  <label for="nombreCliente" class="form-label">Nombre <strong class="obligatorio">*</strong></label>
+                  <input th:value="${cliente.nombreCliente}" th:field="*{nombreCliente}" type="text"
+                    class="form-control" id="nombreCliente" autocomplete="off">
+                </div>
+              </div>
+              <div class="col-md-4 mt-2">
+                <div class="form-group">
+                  <label for="apPaternoCliente" class="form-label">Apellido Paterno <strong
+                      class="obligatorio">*</strong></label>
+                  <input th:value="${cliente.apPaternoCliente}" th:field="*{apPaternoCliente}" type="text"
+                    class="form-control" id="apPaternoCliente" autocomplete="off">
+                </div>
+              </div>
+              <div class="col-md-4 mt-2">
+                <div class="form-group">
+                  <label for="apMaternoCliente" class="form-label">Apellido Materno <strong
+                      class="obligatorio">*</strong></label>
+                  <input th:value="${cliente.apMaternoCliente}" th:field="*{apMaternoCliente}" type="text"
+                    class="form-control" id="apMaternoCliente" autocomplete="off">
+                </div>
+              </div>
+            </div>
+          </section>
 
-    <footer class="footer">
-      <div class="container">
-        <p>
-          &copy;Sistema de Administración y Control de Cobranza</a>
-          &middot; <a href="#">Terms</a>
-        </p>
+          <!-- CONTACTO -->
+          <hr style="border: 0; height: 0px; width:0%;">
+          <section class="row border pb-3">
+            <div class="card-header"><strong>Contacto</strong></div>
+            <div class="row">
+              <div class="col-md-6 mt-2">
+                <div class="form-group">
+                  <label for="telefono1" class="form-label">Teléfono <strong class="obligatorio">*</strong></label>
+                  <input th:value="${cliente.telefono1}" th:field="*{telefono1}" type="text" maxlength="10"
+                    class="form-control" id="telefono1" autocomplete="off" required>
+                </div>
+              </div>
+              <div class="col-md-6 mt-2">
+                <div class="form-group">
+                  <label for="telefono2" class="form-label">Teléfono Alternativo <span
+                      class="text-muted">(Opcional)</span></label>
+                  <input th:value="${cliente.telefono2}" th:field="*{telefono2}" type="text" maxlength="10"
+                    class="form-control" id="telefono2" autocomplete="off">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mt-2">
+                <div class="form-group">
+                  <label for="correo" class="form-label">Correo Electrónico <strong
+                      class="obligatorio">*</strong></label>
+                  <input th:value="${cliente.correo}" th:field="*{correo}" type="email" class="form-control" id="correo"
+                    autocomplete="off" required>
+                </div>
+              </div>
+              <div class="col-md-6 mt-2">
+                <div class="form-group">
+                  <label for="correoAlternativo" class="form-label">Correo Electrónico Alternativo <span
+                      class="text-muted">(Opcional)</span></label>
+                  <input th:value="${cliente.correoAlternativo}" th:field="*{correoAlternativo}" type="email"
+                    class="form-control" id="correoAlternativo" autocomplete="off">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mt-2">
+                <div class="form-group">
+                  <label for="domicilio" class="form-label">Domicilio <strong class="obligatorio">*</strong></label>
+                  <input th:value="${cliente.domicilio}" th:field="*{domicilio}" type="text" class="form-control"
+                    id="domicilio" autocomplete="off" placeholder="Calle, número, colonia, ciudad, estado" required>
+                </div>
+              </div>
+              <div class="col-md-3 mt-2">
+                <div class="form-group">
+                  <label for="codigoPostal" class="form-label">Codigo Postal <strong
+                      class="obligatorio">*</strong></label>
+                  <input th:value="${cliente.codigoPostal}" th:field="*{codigoPostal}" type="text" maxlength="5"
+                    class="form-control" id="codigoPostal" autocomplete="off" required>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section>
+            <input type="hidden" th:field="*{fechaIngreso}" id="fechaIngreso">
+            <input type="hidden" th:field="*{lastUpdate}" id="lastUpdate">
+            <input type="hidden" th:field="*{status}" id="status">
+          </section>
+          <hr>
+          <button type="submit" title="Agregar Nuevo cliente" class="btn btn-primary">Guardar</button>
+        </form>
       </div>
-    </footer>
-    
-    <script type="text/javascript">
-		$( function() {
-		    $("#regimenFiscalId").change(function(){
-		        if ($(this).val() === "601") {
-		            $("#razonSocial").prop("disabled", false);
-		            $("#nombreCliente").prop("disabled", true);
-		            $("#apPaternoCliente").prop("disabled", true);
-		            $("#apMaternoCliente").prop("disabled", true);
-		            $('#nombreCliente').val('');
-		            $('#apPaternoCliente').val('');
-		            $('#apMaternoCliente').val('');
-		        } else {
-		            $("#nombreCliente").prop("disabled", false);
-		            $("#apPaternoCliente").prop("disabled", false);
-		            $("#apMaternoCliente").prop("disabled", false);
-		            $("#razonSocial").prop("disabled", true);
-		            $('#razonSocial').val('');
-		        }
-		    });
-		});
-	</script>
-	<script th:src="@{/jquery-3.6.0.min.js}"></script>
-    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
-  </body>
+    </div>
+  </div>
+  <!-- end container -->
+
+  <footer class="footer">
+    <div class="container">
+      <p>
+        &copy;Sistema de Administración y Control de Cobranza
+        &middot; <a href="#">Terms</a>
+      </p>
+    </div>
+  </footer>
+
+  <script type="text/javascript">
+    $(function () {
+      $("#regimenFiscalId").change(function () {
+        if ($(this).val() === "601") {
+          $("#razonSocial").prop("disabled", false);
+          $("#nombreCliente").prop("disabled", true);
+          $("#apPaternoCliente").prop("disabled", true);
+          $("#apMaternoCliente").prop("disabled", true);
+          $('#nombreCliente').val('');
+          $('#apPaternoCliente').val('');
+          $('#apMaternoCliente').val('');
+        } else {
+          $("#nombreCliente").prop("disabled", false);
+          $("#apPaternoCliente").prop("disabled", false);
+          $("#apMaternoCliente").prop("disabled", false);
+          $("#razonSocial").prop("disabled", true);
+          $('#razonSocial').val('');
+        }
+      });
+    });
+  </script>
+  <script th:src="@{/jquery-3.6.0.min.js}"></script>
+  <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+</body>
+
 </html>

@@ -2,7 +2,6 @@ package com.cfm.sacc.ws.client;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -22,9 +21,6 @@ public class ClientWsService implements IClientWsService {
 		headers.add("User-Agent", "CFM SACC 1.0.0");
 		HttpEntity<Object> requestService = new HttpEntity<>(object,headers);
 			
-		Object responseObject = null;
-		ResponseEntity<JsonNode> responseService = restTemplate.exchange(url, typeMethod, requestService, JsonNode.class);
-		//responseObject = responseService.getBody();
-		return responseService;
+		return restTemplate.exchange(url, typeMethod, requestService, JsonNode.class);
 	}
 }

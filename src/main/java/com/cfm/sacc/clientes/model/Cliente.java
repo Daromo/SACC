@@ -5,12 +5,13 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class Cliente {
 	private String rfc;
-	//SE UTILIZA MAP PARA REALIZAR EL MAPEO DEL JSON
 	private Integer regimenFiscalId;
 	private Map<String,Object> regimenFiscal;
 	private String nombreCliente;
@@ -19,7 +20,7 @@ public class Cliente {
 	private String razonSocial;
 	private Date fechaIngreso;
 	private Date lastUpdate;
-	private char status;
+	private Character status;
 	private String telefono1;
 	private String telefono2;
 	private String correo;

@@ -15,4 +15,5 @@ public interface IClienteService {
 	HttpStatus bajaCliente(String clienteRFC);
 	HttpStatus reactivarCliente(String clienteRFC);
 	HttpStatus addCliente(Cliente cliente);
+	List<Cliente> searchCliente(Cliente cliente);
 }

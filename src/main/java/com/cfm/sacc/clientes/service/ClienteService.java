@@ -40,7 +40,7 @@ public class ClienteService implements IClienteService{
 	String urlClientesInactivos;
 	
 	@Value("${clientes.buscar.rfc.url}")
-	String urlBuscarCliente;
+	String urlBuscarClienteRFC;
 	
 	@Value("${clientes.baja.url}")
 	String urlBajaCliente;
@@ -56,6 +56,9 @@ public class ClienteService implements IClienteService{
 	
 	@Value("${clientes.modificar.url}")
 	String urlModificarCliente;
+	
+	@Value("${clientes.buscar.url}")
+	String urlBuscarCliente;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -92,7 +95,7 @@ public class ClienteService implements IClienteService{
 	@SuppressWarnings("unchecked")
 	@Override
 	public Cliente findByRFC(String clienteRFC) {
-		String url = urlBuscarCliente.concat(clienteRFC);
+		String url = urlBuscarClienteRFC.concat(clienteRFC);
 		try {
 			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(url, null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
@@ -137,15 +140,35 @@ public class ClienteService implements IClienteService{
 		
 		return flagList;
 	}
-
+	
+	/**
+	 * Se valida la fecha de ingreso de un cliente para determinar el metodo (Modificar o Agregar Nuevo)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public HttpStatus addCliente(Cliente cliente) {
 		ResponseEntity<JsonNode> response;
 		if (cliente.getFechaIngreso() == null) {
 			response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlAgregarCliente, cliente, HttpMethod.POST, APPLICATION_JSON);
-		}else
+		}else {
 			response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlModificarCliente, cliente, HttpMethod.PUT, APPLICATION_JSON);
+		}
 		return response.getStatusCode();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Cliente> searchCliente(Cliente cliente) {
+		List<Cliente> flagList;
+		try {
+			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlBuscarCliente, cliente, HttpMethod.POST, APPLICATION_JSON);
+			String json = objectMapper.writeValueAsString(response.getBody());
+			return objectMapper.readValue(json, new TypeReference<List<Cliente>>(){});
+		} catch (JsonProcessingException e) {
+			String uid = GUIDGenerator.generateGUID();
+			LogHandler.error(uid, getClass(), "searchCliente", e);
+			flagList = new ArrayList<>();
+		}
+		return flagList;
 	}	
 }

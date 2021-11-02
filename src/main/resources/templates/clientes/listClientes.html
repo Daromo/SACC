@@ -22,16 +22,16 @@
     <div class="container" style="padding-top: 3.5rem; padding-bottom: 3.5rem;">
       <h4>Buscar cliente</h4>
       <p>Puedes buscar un cliente por su <strong>RFC</strong> o por el <strong>régimen fiscal</strong> al que pertenece.</p>
-      <form class="form-inline" th:object="${search}" th:action="@{/clientes/search}" th:metod="get">
+      <form class="form-inline" th:object="${search}" th:action="@{/clientes/buscar}" th:metod="get">
         <div class="row">
           <div class="col-md-4 pb-2">
             <input type="text" class="form-control" th:field=*{rfc} maxlength="13" placeholder="Escriba el RFC">
           </div>
           <div class="col-md-5 pb-2">
             <select class="form-select" th:field="*{regimenFiscalId}" name="regimenFiscalId">
-              <option th:each="regimenTemp : ${listaRegimen}" 
-              		  th:text="${regimenTemp.nombre}" 
-              		  th:value="${regimenTemp.id}"></option>
+              <option selected th:value="null">Seleccionar régimen fiscal</option>
+              <option th:each="regimenTemp : ${listaRegimen}" th:text="${regimenTemp.nombre}"
+                th:value="${regimenTemp.id}"></option>
             </select>
           </div>
           <div class="col-md-3">
@@ -46,8 +46,16 @@
       <h4 class="card-header"><strong>Listado de Clientes</strong></h4>
       <div class="card-body">
         <hr>
-        <!-- DIV PARA MOSTRAR ALGUN ERROR DURANTE EL PROCESO PARA DAR DE BAJA A UN CLIENTE -->
-        <div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
+        <!-- DIV PARA MOSTRAR MENSAJES -->
+        <div class="alert alert-primary alert-dismissible fade show" role="alert" th:if="${settings}">
+          <strong th:text="${settings}"></strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${msgBusqueda}">
+          <strong th:text="${msgBusqueda}"></strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <table id="tblCliente" class="table table-hover col-sm-12">
           <caption>Lista de clientes activos</caption>
           <thead class="thead-light">
@@ -94,13 +102,11 @@
   <footer class="footer">
     <div class="container">
       <p>
-        &copy; 2019 EmpleosApp, Inc. | WebApp Desarrollada con Spring Boot 2.1.2 | Autor: Iv&aacute;n E. Tinajero
-        D&iacute;az | &middot; <a href="#">Privacy</a>
+        &copy;Sistema de Administración y Control de Cobranza
         &middot; <a href="#">Terms</a>
       </p>
     </div>
   </footer>
-
   <script th:src="@{/jquery-3.6.0.min.js}"></script>
   <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
 
