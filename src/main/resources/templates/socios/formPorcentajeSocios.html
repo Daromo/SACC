@@ -1,0 +1,97 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SACC | Nuevo Porcentaje</title>
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" th:href="@{/bootstrap/css/sticky-footer-navbar.css}">
+  <link rel="stylesheet" th:href="@{/css/custom.css}">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+</head>
+
+<body>
+  <header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
+
+  <div class="container col-md-10">
+  	<h4 class="card-header border-info"><strong>Nuevo Porcentaje</strong></h4>
+  	<p class="px-3 mb-0 mt-3">Formulario para definir un nuevo porcentaje entre los socios de <strong>Corporativo Fiscal Magno</strong></p>
+    <div class="container my-3">
+      <div class="row g-5">
+        <!--Div formulario-->
+        <div class="col-md-5 order-md-last">
+          <h4><span>Socios</span></h4>
+          <form class="p-2">
+            <div class="input-group">
+              <select class="form-select" id="selectSocios">
+                <option>Seleccionar socio</option>
+              </select>
+            </div>
+            <div class="input-group my-3">
+              <input class="form-control" type="text" id="porcentaje" placeholder="Porcentaje">
+              <span class="input-group-text">%</span>
+            </div>
+            <div class="input-group">
+              <button type="submit" class="btn btn-primary">Agregar</button>
+            </div>
+          </form>
+        </div>
+        <!--Div detalle-->
+        <div class="col-md-7">
+          <h4 class="text-primary">Detalles Porcentaje</h4>
+          <table id="tblDetallePorcentajes" class="table table-hover col-sm-12">
+            <caption>Detalles del porcentaje</caption>
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Socio</th>
+                <th scope="col">Porcentaje</th>
+                <th scope="col">Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td>
+                  <a class="btn btn-warning btn-sm" role="button">Quitar</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card border-0">
+      <!--<div class="pt-2">
+        <div class="alert alert-danger" role="alert" th:if="${listaRegimen.empty}">
+          ¡Ups!ha ocurrido un error para obtener la lista de socios, vuelva a intentarlo más tarde.
+        </div>
+      </div>-->
+    </div>
+
+  </div>
+  <!-- end container -->
+
+  <footer class="footer">
+    <div class="container">
+      <p>
+        &copy;Sistema de Administración y Control de Cobranza
+        &middot; <a href="#">Terms</a>
+      </p>
+    </div>
+  </footer>
+  
+  <script th:src="@{/jquery-3.6.0.min.js}"></script>
+  <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+</body>
+
+</html>
