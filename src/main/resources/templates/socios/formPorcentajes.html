@@ -63,7 +63,10 @@
                 <td th:text="${porcentajeTemp.rfcSocio}"></td>
                 <td class="text-center" th:text="${porcentajeTemp.cantidadPorcentaje}"><strong>%</strong></td>
                 <td class="text-center">
-                  <a class="btn btn-warning btn-sm" role="button">Quitar</a>
+                  <a class="btn btn-warning btn-sm" role="button" 
+                  	th:href="@{/socios/remover/detalle/porcentaje/{rfcSocio} (rfc=${porcentajeTemp.rfcSocio}) }">
+                  	Quitar
+                  </a>
                 </td>
               </tr>
             </tbody>

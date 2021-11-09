@@ -22,10 +22,17 @@ public class SociosController {
 
 	@GetMapping("/agregar/porcentaje")
 	public String agregarDetallePorcentaje(Porcentaje porcentaje, Model model) {
-		if(!detallesPorcentajes.contains(porcentaje))
+		boolean socioIsPresent = false;
+		for(Porcentaje item : detallesPorcentajes) {
+			if (porcentaje.getRfcSocio().equals(item.getRfcSocio()))
+				socioIsPresent = true;
+		}
+		
+		if(!socioIsPresent)
 			this.detallesPorcentajes.add(porcentaje);
+		
 		model.addAttribute("listaPorcentajes", detallesPorcentajes);
 		return "socios/formPorcentajes";
 	}
-	
+		
 }
