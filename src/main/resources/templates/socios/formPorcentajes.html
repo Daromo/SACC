@@ -20,21 +20,19 @@
 
 <body>
   <header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
-  <div class="jumbotron bg-ligth">
-    <div class="container" style="padding-top: 3.5rem; padding-bottom: 3.5rem;">
-      <h4>Buscar cliente</h4>
-      <p>Puedes buscar un cliente por su <strong>RFC</strong> o por el <strong>régimen fiscal</strong> al que pertenece.</p>
+  <div class="jumbotron bg-light bg-gradient">
+    <div class="container">
+      <h3>Nuevo Porcentaje</h3>
+      <p>Formulario para definir un nuevo porcentaje entre los socios de <strong>Corporativo Fiscal Magno</strong></p>
     </div>
   </div>
   <div class="container col-md-10">
-  	<h4 class="card-header border-info"><strong>Nuevo Porcentaje</strong></h4>
-  	<p class="px-3 mb-0 mt-3">Formulario para definir un nuevo porcentaje entre los socios de <strong>Corporativo Fiscal Magno</strong></p>
-    <div class="container my-3">
+    <div class="container">
       <div class="row g-5">
         <!--Div formulario-->
-        <div class="col-md-4 order-md-last">
-          <h4><span>Socios</span></h4>
-          <form class="p-2" th:object="${porcentaje}" th:action="@{/socios/agregar/porcentaje}" th:metod="get">
+        <div class="col-md-4 order-md-last p-3">
+          <h5>Socios</h5>
+          <form th:object="${porcentaje}" th:action="@{/socios/agregar/porcentaje}" th:metod="get">
             <div class="input-group">
               <select th:field="*{rfcSocio}" class="form-select" id="selectSocios">
                 <option th:value="XXXX1">Socio 1</option>
@@ -46,36 +44,41 @@
               <input class="form-control" th:field="*{cantidadPorcentaje}" type="text" id="porcentaje" placeholder="Porcentaje" required="required">
               <span class="input-group-text">%</span>
             </div>
-            <div class="input-group">
-              <button type="submit" class="btn btn-primary">Agregar</button>
+            <div class="row">
+              <div class="col-md-3">
+                <button type="submit" class="btn btn-primary">Agregar</button>
+              </div>
             </div>
           </form>
         </div>
         <!--Div detalle-->
         <div class="col-md-8">
-          <h4 class="text-primary">Detalles Porcentaje</h4>
           <table id="tblDetallePorcentajes" class="table table-hover col-sm-12">
             <caption>Detalles del porcentaje</caption>
-            <thead class="table-secondary">
+            <thead>
               <tr>
                 <th scope="col" id="tableColSocio">RFC</th>
-                <th scope="col" id="tableColPorcentaje" class="text-center">Porcentaje</th>
-                <th scope="col" id="tableColOpciones" class="text-center">Opciones</th>
+                <th scope="col" id="tableColPorcentaje">Porcentaje</th>
+                <th scope="col" id="tableColOpciones">Opciones</th>
               </tr>
             </thead>
             <tbody>
               <tr th:each="porcentajeTemp : ${listaPorcentajes}">
                 <td th:text="${porcentajeTemp.rfcSocio}"></td>
-                <td class="text-center" th:text="${porcentajeTemp.cantidadPorcentaje}"><strong>%</strong></td>
+                <td class="text-center" th:text="${porcentajeTemp.cantidadPorcentaje}"></td>
                 <td class="text-center">
-                  <a class="btn btn-warning btn-sm" role="button" 
-                  	th:href="@{/socios/remover/porcentaje/{rfc} (rfc=${porcentajeTemp.rfcSocio})}">
-                  	Quitar
+                  <a class="btn btn-warning btn-sm" role="button"
+                    th:href="@{/socios/remover/porcentaje/{rfc} (rfc=${porcentajeTemp.rfcSocio})}">
+                    Quitar
                   </a>
                 </td>
               </tr>
             </tbody>
           </table>
+          <a class="btn btn-success" role="button"
+            th:href="@{/socios/agregar}">
+            Finalizar
+          </a>
         </div>
       </div>
     </div>

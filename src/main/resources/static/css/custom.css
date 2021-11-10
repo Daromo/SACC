@@ -2,14 +2,20 @@
     color: red;
 }
 
-.tableColSocio{
-	width: 45%;
+#tableColSocio{
+	width: 30%;
 }
-.tableColPorcentaje{
-	width: 20%;
+#tableColPorcentaje{
+	width: 30%;
 	text-align: center !important;
 }
-.tableColOpciones{
-	width: 10%;
+#tableColOpciones{
+	width: 30%;
 	text-align: center !important;
+}
+
+.jumbotron {
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+  border-radius: .3rem;
 }

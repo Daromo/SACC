@@ -28,10 +28,8 @@ public class SociosController {
 			if (porcentaje.getRfcSocio().equals(item.getRfcSocio()))
 				socioIsPresent = true;				
 		}
-		
 		if(!socioIsPresent)
 			this.detallesPorcentajes.add(porcentaje);
-		
 		model.addAttribute("listaPorcentajes", detallesPorcentajes);
 		return PATH_FORM_PORCENTAJES;
 	}
