@@ -19,27 +19,21 @@
 
 <body>
   <header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
-  <div class="jumbotron bg-light bg-gradient">
+  <div class="jumbotron">
     <div class="container">
-      <h3>Listado de Socios</h3>
-      <p><strong>Corporativo Fiscal Magno</strong></p>
+      <h3>Lista de Socios</h3>
+      <p>Lista de socios de <strong>Corporativo Fiscal Magno</strong></p>
     </div>
   </div>
   <div class="container">
     <div class="card">
-      <h4 class="card-header"><strong>Listado de Socios</strong></h4>
+      <!--<h4 class="card-header"><strong>Listado de Socios</strong></h4>-->
       <div class="card-body">
-        <hr>
         <!-- DIV PARA MOSTRAR MENSAJES -->
         <div class="alert alert-primary alert-dismissible fade show" role="alert" th:if="${settings}">
           <strong th:text="${settings}"></strong>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${msgBusqueda}">
-          <strong th:text="${msgBusqueda}"></strong>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-
         <table id="tblCliente" class="table table-hover col-sm-12">
           <caption>Lista de socios</caption>
           <thead>
@@ -54,8 +48,7 @@
             <tr th:each="socioTemp : ${socios}">
               <td th:text="${socioTemp.rfc}"></td>
               <td>
-                <span>[[${socioTemp.apPaternoSocio}+' '+${socioTemp.apMaternoSocio}+'
-                  '+${socioTemp.nombreSocio}]]</span>
+                <span>[[${socioTemp.apPaternoSocio}+' '+${socioTemp.apMaternoSocio}+' '+${socioTemp.nombreSocio}]]</span>
               </td>
               <td th:text="${socioTemp.correo}"></td>
               <td>

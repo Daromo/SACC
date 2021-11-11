@@ -20,29 +20,29 @@
 
 <body>
   <header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
-  <div class="jumbotron bg-light bg-gradient">
+  <div class="jumbotron">
     <div class="container">
       <h3>Nuevo Porcentaje</h3>
       <p>Formulario para definir un nuevo porcentaje entre los socios de <strong>Corporativo Fiscal Magno</strong></p>
     </div>
   </div>
-  <!--<div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${settings}">
-    <strong th:text="${settings}"></strong>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>-->
-  
   <div class="container col-md-10">
     <div class="container">
       <div class="row g-5">
         <!--Div formulario-->
         <div class="col-md-5 order-md-last p-4">
-          <h5>Socios</h5>
-          <form th:object="${porcentaje}" th:action="@{/socios/agregar/porcentaje}" th:metod="get">
+          <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${settings}">
+            <strong th:text="${settings}"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <h6 class="py-2">Socios</h6>
+          <form th:object="${porcentaje}" th:action="@{/socios/porcentaje/agregar/detalle}" th:metod="get">
             <div class="input-group">
               <select th:field="*{rfcSocio}" class="form-select" id="selectSocios">
-                <option th:value="XAXX010101000">Corporativo Fiscal Magno S.A DE C.V.</option>
-                <option th:value="XAXX010101001">Melissa Mendoza Diaz</option>
-                <option th:value="XAXX010101002">Penelope Mendoza Diaz</option>
+                <option disabled selected value="null">Seleccionar régimen fiscal</option>
+                <option th:each="socioTemp : ${socios}" th:value="${socioTemp.rfc}">
+                  [[${socioTemp.apPaternoSocio}+' '+${socioTemp.apMaternoSocio}+' '+${socioTemp.nombreSocio}]]
+                </option>
               </select>
             </div>
             <div class="row">
@@ -76,7 +76,7 @@
                 <td class="text-center" th:text="${porcentajeTemp.cantidadPorcentaje}"></td>
                 <td class="text-center">
                   <a class="btn btn-warning btn-sm" role="button"
-                    th:href="@{/socios/remover/porcentaje/{rfc} (rfc=${porcentajeTemp.rfcSocio})}">
+                    th:href="@{/socios/porcentaje/remover/{rfc} (rfc=${porcentajeTemp.rfcSocio})}">
                     Quitar
                   </a>
                 </td>
@@ -85,13 +85,13 @@
           </table>
           <div class="row">
             <p>Opciones</p>
-            <div class="col-md-2">
-              <a class="btn btn-success btn-sm" role="button" th:href="@{/socios/porcentajes/cancelar}">
+            <div class="col-md-2 col-sm-12 mb-3">
+              <a class="btn btn-success btn-sm" role="button" th:href="@{/socios/porcentaje/guardar}">
                 Finalizar
               </a>
             </div>
-            <div class="col-md-2">
-              <a class="btn btn-outline-danger btn-sm" role="button" th:href="@{/socios/porcentajes/cancelar}">
+            <div class="col-md-2 col-sm-12">
+              <a class="btn btn-outline-danger btn-sm" role="button" th:href="@{/socios/porcentaje/cancelar}">
                 Cancelar
               </a>
             </div>

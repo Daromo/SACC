@@ -17,5 +17,6 @@
 .jumbotron {
   padding-top: 3.5rem;
   padding-bottom: 3.5rem;
-  border-radius: .3rem;
+  border-radius: 0px 0px 10px 10px;
+  background-color: #eceff1;
 }
