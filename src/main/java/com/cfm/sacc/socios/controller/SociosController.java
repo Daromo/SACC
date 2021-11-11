@@ -1,7 +1,9 @@
 package com.cfm.sacc.socios.controller;
 
 import java.util.LinkedList;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cfm.sacc.socios.model.Porcentaje;
+import com.cfm.sacc.socios.model.Socio;
+import com.cfm.sacc.socios.service.ISocioService;
 
 @Controller
 @RequestMapping(value = "/socios")
@@ -16,6 +20,16 @@ public class SociosController {
 	
 	private static final String PATH_FORM_PORCENTAJES = "socios/formPorcentajes";
 	LinkedList<Porcentaje> detallesPorcentajes = new LinkedList<>();
+	
+	@Autowired
+	ISocioService socioService;
+	
+	@GetMapping("/activos")
+	public String renderListSocios(Model model) {
+		List<Socio> listaSocios = socioService.getListaSocios();
+		model.addAttribute("socios", listaSocios);
+		return "socios/listSocios";
+	}
 	
 	@GetMapping("/porcentajes")
 	public String renderFormPorcentajes(Porcentaje porcentaje) {
@@ -50,4 +64,8 @@ public class SociosController {
 	}
 	
 	
+	/*@ModelAttribute
+	public void setGenericos(Model model) {
+		model.addAttribute("socios", socioService.getListaSocios());
+	}*/
 }
