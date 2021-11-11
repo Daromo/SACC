@@ -13,6 +13,7 @@ import com.cfm.sacc.socios.model.Porcentaje;
 @Controller
 @RequestMapping(value = "/socios")
 public class SociosController {
+	
 	private static final String PATH_FORM_PORCENTAJES = "socios/formPorcentajes";
 	LinkedList<Porcentaje> detallesPorcentajes = new LinkedList<>();
 	
@@ -26,8 +27,9 @@ public class SociosController {
 		boolean socioIsPresent = false;
 		for(Porcentaje item : detallesPorcentajes) {
 			if (porcentaje.getRfcSocio().equals(item.getRfcSocio()))
-				socioIsPresent = true;				
+				socioIsPresent = true;
 		}
+		
 		if(!socioIsPresent)
 			this.detallesPorcentajes.add(porcentaje);
 		model.addAttribute("listaPorcentajes", detallesPorcentajes);
@@ -40,5 +42,12 @@ public class SociosController {
 			model.addAttribute("listaPorcentajes", detallesPorcentajes);
 		return PATH_FORM_PORCENTAJES;
 	}
+	
+	@GetMapping("/porcentajes/cancelar")
+	public String cancelarPorcentajes(Porcentaje porcentaje) {
+		detallesPorcentajes.clear();
+		return PATH_FORM_PORCENTAJES;
+	}
+	
 	
 }
