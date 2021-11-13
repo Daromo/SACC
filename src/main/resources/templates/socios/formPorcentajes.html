@@ -28,17 +28,23 @@
   </div>
   <div class="container col-md-10">
     <div class="container">
+      <!--Settings-->
+      <div>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${settings}">
+          <strong th:text="${settings}"></strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${socios.empty}">
+          ¡Ups! ha ocurrido un error para obtener el nombre de los socios, vuelva a intentarlo más tarde.
+        </div>
+      </div>
       <div class="row g-5">
         <!--Div formulario-->
         <div class="col-md-5 order-md-last p-4">
-          <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${settings}">
-            <strong th:text="${settings}"></strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
           <h6 class="py-2">Socios</h6>
           <form th:object="${porcentaje}" th:action="@{/socios/porcentaje/agregar/detalle}" th:metod="get">
             <div class="input-group">
-              <select th:field="*{rfcSocio}" class="form-select" id="selectSocios">
+              <select th:field="*{rfcSocio}" class="form-select" id="selectSocios" required>
                 <option disabled selected value="null">Seleccionar régimen fiscal</option>
                 <option th:each="socioTemp : ${socios}" th:value="${socioTemp.rfc}">
                   [[${socioTemp.apPaternoSocio}+' '+${socioTemp.apMaternoSocio}+' '+${socioTemp.nombreSocio}]]
@@ -76,7 +82,7 @@
                 <td class="text-center" th:text="${porcentajeTemp.cantidadPorcentaje}"></td>
                 <td class="text-center">
                   <a class="btn btn-warning btn-sm" role="button"
-                    th:href="@{/socios/porcentaje/remover/{rfc} (rfc=${porcentajeTemp.rfcSocio})}">
+                    th:href="@{/socios/porcentaje/remover/detalle/{rfc} (rfc=${porcentajeTemp.rfcSocio})}">
                     Quitar
                   </a>
                 </td>

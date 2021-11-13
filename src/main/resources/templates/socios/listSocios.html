@@ -30,9 +30,8 @@
       <!--<h4 class="card-header"><strong>Listado de Socios</strong></h4>-->
       <div class="card-body">
         <!-- DIV PARA MOSTRAR MENSAJES -->
-        <div class="alert alert-primary alert-dismissible fade show" role="alert" th:if="${settings}">
-          <strong th:text="${settings}"></strong>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${socios.empty}">
+          ¡Ups!ha ocurrido un error para obtener el nombre de los socios, vuelva a intentarlo más tarde.
         </div>
         <table id="tblCliente" class="table table-hover col-sm-12">
           <caption>Lista de socios</caption>

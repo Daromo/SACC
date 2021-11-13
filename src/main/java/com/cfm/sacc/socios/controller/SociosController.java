@@ -2,6 +2,7 @@ package com.cfm.sacc.socios.controller;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,13 +29,13 @@ public class SociosController {
 	
 	//Obtener los registros de los socios desde el servicio
 	@GetMapping("/activos")
-	public String renderListSocios(Model model) {
-		List<Socio> listaSocios = socioService.getListaSocios();
-		model.addAttribute("socios", listaSocios);
+	public String renderListSocios(RedirectAttributes redirectAttributes) {
 		return "socios/listSocios";
 	}
 	
-	//RENDERIZAR EL FORMULARIO DE PORCENTAJES
+	/*
+	 * RENDERIZAR EL FORMULARIO PARA AGREGAR UN NUEVO PORCENTAJE 
+	 */
 	@GetMapping("/porcentajes")
 	public String renderFormPorcentajes(Porcentaje porcentaje, Model model) {
 		List<Socio> listaSocios = socioService.getListaSocios();
@@ -58,9 +59,9 @@ public class SociosController {
 	}
 	
 	/*
-	 * METODO PARA ELIMINAR PORCENTAJE DESDE LA LISTA 
+	 * METODO PARA ELIMINAR EL PORCENTAJE DESDE LA LISTA 
 	 */
-	@GetMapping("/porcentaje/remover/{rfc}")
+	@GetMapping("/porcentaje/remover/detalle/{rfc}")
 	public String removerDetallePorcentaje(@PathVariable String rfc,Porcentaje porcentaje, Model model) {
 		if(detallesPorcentajes.removeIf(item -> item.getRfcSocio().equals(rfc)))
 			model.addAttribute("listaPorcentajes", detallesPorcentajes);
@@ -74,10 +75,19 @@ public class SociosController {
 	}
 	
 	@GetMapping("/porcentaje/guardar")
-	public String agregarPorcentaje() {
-		return null;
+	public String agregarPorcentaje(RedirectAttributes redirectAttributes) {
+		Optional<Integer> suma = detallesPorcentajes.stream().map(Porcentaje::getCantidadPorcentaje).reduce((a,b) -> a+b);		
+		if(suma.isPresent() && suma.get()!=100) {
+			redirectAttributes.addFlashAttribute("settings", "Verifique los porcantajes, la suma debe ser igual a 100.");
+			return "redirect:/socios/porcentajes";					
+		}
+		return "redirect:/socios/porcentajes";
 	}
 	
+	/*
+	 * setGenericos SE EJECUTA ANTES QUE CUALQUIER OTRO METODO,
+	 * EL CUAL COMPARTE LOS ELEMENTOS QUE SE DECLARAN DENTRO DEL MISMO.
+	 */
 	@ModelAttribute
 	public void setGenericos(Model model) {
 		model.addAttribute("listaPorcentajes", detallesPorcentajes);

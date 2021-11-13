@@ -13,7 +13,6 @@ import com.cfm.sacc.socios.model.Socio;
 import com.cfm.sacc.util.GUIDGenerator;
 import com.cfm.sacc.util.LogHandler;
 import com.cfm.sacc.ws.client.IClientWsService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,7 +39,7 @@ public class SocioService implements ISocioService {
 			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlSociosLista, null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<Socio>>(){});
-		} catch (JsonProcessingException e) {
+		} catch (Exception e) {
 			String uid = GUIDGenerator.generateGUID();
 			LogHandler.error(uid, getClass(), "getListadoSocios", e);
 			flagList = new ArrayList<>();
