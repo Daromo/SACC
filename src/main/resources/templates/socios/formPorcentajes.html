@@ -26,7 +26,7 @@
       <p>Formulario para definir un nuevo porcentaje entre los socios de <strong>Corporativo Fiscal Magno</strong></p>
     </div>
   </div>
-  <div class="container col-md-10">
+  <div class="container">
     <div class="container">
       <!--Settings-->
       <div>
@@ -40,9 +40,9 @@
       </div>
       <div class="row g-5">
         <!--Div formulario-->
-        <div class="col-md-5 order-md-last p-4">
-          <h6 class="py-2">Socios</h6>
-          <form th:object="${porcentaje}" th:action="@{/socios/porcentaje/agregar/detalle}" th:metod="get">
+        <div class="col-md-5 p-4">       
+          <form style="background-color: #eceff1;" class="border border-secondary rounded py-3 px-2" th:object="${porcentaje}" th:action="@{/socios/porcentaje/agregar/detalle}" th:metod="get">
+            <h6>Socios</h6>
             <div class="input-group">
               <select th:field="*{rfcSocio}" class="form-select" id="selectSocios" required>
                 <option disabled selected value="null">Seleccionar régimen fiscal</option>
@@ -52,10 +52,10 @@
               </select>
             </div>
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-5">
                 <div class="input-group mt-3">
                   <input class="form-control form-control-sm" th:field="*{cantidadPorcentaje}" type="text" id="porcentaje"
-                    placeholder="Porcentaje" required="required">
+                    placeholder="Porcentaje" autocomplete="off" required>
                   <span class="input-group-text">%</span>
                 </div>
               </div>
@@ -67,11 +67,11 @@
         </div>
         <!--Div detalle-->
         <div class="col-md-7">
-          <table id="tblDetallePorcentajes" class="table table-hover col-sm-12 caption-top">
+          <table id="tblDetallePorcentajes" class="table table-hover col-sm-12">
             <caption>Detalles del porcentaje</caption>
             <thead>
               <tr>
-                <th scope="col" id="tableColSocio">RFC</th>
+                <th scope="col" id="tableColSocio">Socio RFC</th>
                 <th scope="col" id="tableColPorcentaje">Porcentaje</th>
                 <th scope="col" id="tableColOpciones">Opciones</th>
               </tr>
@@ -89,14 +89,13 @@
               </tr>
             </tbody>
           </table>
-          <div class="row">
-            <p>Opciones</p>
-            <div class="col-md-2 col-sm-12 mb-3">
+          <div class="d-flex justify-content-end">
+            <div class="p-2 bd-highlight">
               <a class="btn btn-success btn-sm" role="button" th:href="@{/socios/porcentaje/guardar}">
                 Finalizar
               </a>
             </div>
-            <div class="col-md-2 col-sm-12">
+            <div class="p-2 bd-highlight">
               <a class="btn btn-outline-danger btn-sm" role="button" th:href="@{/socios/porcentaje/cancelar}">
                 Cancelar
               </a>
@@ -107,7 +106,7 @@
     </div>
   </div>
 
-  <footer class="footer">
+  <footer class="footer text-center">
     <div class="container">
       <p>
         &copy;Sistema de Administración y Control de Cobranza

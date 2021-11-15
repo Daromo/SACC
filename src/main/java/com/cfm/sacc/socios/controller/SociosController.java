@@ -1,7 +1,6 @@
 package com.cfm.sacc.socios.controller;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cfm.sacc.socios.model.Porcentaje;
-import com.cfm.sacc.socios.model.Socio;
 import com.cfm.sacc.socios.service.ISocioService;
 
 @Controller
@@ -37,9 +35,7 @@ public class SociosController {
 	 * RENDERIZAR EL FORMULARIO PARA AGREGAR UN NUEVO PORCENTAJE 
 	 */
 	@GetMapping("/porcentajes")
-	public String renderFormPorcentajes(Porcentaje porcentaje, Model model) {
-		List<Socio> listaSocios = socioService.getListaSocios();
-		model.addAttribute("socios", listaSocios);
+	public String renderFormPorcentajes(Porcentaje porcentaje) {
 		return PATH_FORM_PORCENTAJES;
 	}
 	
@@ -81,11 +77,12 @@ public class SociosController {
 			redirectAttributes.addFlashAttribute("settings", "Verifique los porcantajes, la suma debe ser igual a 100.");
 			return "redirect:/socios/porcentajes";					
 		}
+		redirectAttributes.addFlashAttribute("settings", "Registro guardado con exito");
 		return "redirect:/socios/porcentajes";
 	}
 	
 	/*
-	 * setGenericos SE EJECUTA ANTES QUE CUALQUIER OTRO METODO,
+	 * setGenericos SE EJECUTA ANTES QUE CUALQUIER OTRO METODO.
 	 * EL CUAL COMPARTE LOS ELEMENTOS QUE SE DECLARAN DENTRO DEL MISMO.
 	 */
 	@ModelAttribute

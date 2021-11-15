@@ -44,7 +44,7 @@
             <div class="col-md-7 mt-2">
               <label for="regimenFiscal" class="form-label">Régimen Fiscal <strong
                   class="obligatorio">*</strong></label>
-              <select class="form-select" id="regimenFiscalId" name="regimenFiscalId">
+              <select class="form-select" id="regimenFiscalId" name="regimenFiscalId" required>
                 <option disabled selected th:if="${titulo != 'Modificar Cliente'}">Seleccionar régimen fiscal</option>
                 <option th:if="${titulo != 'Nuevo Cliente'}" th:each="regimenTemp: ${listaRegimen}"
                   th:text="${regimenTemp.nombre}" th:selected="${regimenTemp.id == cliente.regimenFiscal.id}"
