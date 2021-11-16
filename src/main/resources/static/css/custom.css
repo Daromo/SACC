@@ -1,15 +1,15 @@
-.obligatorio{
+.obligatorio {
     color: red;
 }
 
-#tableColSocio{
+#tableColSocio {
 	width: 30%;
 }
-#tableColPorcentaje{
+#tableColPorcentaje {
 	width: 30%;
 	text-align: center !important;
 }
-#tableColOpciones{
+#tableColOpciones {
 	width: 30%;
 	text-align: center !important;
 }

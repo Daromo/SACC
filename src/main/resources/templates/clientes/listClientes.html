@@ -12,14 +12,15 @@
   <link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
   <!-- Custom styles for this template -->
   <link th:rel="stylesheet" th:href="@{/bootstrap/css/sticky-footer-navbar.css}">
+  <link rel="stylesheet" th:href="@{/css/custom.css}">
+  
   <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
 </head>
 
 <body>
-  <header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-  </header>
-  <div class="jumbotron bg-light">
-    <div class="container" style="padding-top: 3.5rem; padding-bottom: 3.5rem;">
+  <header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
+  <div class="jumbotron">
+    <div class="container">
       <h4>Buscar cliente</h4>
       <p>Puedes buscar un cliente por su <strong>RFC</strong> o por el <strong>régimen fiscal</strong> al que pertenece.</p>
       <form class="form-inline" th:object="${search}" th:action="@{/clientes/buscar}" th:metod="get">

@@ -41,7 +41,7 @@
       <div class="row g-5">
         <!--Div formulario-->
         <div class="col-md-5 p-4">       
-          <form style="background-color: #eceff1;" class="border border-secondary rounded py-3 px-2" th:object="${porcentaje}" th:action="@{/socios/porcentaje/agregar/detalle}" th:metod="get">
+          <form style="background-color: #eceff1;" class="border rounded py-3 px-2" th:object="${porcentaje}" th:action="@{/socios/porcentaje/agregar/detalle}" th:metod="get">
             <h6>Socios</h6>
             <div class="input-group">
               <select th:field="*{rfcSocio}" class="form-select" id="selectSocios" required>

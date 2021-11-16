@@ -22,17 +22,16 @@
   <div class="jumbotron">
     <div class="container">
       <h3>Lista de Socios</h3>
-      <p>Lista de socios de <strong>Corporativo Fiscal Magno</strong></p>
+      <p>En esta sección se listan los detalles de los socios de <strong>Corporativo Fiscal Magno</strong></p>
     </div>
   </div>
   <div class="container">
+    <!-- DIV PARA MOSTRAR MENSAJES -->
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${socios.empty}">
+    	¡Ups! ha ocurrido un error para obtener el nombre de los socios, vuelva a intentarlo más tarde.
+    </div>
     <div class="card">
-      <!--<h4 class="card-header"><strong>Listado de Socios</strong></h4>-->
       <div class="card-body">
-        <!-- DIV PARA MOSTRAR MENSAJES -->
-        <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${socios.empty}">
-          ¡Ups!ha ocurrido un error para obtener el nombre de los socios, vuelva a intentarlo más tarde.
-        </div>
         <table id="tblCliente" class="table table-hover col-sm-12">
           <caption>Lista de socios</caption>
           <thead>

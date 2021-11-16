@@ -12,12 +12,20 @@
   <link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
   <!-- Custom styles for this template -->
   <link th:rel="stylesheet" th:href="@{/bootstrap/css/sticky-footer-navbar.css}">
+  <link rel="stylesheet" th:href="@{/css/custom.css}">
+  
   <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
 </head>
 
 <body>
-  <header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-  </header>
+  <header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
+  <div class="jumbotron">
+    <div class="container">
+      <h3>Reactivar Cliente</h3>
+      <p>En esta sección se listan los detalles de los clientes inactivos de
+      <strong> Corporativo Fiscal Magno </strong>los cuales puede reactivar nuevamente</p>
+    </div>
+  </div>
   <div class="container">
     <div class="card">
       <h4 class="card-header"><strong>Clientes Inactivos</strong></h4>
