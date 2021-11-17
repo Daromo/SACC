@@ -18,7 +18,10 @@
 </head>
 
 <body>
-  <header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
+  <header th:insert="fragments/menu :: menu-principal" 
+  	class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  </header>
+  
   <div class="jumbotron">
     <div class="container">
       <h3>Reactivar Cliente</h3>
@@ -73,16 +76,11 @@
     </div>
   </div> 
   <!-- end container -->
-
-  <footer class="footer">
-    <div class="container">
-      <p>
-        &copy;Sistema de Administración y Control de Cobranza
-        &middot; <a href="#">Terms</a>
-      </p>
-    </div>
+  <footer th:insert="fragments/footer :: template-footer" 
+    class="bg-dark text-center text-lg-start footer" 
+    style="margin-top: 60px;">
   </footer>
-
+  
   <script th:src="@{/jquery-3.6.0.min.js}"></script>
   <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
 

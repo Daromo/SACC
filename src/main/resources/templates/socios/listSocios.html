@@ -13,12 +13,16 @@
   <!-- Custom styles for this template -->
   <link th:rel="stylesheet" th:href="@{/bootstrap/css/sticky-footer-navbar.css}">
   <link rel="stylesheet" th:href="@{/css/custom.css}">
-
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
 </head>
 
 <body>
-  <header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"></header>
+  <header th:insert="fragments/menu :: menu-principal" 
+  	class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  </header>
+  
   <div class="jumbotron">
     <div class="container">
       <h3>Lista de Socios</h3>
@@ -59,15 +63,11 @@
     </div>
   </div>
   <!-- container -->
-
-  <footer class="footer">
-    <div class="container">
-      <p>
-        &copy;Sistema de Administración y Control de Cobranza
-        &middot; <a href="#">Terms</a>
-      </p>
-    </div>
+  <footer th:insert="fragments/footer :: template-footer" 
+    class="bg-dark text-center text-lg-start footer" 
+    style="margin-top: 60px;">
   </footer>
+  
   <script th:src="@{/jquery-3.6.0.min.js}"></script>
   <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
 
