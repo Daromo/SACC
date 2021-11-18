@@ -15,7 +15,7 @@
   <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
   <header th:insert="fragments/menu :: menu-principal" 
   	class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
   </header>
@@ -45,9 +45,8 @@
   </div>
   <div class="container">
     <div class="card">
-      <h4 class="card-header"><strong>Listado de Clientes</strong></h4>
+      <!--<h4 class="card-header"><strong>Listado de Clientes</strong></h4>-->
       <div class="card-body">
-        <hr>
         <!-- DIV PARA MOSTRAR MENSAJES -->
         <div class="alert alert-primary alert-dismissible fade show" role="alert" th:if="${settings}">
           <strong th:text="${settings}"></strong>
@@ -102,8 +101,7 @@
   <!-- container -->
   
   <footer th:insert="fragments/footer :: template-footer" 
-    class="bg-dark text-center text-lg-start" 
-    style="margin-top: 60px; color: white;">
+    class="bg-dark text-center mt-auto footer">
   </footer>
 
   <script th:src="@{/jquery-3.6.0.min.js}"></script>
