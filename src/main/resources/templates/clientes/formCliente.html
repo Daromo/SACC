@@ -8,12 +8,9 @@
   <meta name="author" content="">
 
   <title>SACC | Nuevo Cliente</title>
-  <!-- Bootstrap core CSS -->
+  
   <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
-  <!-- Custom styles for this template -->
-  <link th:rel="stylesheet" th:href="@{/bootstrap/css/sticky-footer-navbar.css}">
   <link rel="stylesheet" th:href="@{/css/custom.css}">
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
 </head>
@@ -176,29 +173,8 @@
     class="bg-dark text-center" 
     style="margin-top: 60px; color: white;">
   </footer>
-
-  <script type="text/javascript">
-    $(function () {
-      $("#regimenFiscalId").change(function () {
-        if ($(this).val() === "601") {
-          $("#razonSocial").prop("disabled", false);
-          $("#nombreCliente").prop("disabled", true);
-          $("#apPaternoCliente").prop("disabled", true);
-          $("#apMaternoCliente").prop("disabled", true);
-          $('#nombreCliente').val('');
-          $('#apPaternoCliente').val('');
-          $('#apMaternoCliente').val('');
-        } else {
-          $("#nombreCliente").prop("disabled", false);
-          $("#apPaternoCliente").prop("disabled", false);
-          $("#apMaternoCliente").prop("disabled", false);
-          $("#razonSocial").prop("disabled", true);
-          $('#razonSocial').val('');
-        }
-      });
-    });
-  </script>
-
+  
+  <script th:src="@{/js/disable_inputs.js}"></script>
   <script th:src="@{/jquery-3.6.0.min.js}"></script>
   <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
 </body>

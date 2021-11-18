@@ -2,6 +2,7 @@
     color: red;
 }
 
+/** CUSTOM TABLE PORCENTAJES**/
 #tableColSocio {
 	width: 30%;
 }
@@ -19,4 +20,17 @@
   padding-bottom: 3.5rem;
   border-radius: 0px 0px 10px 10px;
   background-color: #eceff1;
+}
+
+/** CUSTOM FOOTER**/
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  line-height: 60px;
+}
+
+body > .container {
+  padding: 50px 0px 0px 0px;
 }
