@@ -8,6 +8,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAlMarkup">
         <ul class="navbar-nav">
+        	<!-- CLIENTES -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navClientes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Clientes
@@ -19,6 +20,7 @@
                     <li><a class="dropdown-item" href="/clientes/inactivos/">Reactivar Cliente</a></li>
                 </ul>
             </li>
+            <!-- SOCIOS -->
             <li class="nav-item dropdown">
  				<a class="nav-link dropdown-toggle" href="#" id="navSocios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  					Socios
@@ -29,8 +31,34 @@
                     <li><a class="dropdown-item" href="/socios/porcentajes">Porcentajes</a></li>
  				</ul>
             </li>
-            <li class="nav-item">
-                <a class="nav-link disable">Option 2</a>
+            <!-- OPERACIONES -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navOperaciones" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            		Operaciones
+            	</a>
+            	<ul class="dropdown-menu" aria-labelledby="navOperaciones">
+            		<li><a class="dropdown-item" href="#">Cobranza</a></li>
+            		<li class="dropend" data-bs-toggle="dropdown" aria-expanded="false">
+            			<a class="dropdown-item dropdown-toggle" href="#" id="navPagos" role="button">
+            				Pagos
+            			</a>
+            			<ul class="dropdown-menu" aria-labelledby="navPagos">
+            				<li><a class="dropdown-item" href="#">Another action</a></li>
+            			</ul>
+            		</li>
+            	</ul>
+            </li>
+            <!-- REPORTES -->
+            <li class="nav-item dropdown">
+            	<a class="nav-link dropdown-toggle" href="#" id="navReportes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            		Reportes
+            	</a>
+            	<ul class="dropdown-menu" aria-labelledby="navReportes">
+            		<li><a class="dropdown-item" href="#">Clientes Cumplidos</a></li>
+            		<li><a class="dropdown-item" href="#">Clientes Morosos</a></li>
+            		<li><a class="dropdown-item" href="#">Clientes</a></li>
+            		<li><a class="dropdown-item" href="#">Clientes</a></li>
+            	</ul>
             </li>
         </ul>
     </div>

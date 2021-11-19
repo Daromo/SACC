@@ -25,7 +25,9 @@ public class SociosController {
 	@Autowired
 	ISocioService socioService;
 	
-	//Obtener los registros de los socios desde el servicio
+	/*
+	 * RENDERIZAR LA LISTA DE LOS SOCIOS
+	 */
 	@GetMapping("/activos")
 	public String renderListSocios(RedirectAttributes redirectAttributes) {
 		return "socios/listSocios";
@@ -55,7 +57,7 @@ public class SociosController {
 	}
 	
 	/*
-	 * METODO PARA ELIMINAR EL PORCENTAJE DESDE LA LISTA 
+	 * METODO PARA ELIMINAR EL PORCENTAJE DESDE LA TABLA
 	 */
 	@GetMapping("/porcentaje/remover/detalle/{rfc}")
 	public String removerDetallePorcentaje(@PathVariable String rfc,Porcentaje porcentaje, Model model) {
@@ -70,14 +72,18 @@ public class SociosController {
 		return PATH_FORM_PORCENTAJES;
 	}
 	
+	/*
+	 * GUARDAR LA LISTA DE PORCENTAJES EN EL SERVICIO
+	 */
 	@GetMapping("/porcentaje/guardar")
 	public String agregarPorcentaje(RedirectAttributes redirectAttributes) {
-		Optional<Integer> suma = detallesPorcentajes.stream().map(Porcentaje::getCantidadPorcentaje).reduce((a,b) -> a+b);		
-		if(suma.isPresent() && suma.get()!=100) {
+		Optional<Integer> suma = detallesPorcentajes.stream().map(Porcentaje::getCantidadPorcentaje).reduce((a,b) -> a+b);
+		if(!(suma.isPresent() && suma.get()==100)) {
 			redirectAttributes.addFlashAttribute("settings", "Verifique los porcantajes, la suma debe ser igual a 100.");
-			return "redirect:/socios/porcentajes";					
+			return "redirect:/socios/porcentajes";
 		}
-		redirectAttributes.addFlashAttribute("settings", "Registro guardado con exito");
+		redirectAttributes.addFlashAttribute("msg_success", "Registro guardado con exito");
+		detallesPorcentajes.clear();
 		return "redirect:/socios/porcentajes";
 	}
 	

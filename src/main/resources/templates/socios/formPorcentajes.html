@@ -37,6 +37,10 @@
         <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${socios.empty}">
           ¡Ups! ha ocurrido un error para obtener el nombre de los socios, vuelva a intentarlo más tarde.
         </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${msg_success}">
+          <strong th:text="${msg_success}"></strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
       </div>
       <div class="row g-5">
         <!--Div formulario-->
