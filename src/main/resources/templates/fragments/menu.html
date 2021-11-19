@@ -7,7 +7,7 @@
         <span class="oi oi-menu"></span>Menu
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAlMarkup">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         	<!-- CLIENTES -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navClientes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -37,15 +37,13 @@
             		Operaciones
             	</a>
             	<ul class="dropdown-menu" aria-labelledby="navOperaciones">
+            		<li><h5 class="dropdown-header">Pagos</h5></li>
+            		<li><a class="dropdown-item" href="/socios/activos">Capturar Pago</a></li>
+            		<li><a class="dropdown-item" href="/socios/activos">Generar recibo de pago</a></li>
+            		<li><a class="dropdown-item" href="/socios/activos">Generar recibo de cobro</a></li>
+            		<li><hr class="dropdown-divider"></li>
+            		<li><h5 class="dropdown-header">Cobranza</h5></li>
             		<li><a class="dropdown-item" href="#">Cobranza</a></li>
-            		<li class="dropend" data-bs-toggle="dropdown" aria-expanded="false">
-            			<a class="dropdown-item dropdown-toggle" href="#" id="navPagos" role="button">
-            				Pagos
-            			</a>
-            			<ul class="dropdown-menu" aria-labelledby="navPagos">
-            				<li><a class="dropdown-item" href="#">Another action</a></li>
-            			</ul>
-            		</li>
             	</ul>
             </li>
             <!-- REPORTES -->
@@ -54,12 +52,14 @@
             		Reportes
             	</a>
             	<ul class="dropdown-menu" aria-labelledby="navReportes">
-            		<li><a class="dropdown-item" href="#">Clientes Cumplidos</a></li>
-            		<li><a class="dropdown-item" href="#">Clientes Morosos</a></li>
-            		<li><a class="dropdown-item" href="#">Clientes</a></li>
-            		<li><a class="dropdown-item" href="#">Clientes</a></li>
+            		<li><a class="dropdown-item" href="#">Forma de pago</a></li>
+            		<li><a class="dropdown-item" href="#">Tipo de recibo</a></li>
+            		<li><a class="dropdown-item" href="#">Clientes cumplidos</a></li>
+            		<li><a class="dropdown-item" href="#">Clientes morosos</a></li>
             	</ul>
             </li>
         </ul>
-    </div>
+
+<!-- https://getbootstrap.com/docs/5.0/components/navbar/ -->
+	</div>
 </nav>
