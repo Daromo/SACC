@@ -28,15 +28,18 @@ public class SocioService implements ISocioService {
 	@Autowired
 	ObjectMapper objectMapper;
 	
+	@Value("${socios.activos.lista.url}")
+	String urlSociosActivos;
+	
 	@Value("${socios.lista.url}")
-	String urlSociosLista;
+	String urlAllSocios;
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Socio> getListaSocios() {
 		List<Socio> flagList;
 		try {
-			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlSociosLista, null, HttpMethod.GET, APPLICATION_JSON);
+			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlAllSocios, null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<Socio>>(){});
 		} catch (Exception e) {
