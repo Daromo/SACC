@@ -1,0 +1,73 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SACC | Porcentajes</title>
+  
+  <link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/custom.css}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+  <header th:insert="fragments/menu :: menu-principal" 
+  	class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  </header>
+  
+  <div class="jumbotron">
+    <div class="container">
+      <h3>Lista de Porcentajes</h3>
+      <p>En esta sección se lista la composición de los diferentes porcentajes de<strong> Corporativo Fiscal Magno</strong></p>
+    </div>
+  </div>
+  <div class="container">
+    <!-- DIV PARA MOSTRAR MENSAJES -->
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${socios.empty}">
+    	¡Ups! ha ocurrido un error para obtener la lista de porcentajes, vuelva a intentarlo más tarde.
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <table id="tblCliente" class="table table-hover col-sm-12">
+          <caption>Lista de porcentajes</caption>
+          <thead>
+            <tr>
+              <th scope="col">Clave</th>
+              <th scope="col">Nombre Socio</th>
+              <th scope="col">Porcentaje</th>
+              <th scope="col">Estatus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="socioTemp : ${socios}">
+              <td th:text="${socioTemp.rfc}"></td>
+              <td>
+                <span>[[${socioTemp.apPaternoSocio}+' '+${socioTemp.apMaternoSocio}+' '+${socioTemp.nombreSocio}]]</span>
+              </td>
+              <td th:text="${socioTemp.correo}"></td>
+              <td>
+                <span th:if="${#strings.equals(socioTemp.status,'A')}" class="badge bg-info">Activo</span>
+                <span th:unless="${#strings.equals(socioTemp.status,'A')}" class="badge bg-warning">Inactivo</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- container -->
+  <footer th:insert="fragments/footer :: template-footer" 
+    class="bg-dark text-center mt-auto footer">
+  </footer>
+  
+  <script th:src="@{/jquery-3.6.0.min.js}"></script>
+  <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+
+</body>
+
+</html>
