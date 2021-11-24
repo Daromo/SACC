@@ -36,7 +36,7 @@ public class SocioService implements ISocioService {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Socio> getListaSocios() {
+	public List<Socio> getAllSocios() {
 		List<Socio> flagList;
 		try {
 			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlAllSocios, null, HttpMethod.GET, APPLICATION_JSON);
@@ -45,6 +45,22 @@ public class SocioService implements ISocioService {
 		} catch (Exception e) {
 			String uid = GUIDGenerator.generateGUID();
 			LogHandler.error(uid, getClass(), "getListadoSocios", e);
+			flagList = new ArrayList<>();
+		}
+		return flagList;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Socio> getSociosActivos() {
+		List<Socio> flagList;
+		try {
+			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlSociosActivos, null, HttpMethod.GET, APPLICATION_JSON);
+			String json = objectMapper.writeValueAsString(response.getBody());
+			return objectMapper.readValue(json, new TypeReference<List<Socio>>(){});
+		}catch (Exception e) {
+			String uid = GUIDGenerator.generateGUID();
+			LogHandler.error(uid, getClass(), "getSociosActivos", e);
 			flagList = new ArrayList<>();
 		}
 		return flagList;

@@ -26,7 +26,7 @@ public class SociosController {
 	ISocioService socioService;
 	
 	/*
-	 * RENDERIZAR LA LISTA DE LOS SOCIOS
+	 * RENDERIZAR LA LISTA DE TODOS LOS SOCIOS
 	 */
 	@GetMapping("/activos")
 	public String renderListSocios(RedirectAttributes redirectAttributes) {
@@ -34,10 +34,11 @@ public class SociosController {
 	}
 	
 	/*
-	 * RENDERIZAR EL FORMULARIO PARA AGREGAR UN NUEVO PORCENTAJE 
+	 * RENDERIZAR EL FORMULARIO PARA AGREGAR UN NUEVO PORCENTAJE
+	 * SOLO SE MUESTRAN LOS SOCIOS ACTIVOS 
 	 */
 	@GetMapping("/porcentajes")
-	public String renderFormPorcentajes(Porcentaje porcentaje) {
+	public String renderFormPorcentajes(Porcentaje porcentaje, Model model) {
 		return PATH_FORM_PORCENTAJES;
 	}
 	
@@ -66,6 +67,9 @@ public class SociosController {
 		return PATH_FORM_PORCENTAJES;
 	}
 	
+	/*
+	 * CANCELAR LOS DATOS DEL FORMULARIO
+	 */
 	@GetMapping("/porcentaje/cancelar")
 	public String cancelarPorcentajes(Porcentaje porcentaje) {
 		detallesPorcentajes.clear();
@@ -94,6 +98,7 @@ public class SociosController {
 	@ModelAttribute
 	public void setGenericos(Model model) {
 		model.addAttribute("listaPorcentajes", detallesPorcentajes);
-		model.addAttribute("socios", socioService.getListaSocios());
+		model.addAttribute("socios",socioService.getAllSocios());
+		model.addAttribute("socios_activos", socioService.getSociosActivos());
 	}
 }

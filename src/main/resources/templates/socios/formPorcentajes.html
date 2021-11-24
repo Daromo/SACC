@@ -50,7 +50,7 @@
             <div class="input-group">
               <select th:field="*{rfcSocio}" class="form-select" id="selectSocios" required>
                 <option disabled selected value="null">Seleccionar régimen fiscal</option>
-                <option th:each="socioTemp : ${socios}" th:value="${socioTemp.rfc}">
+                <option th:each="socioTemp : ${socios_activos}" th:value="${socioTemp.rfc}">
                   [[${socioTemp.apPaternoSocio}+' '+${socioTemp.apMaternoSocio}+' '+${socioTemp.nombreSocio}]]
                 </option>
               </select>

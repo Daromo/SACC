@@ -51,8 +51,8 @@
               </td>
               <td th:text="${socioTemp.correo}"></td>
               <td>
-                <span th:if="${socioTemp.status eq 'A'}" class="badge bg-info">[[${socioTemp.status}]]</span>
-                <span th:unless="${socioTemp.status eq 'A'}" class="badge bg-warning">[[${socioTemp.status}]]</span>
+                <span th:if="${#strings.equals(socioTemp.status,'A')}" class="badge bg-info">Activo</span>
+                <span th:unless="${#strings.equals(socioTemp.status,'A')}" class="badge bg-warning">Inactivo</span>
               </td>
             </tr>
           </tbody>

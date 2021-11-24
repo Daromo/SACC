@@ -5,5 +5,6 @@ import java.util.List;
 import com.cfm.sacc.socios.model.Socio;
 
 public interface ISocioService {
-	List<Socio> getListaSocios();
+	List<Socio> getAllSocios();
+	List<Socio> getSociosActivos();
 }
