@@ -9,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.cfm.sacc.socios.model.PorcentajeSocioRep;
 import com.cfm.sacc.socios.model.Socio;
 import com.cfm.sacc.util.GUIDGenerator;
 import com.cfm.sacc.util.LogHandler;
@@ -33,6 +34,9 @@ public class SocioService implements ISocioService {
 	
 	@Value("${socios.lista.url}")
 	String urlAllSocios;
+	
+	@Value("${socios.lista.porcentajes.url}")
+	String urlAllPorcentajes;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -61,6 +65,22 @@ public class SocioService implements ISocioService {
 		}catch (Exception e) {
 			String uid = GUIDGenerator.generateGUID();
 			LogHandler.error(uid, getClass(), "getSociosActivos", e);
+			flagList = new ArrayList<>();
+		}
+		return flagList;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PorcentajeSocioRep> getAllPorcentajes() {
+		List<PorcentajeSocioRep> flagList;
+		try {
+			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlAllPorcentajes, null, HttpMethod.GET, APPLICATION_JSON);
+			String json = objectMapper.writeValueAsString(response.getBody());
+			return objectMapper.readValue(json, new TypeReference<List<PorcentajeSocioRep>>(){});
+		}catch (Exception e) {
+			String uid = GUIDGenerator.generateGUID();
+			LogHandler.error(uid, getClass(), "getAllPorcentajes", e);
 			flagList = new ArrayList<>();
 		}
 		return flagList;

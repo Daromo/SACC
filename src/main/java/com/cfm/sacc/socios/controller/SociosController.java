@@ -33,11 +33,16 @@ public class SociosController {
 		return "socios/listSocios";
 	}
 	
+	@GetMapping("/porcentajes")
+	public String renderListPorcentajes() {
+		return "socios/listPorcentajes";
+	}
+	
 	/*
 	 * RENDERIZAR EL FORMULARIO PARA AGREGAR UN NUEVO PORCENTAJE
 	 * SOLO SE MUESTRAN LOS SOCIOS ACTIVOS 
 	 */
-	@GetMapping("/porcentajes")
+	@GetMapping("/porcentajes/form")
 	public String renderFormPorcentajes(Porcentaje porcentaje, Model model) {
 		return PATH_FORM_PORCENTAJES;
 	}
@@ -97,8 +102,9 @@ public class SociosController {
 	 */
 	@ModelAttribute
 	public void setGenericos(Model model) {
-		model.addAttribute("listaPorcentajes", detallesPorcentajes);
+		model.addAttribute("listaDetallesPorcentajes", detallesPorcentajes);
 		model.addAttribute("socios",socioService.getAllSocios());
 		model.addAttribute("socios_activos", socioService.getSociosActivos());
+		model.addAttribute("porcentajes_socios", socioService.getAllPorcentajes());
 	}
 }
