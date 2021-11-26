@@ -33,8 +33,12 @@ public class SociosController {
 		return "socios/listSocios";
 	}
 	
+	/*
+	 * RENDERIZAR LA LISTA DE TODOS LOS PORCENTAJES 
+	 */
 	@GetMapping("/porcentajes")
-	public String renderListPorcentajes() {
+	public String renderListPorcentajes(Model model) {
+		model.addAttribute("porcentajes_socios", socioService.getAllPorcentajes());
 		return "socios/listPorcentajes";
 	}
 	
@@ -89,11 +93,13 @@ public class SociosController {
 		Optional<Integer> suma = detallesPorcentajes.stream().map(Porcentaje::getCantidadPorcentaje).reduce((a,b) -> a+b);
 		if(!(suma.isPresent() && suma.get()==100)) {
 			redirectAttributes.addFlashAttribute("settings", "Verifique los porcantajes, la suma debe ser igual a 100.");
-			return "redirect:/socios/porcentajes";
+			return "redirect:/socios/porcentajes/form";
 		}
+		//AGREGAR EL PORCENTAJE AL SERVICIO
+		
 		redirectAttributes.addFlashAttribute("msg_success", "Registro guardado con exito");
 		detallesPorcentajes.clear();
-		return "redirect:/socios/porcentajes";
+		return "redirect:/socios/porcentajes/form";
 	}
 	
 	/*
@@ -105,6 +111,5 @@ public class SociosController {
 		model.addAttribute("listaDetallesPorcentajes", detallesPorcentajes);
 		model.addAttribute("socios",socioService.getAllSocios());
 		model.addAttribute("socios_activos", socioService.getSociosActivos());
-		model.addAttribute("porcentajes_socios", socioService.getAllPorcentajes());
 	}
 }

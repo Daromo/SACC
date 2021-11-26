@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,9 @@ public class SocioService implements ISocioService {
 	
 	@Value("${socios.lista.porcentajes.url}")
 	String urlAllPorcentajes;
+	
+	@Value("${socios.agregar.porcentaje.url}")
+	String urlAgregarPorcentaje;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -84,6 +88,11 @@ public class SocioService implements ISocioService {
 			flagList = new ArrayList<>();
 		}
 		return flagList;
+	}
+
+	@Override
+	public HttpStatus addPorcentaje() {
+		return null;
 	}
 
 }
