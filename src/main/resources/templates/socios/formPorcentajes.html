@@ -48,7 +48,7 @@
           <form style="background-color: #eceff1;" class="border rounded py-3 px-2" th:object="${porcentaje}" th:action="@{/socios/porcentaje/agregar/detalle}" th:metod="get">
             <h6>Socios</h6>
             <div class="input-group">
-              <select th:field="*{rfcSocio}" class="form-select" id="selectSocios" required>
+              <select th:field="*{socioRFC}" class="form-select" id="selectSocios" required>
                 <option disabled selected value="null">Seleccionar régimen fiscal</option>
                 <option th:each="socioTemp : ${socios_activos}" th:value="${socioTemp.rfc}">
                   [[${socioTemp.apPaternoSocio}+' '+${socioTemp.apMaternoSocio}+' '+${socioTemp.nombreSocio}]]
@@ -82,11 +82,11 @@
             </thead>
             <tbody>
               <tr th:each="porcentajeTemp : ${listaDetallesPorcentajes}">
-                <td th:text="${porcentajeTemp.rfcSocio}"></td>
+                <td th:text="${porcentajeTemp.socioRFC}"></td>
                 <td class="text-center" th:text="${porcentajeTemp.cantidadPorcentaje}"></td>
                 <td class="text-center">
                   <a class="btn btn-warning btn-sm" role="button"
-                    th:href="@{/socios/porcentaje/remover/detalle/{rfc} (rfc=${porcentajeTemp.rfcSocio})}">
+                    th:href="@{/socios/porcentaje/remover/detalle/{rfc} (rfc=${porcentajeTemp.socioRFC})}">
                     Quitar
                   </a>
                 </td>

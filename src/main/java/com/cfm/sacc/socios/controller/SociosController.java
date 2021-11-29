@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cfm.sacc.socios.model.Porcentaje;
 import com.cfm.sacc.socios.service.ISocioService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Controller
 @RequestMapping(value = "/socios")
@@ -57,9 +59,9 @@ public class SociosController {
 	@GetMapping("/porcentaje/agregar/detalle")
 	public String agregarDetallePorcentaje(Porcentaje porcentaje, Model model, RedirectAttributes redirectAtrAttributes) {
 		for(Porcentaje item : detallesPorcentajes) {
-			if (porcentaje.getRfcSocio().equals(item.getRfcSocio())) {
+			if (porcentaje.getSocioRFC().equals(item.getSocioRFC())) {
 				redirectAtrAttributes.addFlashAttribute("settings", "¡El cliente ya existe!");
-				return "redirect:/socios/porcentajes";
+				return "redirect:/socios/porcentajes/form";
 			}
 		}
 		this.detallesPorcentajes.add(porcentaje);
@@ -71,7 +73,7 @@ public class SociosController {
 	 */
 	@GetMapping("/porcentaje/remover/detalle/{rfc}")
 	public String removerDetallePorcentaje(@PathVariable String rfc,Porcentaje porcentaje, Model model) {
-		if(detallesPorcentajes.removeIf(item -> item.getRfcSocio().equals(rfc)))
+		if(detallesPorcentajes.removeIf(item -> item.getSocioRFC().equals(rfc)))
 			model.addAttribute("listaPorcentajes", detallesPorcentajes);
 		return PATH_FORM_PORCENTAJES;
 	}
@@ -89,16 +91,16 @@ public class SociosController {
 	 * GUARDAR LA LISTA DE PORCENTAJES EN EL SERVICIO
 	 */
 	@GetMapping("/porcentaje/guardar")
-	public String agregarPorcentaje(RedirectAttributes redirectAttributes) {
+	public String agregarPorcentaje(RedirectAttributes redirectAttributes) throws JsonProcessingException{
 		Optional<Integer> suma = detallesPorcentajes.stream().map(Porcentaje::getCantidadPorcentaje).reduce((a,b) -> a+b);
 		if(!(suma.isPresent() && suma.get()==100)) {
 			redirectAttributes.addFlashAttribute("settings", "Verifique los porcantajes, la suma debe ser igual a 100.");
 			return "redirect:/socios/porcentajes/form";
 		}
-		//AGREGAR EL PORCENTAJE AL SERVICIO
-		
-		redirectAttributes.addFlashAttribute("msg_success", "Registro guardado con exito");
-		detallesPorcentajes.clear();
+		if (socioService.addPorcentaje(detallesPorcentajes) == HttpStatus.OK) {
+			redirectAttributes.addFlashAttribute("msg_success", "Registro guardado con exito");
+			detallesPorcentajes.clear();
+		}
 		return "redirect:/socios/porcentajes/form";
 	}
 	

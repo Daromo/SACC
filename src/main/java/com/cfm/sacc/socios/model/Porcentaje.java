@@ -1,7 +1,5 @@
 package com.cfm.sacc.socios.model;
 
-import java.util.Date;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,8 +8,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Porcentaje {
-	private String clavePorcentaje;
-	private String rfcSocio;
+	private String clave;
+	private String socioRFC;
 	private Integer cantidadPorcentaje;
-	private Date lastUpdate;
+	//private Date lastUpdate;
 }
