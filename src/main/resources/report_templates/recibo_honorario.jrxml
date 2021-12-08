@@ -6,7 +6,7 @@
 	</queryString>
 	<field name="id" class="java.lang.Integer"/>
 	<field name="nombreCliente" class="java.lang.String"/>
-	<field name="importe" class="java.lang.Double"/>
+	<field name="importeHonorario" class="java.lang.Double"/>
 	<field name="importeLetra" class="java.lang.String"/>
 	<field name="concepto" class="java.lang.String"/>
 	<background>
@@ -95,7 +95,7 @@
 				<text><![CDATA[238 38 21 892]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="350" y="20" width="88" height="27" uuid="e4815de4-62df-4c8b-9c27-a89fd9905845"/>
+				<reportElement x="340" y="20" width="88" height="27" uuid="e4815de4-62df-4c8b-9c27-a89fd9905845"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
@@ -103,7 +103,7 @@
 			</staticText>
 			<staticText>
 				<reportElement x="20" y="80" width="170" height="20" uuid="9e3a6746-64fc-4fc1-9bbc-cc2f884a266f"/>
-				<textElement verticalAlignment="Top">
+				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
 				<text><![CDATA[RECIBÍ LA CANTIDAD DE $]]></text>
@@ -137,11 +137,11 @@
 				<text><![CDATA[ANDREA MORALES MARTÍNEZ A.M.M]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="440" y="20" width="105" height="26" uuid="591211c2-a1ce-41a9-a42a-4772f697b70c"/>
+				<reportElement x="430" y="20" width="135" height="26" uuid="591211c2-a1ce-41a9-a42a-4772f697b70c"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{importeHonorario}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="190" y="80" width="314" height="20" uuid="43b915a8-1236-4543-bc53-224514001eab"/>

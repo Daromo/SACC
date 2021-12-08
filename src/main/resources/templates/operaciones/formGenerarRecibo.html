@@ -44,12 +44,12 @@
     <div class="col-md-12">
       <!--Div formulario-->
       <div class="p-3">
-        <form class="py-3" th:object="${reciboHonorario}" th:action="@{/operaciones/guardar}" th:metod="post">
+        <form class="py-3" th:object="${reciboHonorario}" th:action="@{/operaciones/guardar-recibo}" th:method="post">
           <div class="row">
             <div class="col-md-7 col-sm-12">
               <div class="row">
                 <div class="col-md-7">
-                  <input class="form-control" th:field="*{clienteRFC}" type="text" placeholder="Nombre Cliente" required>
+                  <input class="form-control" th:field="*{nombreCliente}" type="text" placeholder="Nombre Cliente" required>
                 </div>
                 <!--BOTON-->
                 <div class="col-md-4">
