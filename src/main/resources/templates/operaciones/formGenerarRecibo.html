@@ -44,51 +44,61 @@
     <div class="col-md-12">
       <!--Div formulario-->
       <div class="p-3">
-        <form class="py-3" th:object="${reciboHonorario}" th:action="@{/operaciones/guardar-recibo}" th:method="post">
+        <form th:object="${reciboHonorario}" th:action="@{/operaciones/generar-recibo}" th:method="post">
           <div class="row">
-            <div class="col-md-7 col-sm-12">
+            <!-- FORM GRID -->
+            <div class="col-md-7 col-sm-12 border rounded p-3">
+              <h5>Datos Generales </h5>
               <div class="row">
-                <div class="col-md-7">
-                  <input class="form-control" th:field="*{nombreCliente}" type="text" placeholder="Nombre Cliente" required>
+                <div class="col-md-8">
+                  <label for="nombre" class="form-label">Nombre Cliente <strong class="obligatorio">*</strong></label>
+                  <input id="nombre" type="text" class="form-control" th:field="*{nombreCliente}" 
+                  oninput="this.value = this.value.toUpperCase()" required>
                 </div>
-                <!--BOTON-->
                 <div class="col-md-4">
-                  <a class="btn btn-primary" role="button" href="#" data-bs-toggle="modal" data-bs-target="#clientesModal">
-                    Seleccionar Cliente
-                  </a>
+                  <label for="nombre" class="form-label">RFC <strong class="obligatorio">*</strong></label>
+                  <input id="nombre" type="text" class="form-control" th:field="*{clienteRFC}" maxlength="13"
+                  oninput="this.value = this.value.toUpperCase()" required>
                 </div>
               </div>
               <div class="row pt-3">
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label for="importe" class="form-label">Importe <strong class="obligatorio">*</strong></label>
                     <div class="input-group">
-                      <input id="importe" type="text" class="form-control" th:field="*{importeHonorario}" autocomplete="off" required>
+                      <input id="importe" type="text" class="form-control" th:field="*{importeHonorario}" required>
                       <span class="input-group-text">$</span>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-8">
                   <label for="importeConLetra" class="form-label">Importe con letra <strong
                       class="obligatorio">*</strong></label>
-                  <input id="importeConLetra" type="text" class="form-control" th:field="*{importeLetra}" autocomplete="off" required>
+                  <input id="importeConLetra" type="text" class="form-control" th:field="*{importeLetra}" 
+                  oninput="this.value = this.value.toUpperCase()" required>
                 </div>
               </div>
               <div class="row pt-3">
-                <div class="col-md-10">
+                <div class="col-md-12">
                   <div class="form-group">
                     <label for="conceptoHonorario" class="form-label">Concepto <strong class="obligatorio">*</strong></label>
-                    <input id="conceptoHonorario" type="text" class="form-control" th:field="*{concepto}" autocomplete="off" required>
+                    <input id="conceptoHonorario" type="text" class="form-control" th:field="*{concepto}"  
+                    oninput="this.value = this.value.toUpperCase()" required>
                   </div>
                 </div>
               </div>
+              <div class="col-md-4 pt-3">
+              	<a class="btn btn-primary btn-sm" role="button" href="#" data-bs-toggle="modal" data-bs-target="#clientesModal">
+                 	Consultar Cliente
+                </a>
+              </div>
             </div>
-            <!--SECOND COLUMN-->
-            <div class="col-md-4 px-0 col-sm-12">
-              <h6><strong>Operaciones</strong></h6>
-              <button type="submit" class="btn btn-outline-success">Generar Recibo</button>
-              <a class="btn btn-outline-primary" role="button" href="#">Vista Previa</a>
-              <a class="btn btn-outline-warning" role="button" href="#">Cancelar</a>
+            <!-- BOTONES -->
+            <div class="col-md-4 px-0 col-sm-12 fluid-content container">
+              <h6>Opciones Recibo</h6>
+              <input type="submit" class="btn btn-outline-success" value="Generar recibo" name="add"/>
+              <input type="submit" class="btn btn-outline-primary" value="Vista previa" name="view"/>
+              <a class="btn btn-outline-danger" role="button" href="#">Cancelar</a>
             </div>
           </div>
         </form>
@@ -96,7 +106,7 @@
     </div>
   </div>
   
-  <!-- Modal -->
+  <!-- Modal Clientes -->
   <div class="modal fade" id="clientesModal" tabindex="-1" aria-labelledby="clientesModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content bg-light">
@@ -120,8 +130,6 @@
       </div>
     </div>
   </div>
-  
-  
   
   <footer th:insert="fragments/footer :: template-footer" 
     class="bg-dark text-center mt-auto footer">

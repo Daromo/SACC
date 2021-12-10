@@ -13,7 +13,7 @@ public class ReciboHonorario {
 	private Integer id;
 	private String clienteRFC;
 	private String nombreCliente;
-	private Double importeHonorario;
+	private Float importeHonorario;
 	private String importeLetra;
 	private String concepto;
 }

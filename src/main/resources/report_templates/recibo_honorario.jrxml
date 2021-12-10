@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recibo_honorario" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca7cb204-137d-4604-8dd1-7a79e7fb2f63">
+	<parameter name="title" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer"/>
 	<field name="nombreCliente" class="java.lang.String"/>
-	<field name="importeHonorario" class="java.lang.Double"/>
+	<field name="importeHonorario" class="java.lang.Float"/>
 	<field name="importeLetra" class="java.lang.String"/>
 	<field name="concepto" class="java.lang.String"/>
 	<background>
@@ -14,92 +15,92 @@
 	</background>
 	<title>
 		<band height="36" splitType="Stretch">
-			<staticText>
-				<reportElement x="203" y="0" width="148" height="36" uuid="e439d9d2-b1d3-41d1-9482-7c2eaff58d66"/>
+			<textField>
+				<reportElement x="80" y="0" width="400" height="36" uuid="3378dadb-3d34-4e2f-9d76-86139ecb6ddb"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Bookman Old Style" size="16"/>
 				</textElement>
-				<text><![CDATA[HONORARIOS]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{title}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="42" splitType="Stretch">
 			<rectangle radius="0">
-				<reportElement x="0" y="0" width="555" height="39" backcolor="#F5F5F5" uuid="1b36c9ad-bd70-4417-83d1-af28b6f0fb3f"/>
+				<reportElement x="0" y="0" width="555" height="39" backcolor="#FFFFFF" uuid="1b36c9ad-bd70-4417-83d1-af28b6f0fb3f"/>
 				<graphicElement>
 					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="10" y="9" width="60" height="20" uuid="69891332-8d02-45d5-a748-a9e40282db23"/>
+				<reportElement x="10" y="9" width="50" height="20" uuid="69891332-8d02-45d5-a748-a9e40282db23"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12" isBold="false"/>
+					<font fontName="Arial" size="11" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Nombre:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="256" y="9" width="42" height="20" uuid="91fd49f0-3588-4e16-8855-04b3429e703d"/>
+				<reportElement x="266" y="9" width="42" height="20" uuid="91fd49f0-3588-4e16-8855-04b3429e703d"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12" isBold="false"/>
+					<font fontName="Arial" size="11" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Fecha:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="440" y="9" width="40" height="20" uuid="156ce6ca-f828-404c-a891-aef2527279be"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12" isBold="false"/>
+					<font fontName="Arial" size="11" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Folio:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="70" y="9" width="180" height="20" uuid="d8b51413-4fba-4090-886f-08c3314e5d41"/>
+			<textField textAdjust="ScaleFont">
+				<reportElement x="60" y="9" width="200" height="20" uuid="d8b51413-4fba-4090-886f-08c3314e5d41"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Arial" size="12"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombreCliente}]]></textFieldExpression>
 			</textField>
 			<textField pattern="M/dd/yyyy">
-				<reportElement x="298" y="9" width="110" height="20" uuid="3cc7e122-d4f5-4994-afd3-c4b062b0e55f"/>
+				<reportElement x="308" y="9" width="72" height="20" uuid="3cc7e122-d4f5-4994-afd3-c4b062b0e55f"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Arial" size="12"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="480" y="9" width="64" height="20" uuid="a7909fa3-09fb-47bb-8de9-8096e727ee69"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="343" splitType="Stretch">
+		<band height="320" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="0" width="555" height="290" uuid="62ecdbb0-5e64-462b-ae94-763391836c37"/>
+				<reportElement x="0" y="0" width="555" height="280" uuid="62ecdbb0-5e64-462b-ae94-763391836c37"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="101" y="301" width="353" height="20" uuid="b246dbdb-183c-4b96-a809-64d75c3b448e"/>
+				<reportElement x="101" y="281" width="353" height="20" uuid="b246dbdb-183c-4b96-a809-64d75c3b448e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="11"/>
 				</textElement>
 				<text><![CDATA[3 Norte No. 614 C Interior 1, Francisco Sarabia, Tehuacán, Puebla.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="225" y="320" width="105" height="20" uuid="b697bf03-df87-4a73-a29f-581c5b04597d"/>
+				<reportElement x="225" y="300" width="105" height="20" uuid="b697bf03-df87-4a73-a29f-581c5b04597d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="11"/>
 				</textElement>
 				<text><![CDATA[238 38 21 892]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="340" y="20" width="88" height="27" uuid="e4815de4-62df-4c8b-9c27-a89fd9905845"/>
+				<reportElement x="340" y="20" width="80" height="27" uuid="e4815de4-62df-4c8b-9c27-a89fd9905845"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[BUENO POR: $]]></text>
+				<text><![CDATA[BUENO POR:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="20" y="80" width="170" height="20" uuid="9e3a6746-64fc-4fc1-9bbc-cc2f884a266f"/>
@@ -116,14 +117,14 @@
 				<text><![CDATA[POR CONCEPTO DEL PAGO DE HONORARIOS CORRESPONDIENTES AL MES DE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="246" y="170" width="62" height="22" uuid="2e18ccdf-26ec-49f8-9186-6073746b4b2f"/>
+				<reportElement x="246" y="160" width="62" height="22" uuid="2e18ccdf-26ec-49f8-9186-6073746b4b2f"/>
 				<textElement verticalAlignment="Top">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[R E C I B Í]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="183" y="240" width="188" height="40" uuid="fbe29646-ca75-48c3-ba6b-e357555c79eb"/>
+				<reportElement x="183" y="230" width="188" height="40" uuid="fbe29646-ca75-48c3-ba6b-e357555c79eb"/>
 				<box topPadding="0" leftPadding="1" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -136,8 +137,8 @@
 				</textElement>
 				<text><![CDATA[ANDREA MORALES MARTÍNEZ A.M.M]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="430" y="20" width="135" height="26" uuid="591211c2-a1ce-41a9-a42a-4772f697b70c"/>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="420" y="20" width="135" height="26" uuid="591211c2-a1ce-41a9-a42a-4772f697b70c"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
@@ -153,7 +154,7 @@
 			<textField>
 				<reportElement x="20" y="120" width="484" height="20" uuid="f093792f-ee03-4dff-a688-a64293d5db5d"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="12" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true" isUnderline="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{concepto}]]></textFieldExpression>
 			</textField>
