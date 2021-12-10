@@ -28,19 +28,11 @@
   </div>
   <div class="container">
     <!--Settings-->
-    <!--<div>
-          <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${settings}">
-            <strong th:text="${settings}"></strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${socios.empty}">
-            ¡Ups! ha ocurrido un error para obtener el nombre de los socios, vuelva a intentarlo más tarde.
-          </div>
-          <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${msg_success}">
-            <strong th:text="${msg_success}"></strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        </div>-->
+    <div>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${clientes.empty}">
+        ¡Ups! ha ocurrido un error para obtener el nombre de los clientes, vuelva a intentarlo más tarde.
+      </div>
+    </div>
     <div class="col-md-12">
       <!--Div formulario-->
       <div class="p-3">
@@ -56,8 +48,8 @@
                   oninput="this.value = this.value.toUpperCase()" required>
                 </div>
                 <div class="col-md-4">
-                  <label for="nombre" class="form-label">RFC <strong class="obligatorio">*</strong></label>
-                  <input id="nombre" type="text" class="form-control" th:field="*{clienteRFC}" maxlength="13"
+                  <label for="rfc" class="form-label">RFC <strong class="obligatorio">*</strong></label>
+                  <input id="rfc" type="text" class="form-control" th:field="*{clienteRFC}" maxlength="13"
                   oninput="this.value = this.value.toUpperCase()" required>
                 </div>
               </div>
@@ -109,19 +101,18 @@
   <!-- Modal Clientes -->
   <div class="modal fade" id="clientesModal" tabindex="-1" aria-labelledby="clientesModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content bg-light">
+      <div class="modal-content" style="background-color: #eceff1;">
         <div class="modal-header">
           <h4 class="modal-title" id="clientesModalLabel">Lista Clientes</h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <!--CONTENEDOR-->
+        <div class="modal-body" id="items_clientes">
           <!--CARD PARA MOSTRAR LOS DATOS DE LOS CLIENTES-->
-          <div class="border mb-2 itemCliente" th:each="clienteTemp : ${clientes}">
-            <div class="card-body">
+          <div class="border border-secondary rounded mb-2 card-body bg-light"  th:each="clienteTemp : ${clientes}" th:id="${clienteTemp.rfc}">
               <h5 th:if="${clienteTemp.regimenFiscal.id != 601}" class="card-title">[[${clienteTemp.apPaternoCliente}+' '+${clienteTemp.apMaternoCliente}+' '+${clienteTemp.nombreCliente}]]</h5>
               <h5 th:unless="${clienteTemp.regimenFiscal.id != 601}" class="card-title">[[${clienteTemp.razonSocial}]]</h5>
               <p class="card-text" th:text="${clienteTemp.rfc}">cliente_rfc</p>
-            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -135,14 +126,20 @@
     class="bg-dark text-center mt-auto footer">
   </footer>
 
-  <!--<script type="text/javascript">
+  <script type="text/javascript">
     $(function(){
-      var itemSelected = $('.itemCliente').on('click', function (e){
-        e.preventDefault();
-        console.log(itemSelected);
+      $('body').on('click','#items_clientes div',function (e){
+        var rfc = $(this).attr('id');
+        var nombre = $('#'+rfc).find('.card-title').html();
+      	console.log(nombre);
+      	//settear valores a los inputs
+      	$('#nombre').val(nombre);
+      	$('#rfc').val(rfc);
+      	//close modal
+      	$('#clientesModal').modal('toggle');
       });
     });
-  </script>-->
+  </script>
 
   <script th:src="@{/jquery-3.6.0.min.js}"></script>
   <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
