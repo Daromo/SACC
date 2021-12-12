@@ -21,13 +21,15 @@
   </header>
   
   <div class="jumbotron">
+    <!--FORMULARIO PARA BUSCAR CLIENTE POR RFC O REGIMEN FISCAL-->
     <div class="container">
       <h4>Buscar cliente</h4>
       <p>Puedes buscar un cliente por su <strong>RFC</strong> o por el <strong>régimen fiscal</strong> al que pertenece.</p>
       <form class="form-inline" th:object="${search}" th:action="@{/clientes/buscar}" th:metod="get">
         <div class="row">
           <div class="col-md-4 pb-2">
-            <input type="text" class="form-control" th:field=*{rfc} maxlength="13" placeholder="Escriba el RFC">
+            <input type="text" class="form-control" th:field=*{rfc} maxlength="13" placeholder="Escriba el RFC" 
+            oninput="this.value = this.value.toUpperCase()">
           </div>
           <div class="col-md-5 pb-2">
             <select class="form-select" th:field="*{regimenFiscalId}" name="regimenFiscalId">

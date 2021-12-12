@@ -37,7 +37,7 @@
               <div class="form-group">
                 <label for="rfc" class="form-label">Cliente RFC <strong class="obligatorio">*</strong></label>
                 <input th:value="${cliente.rfc}" th:field="*{rfc}" type="text" class="form-control" id="rfc"
-                  maxlength="13" minlength="12" autocomplete="off" required>
+                  maxlength="13" minlength="12" autocomplete="off" oninput="this.value = this.value.toUpperCase()" required>
               </div>
             </div>
             <div class="col-md-7 mt-2">
@@ -62,10 +62,9 @@
               <strong>Personas Morales</strong>
               <div class="col-md-12 mt-2">
                 <div class="form-group">
-                  <label for="razonSocial" class="form-label">Razón Social <strong
-                      class="obligatorio">*</strong></label>
+                  <label for="razonSocial" class="form-label">Razón Social <strong class="obligatorio">*</strong></label>
                   <input th:value="${cliente.razonSocial}" th:field="*{razonSocial}" type="text" class="form-control"
-                    id="" autocomplete="off">
+                    id="" oninput="this.value = this.value.toUpperCase()" autocomplete="off">
                 </div>
               </div>
             </div>
@@ -75,7 +74,7 @@
                 <div class="form-group">
                   <label for="nombreCliente" class="form-label">Nombre <strong class="obligatorio">*</strong></label>
                   <input th:value="${cliente.nombreCliente}" th:field="*{nombreCliente}" type="text"
-                    class="form-control" id="nombreCliente" autocomplete="off">
+                    class="form-control" id="nombreCliente" oninput="this.value = this.value.toUpperCase()" autocomplete="off">
                 </div>
               </div>
               <div class="col-md-4 mt-2">
@@ -83,7 +82,7 @@
                   <label for="apPaternoCliente" class="form-label">Apellido Paterno <strong
                       class="obligatorio">*</strong></label>
                   <input th:value="${cliente.apPaternoCliente}" th:field="*{apPaternoCliente}" type="text"
-                    class="form-control" id="apPaternoCliente" autocomplete="off">
+                    class="form-control" id="apPaternoCliente" oninput="this.value = this.value.toUpperCase()" autocomplete="off">
                 </div>
               </div>
               <div class="col-md-4 mt-2">
@@ -91,7 +90,7 @@
                   <label for="apMaternoCliente" class="form-label">Apellido Materno <strong
                       class="obligatorio">*</strong></label>
                   <input th:value="${cliente.apMaternoCliente}" th:field="*{apMaternoCliente}" type="text"
-                    class="form-control" id="apMaternoCliente" autocomplete="off">
+                    class="form-control" id="apMaternoCliente" oninput="this.value = this.value.toUpperCase()" autocomplete="off">
                 </div>
               </div>
             </div>
@@ -141,7 +140,8 @@
                 <div class="form-group">
                   <label for="domicilio" class="form-label">Domicilio <strong class="obligatorio">*</strong></label>
                   <input th:value="${cliente.domicilio}" th:field="*{domicilio}" type="text" class="form-control"
-                    id="domicilio" autocomplete="off" placeholder="Calle, número, colonia, ciudad, estado" required>
+                    id="domicilio" autocomplete="off" placeholder="Calle, número, colonia, ciudad, estado" 
+                    oninput="this.value = this.value.toUpperCase()" required>
                 </div>
               </div>
               <div class="col-md-3 mt-2">
