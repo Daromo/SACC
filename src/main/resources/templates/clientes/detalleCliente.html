@@ -46,14 +46,12 @@
 							<strong>Telefono: </strong><span th:text="${cliente.telefono1}"></span>
 						</h6>
 						<h6 class="card-title">
-							<strong>Fecha Registro: </strong><span th:text="${cliente.fechaIngreso}"></span>
+							<strong>Fecha Registro: </strong><span th:text="${#dates.format(cliente.fechaIngreso, 'yyyy-MM-dd')}"></span>
 						</h6>
 						<h6 class="card-title">
-							<strong>Ultima Modificacion: </strong><span th:text="${cliente.lastUpdate}"></span>
+							<strong>Ultima Modificacion: </strong><span th:text="${#dates.format(cliente.lastUpdate, 'yyyy-MM-dd')}"></span>
 						</h6>
-						<a class="btn btn-primary" th:href="@{/clientes/activos/}" role="button">
-							<i class="fas fa-file" aria-hidden="true"></i>Regresar
-						</a>
+						<a class="btn btn-primary" th:href="@{/clientes/activos/}" role="button">Regresar</a>
 					</div>
 				</div>
 			</div>

@@ -3,6 +3,8 @@ package com.cfm.sacc.clientes.model;
 import java.util.Date;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,7 +20,9 @@ public class Cliente {
 	private String apPaternoCliente;
 	private String apMaternoCliente;
 	private String razonSocial;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date fechaIngreso;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date lastUpdate;
 	private Character status;
 	private String telefono1;
