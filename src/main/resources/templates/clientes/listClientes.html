@@ -79,7 +79,8 @@
               </td>
               <td th:text="${clienteTemp.regimenFiscal.nombre}"></td>
               <td>
-                <span th:if="${clienteTemp.status='A'}" class="badge bg-info">Activo</span>
+                <span th:if="${#strings.equals(clienteTemp.status, 'A')}" class="badge bg-info">Activo</span>
+                <span th:unless="${#strings.equals(clienteTemp.status, 'A')}" class="badge bg-danger">Inactivo</span>
               </td>
               <td>
                 <a class="btn btn-success btn-sm"
