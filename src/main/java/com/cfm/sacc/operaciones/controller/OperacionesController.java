@@ -62,4 +62,12 @@ public class OperacionesController {
 		
 		return jasperReportsGenerator.generarReciboHonorario(recibo, params);
 	}
+	
+	/*
+	 * RENDERIZAR EL FORMULARIO PARA REGISTRAR EL PAGO DE HONORARIOS 
+	 */
+	@GetMapping("/registrar-pago-honorario")
+	public String renderFormRegistrarPago() {
+		return "operaciones/formRegistrarPago";
+	}
 }

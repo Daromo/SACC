@@ -1,0 +1,151 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SACC | Registrar Pago</title>
+  
+  <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/custom.css}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+  <header th:insert="fragments/menu :: menu-principal" 
+  	class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  </header>
+  
+  <div class="jumbotron">
+    <div class="container">
+      <h3>Registrar Pago</h3>
+      <p>Formulario para generar el recibo correspondientes al pago de honorarios de <strong>Corporativo Fiscal Magno</strong></p>
+    </div>
+  </div>
+  <div class="container col-md-12 col-sm-12">
+    <!--Settings-->
+    <!--<div>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${clientes.empty}">
+          ¡Ups! ha ocurrido un error para obtener el nombre de los clientes, vuelva a intentarlo más tarde.
+        </div>
+      </div>-->
+  
+    <div class="col-md-12 p-3">
+      <div class="card-body">
+        <form class="needs-validation">
+          <!--SECTION ACERCA DEL RECIBO-->
+          <section class="row pb-3 border">
+            <div class="card-header"><strong>Acerca del Recibo</strong></div>
+            <!--FOLIO RECIBO-->
+            <div class="row col-md-12">
+              <div class="col-md-3 mt-2">
+                <label for="folioRecibo" class="form-label">Folio del recibo <strong class="obligatorio">*</strong></label>
+                <input id="folioRecibo" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="row col-md-12">
+              <div class="col-md-3 mt-2">
+                <label for="" class="form-label">RFC Cliente: </label>
+                <input id="clienteRFC" type="text" class="form-control">
+              </div>
+              <div class="col-md-5 mt-2">
+                <label for="" class="form-label">Nombre Cliente: </label>
+                <input id="clienteNombre" type="text" class="form-control">
+              </div>
+            </div>
+          </section>
+        </form>
+      </div>
+      
+      
+      <!--
+        * CONCEPTO: HONORARIOS POR SERVICIOS DE CONTABILIDAD, OTROS
+      <form>
+        <div class="p-3">
+          <h5>Datos Generales </h5>
+          <div class="row">
+            <div class="col-md-8">
+              <label for="nombre" class="form-label">Nombre Cliente <strong class="obligatorio">*</strong></label>
+              <input id="nombre" type="text" class="form-control" oninput="this.value = this.value.toUpperCase()"
+                required>
+            </div>
+            <div class="col-md-4">
+              <label for="rfc" class="form-label">RFC <strong class="obligatorio">*</strong></label>
+              <input id="rfc" type="text" class="form-control" maxlength="13"
+                oninput="this.value = this.value.toUpperCase()" required>
+            </div>
+          </div>
+          <div class="row pt-3">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="importe" class="form-label">Importe <strong class="obligatorio">*</strong></label>
+                <div class="input-group">
+                  <input id="importe" type="text" class="form-control" required>
+                  <span class="input-group-text">$</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <label for="importeConLetra" class="form-label">Importe con letra <strong
+                  class="obligatorio">*</strong></label>
+              <input id="importeConLetra" type="text" class="form-control" oninput="this.value = this.value.toUpperCase()"
+                required>
+            </div>
+          </div>
+          <div class="row pt-3">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="conceptoHonorario" class="form-label">Concepto <strong class="obligatorio">*</strong></label>
+                <input id="conceptoHonorario" type="text" class="form-control"
+                  oninput="this.value = this.value.toUpperCase()" required>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 pt-3">
+            <a class="btn btn-primary btn-sm" role="button" href="#" data-bs-toggle="modal"
+              data-bs-target="#clientesModal">
+              Consultar Cliente
+            </a>
+          </div>
+        </div>
+      </form>-->
+    </div>
+  </div>
+  
+  <!-- Modal Clientes -->
+  <div class="modal fade" id="clientesModal" tabindex="-1" aria-labelledby="clientesModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" style="background-color: #eceff1;">
+        <div class="modal-header">
+          <h4 class="modal-title" id="clientesModalLabel">Lista Clientes</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!--CONTENEDOR-->
+        <div class="modal-body" id="items_clientes">
+          <!--CARD PARA MOSTRAR LOS DATOS DE LOS CLIENTES-->
+          <div class="border border-secondary rounded mb-2 card-body bg-light"  th:each="clienteTemp : ${clientes}" th:id="${clienteTemp.rfc}">
+              <h5 th:if="${clienteTemp.regimenFiscal.id != 601}" class="card-title">[[${clienteTemp.apPaternoCliente}+' '+${clienteTemp.apMaternoCliente}+' '+${clienteTemp.nombreCliente}]]</h5>
+              <h5 th:unless="${clienteTemp.regimenFiscal.id != 601}" class="card-title">[[${clienteTemp.razonSocial}]]</h5>
+              <p class="card-text" th:text="${clienteTemp.rfc}">cliente_rfc</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer th:insert="fragments/footer :: template-footer" 
+    class="bg-dark text-center mt-auto footer">
+  </footer>
+
+  <script th:src="@{/jquery-3.6.0.min.js}"></script>
+  <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+</body>
+
+</html>
