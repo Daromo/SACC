@@ -13,6 +13,12 @@
   <link rel="stylesheet" th:href="@{/css/custom.css}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+
+  <!--CDN DATEPICKER-->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -36,8 +42,10 @@
     <div class="col-md-12 p-3">
       <form class="needs-validation">
         <div class="row">
-          <!--div para el folio del recibo-->
+          <!--first: div para el folio del recibo-->
           <div class="col-md-5">
+            <h4>Datos Requeridos</h4>
+            <!--consultar recibo-->
             <div class="row pb-3">
               <div class="row col-md-12">
                 <label for="" class="col-form-label">Folio del Recibo <strong class="obligatorio">*</strong></label>
@@ -52,8 +60,44 @@
                 <span class="form-text">Ver detalle del recibo de honorarios en la sección “Acerca del recibo”</span>
               </div>
             </div>
+            <!--section informacion requerida-->
+            <section class="">
+              <div class="row py-2">
+                <div class="col-md-6">
+                  <label for="listaFormaPago" class="form-label">Forma de pago <strong class="obligatorio">*</strong></label>
+                  <select id="listaFormaPago" class="form-select">
+                    <option value="0">Efectivo</option>
+                    <option value="1">Transferencia</option>
+                    <option value="2">Cheque</option>
+                  </select>
+                </div>
+                <div class="col-md-5">
+                  <label for="date" class="form-label">Fecha del pago <strong class="obligatorio">*</strong></label>
+                  <input id="date" type="text" class="form-control" name="fecha" placeholder="Año-Mes-Dia" autocomplete="off" required>
+                </div>
+              </div>
+              <!--div opciones formas de pago-->
+              <div class="row py-2 border rounded" style="display: none;">
+                <div class="col-md-6">
+                  <label for="listaFormaPago" class="form-label">Banco <strong class="obligatorio">*</strong></label>
+                  <select id="listaFormaPago" class="form-select">
+                    <option value="0">Santander</option>
+                    <option value="1">Bancomer</option>
+                    <option value="2">Banamex</option>
+                  </select>
+                </div>
+                <div class="col-md-5">
+                  <label for="folioTransferencia" class="form-label">Folio Transferencia <strong class="obligatorio">*</strong></label>
+                  <input id="folioTransferencia" type="text" class="form-control" autocomplete="off" required>
+                </div>
+                <div class="col-md-6 pt-3">
+                  <label for="folioCheque" class="form-label">Folio Cheque <strong class="obligatorio">*</strong></label>
+                  <input id="folioCheque" type="text" class="form-control" autocomplete="off" required>
+                </div>
+              </div>
+            </section>
           </div>
-          <!--informacion del recibo-->
+          <!--second: div informacion del recibo-->
           <div class="col-md-7">
             <section class="row pb-3 border rounded" style="background-color: #eceff1;">
               <h4>Acerca del recibo</h4>
@@ -80,24 +124,54 @@
             </section>
           </div>
         </div>
-        <div class="row mt-2">
-          <section class="mt-3">
+        <!--<div class="row mt-2">
+          <section class="mt-5">
             <h4>Datos Requeridos</h4>
-            <div class="row">
-              <div class="col-md-5">
+            <div class="row py-2">
+              <div class="col-auto">
+                <label for="date" class="form-label">Fecha del pago <strong class="obligatorio">*</strong></label>
+                <input id="date" type="text" class="form-control" name="fecha" placeholder="Año-Mes-Dia" autocomplete="off" required>
+              </div>
+              <div class="col-auto">
                 <label for="listaFormaPago" class="form-label">Forma de pago <strong class="obligatorio">*</strong></label>
-                <select name="" id="listaFormaPago" class="form-select"></select>
+                <select id="listaFormaPago" class="form-select">
+                  <option value="0">Efectivo</option>
+                  <option value="1">Transferencia</option>
+                  <option value="2">Cheque</option>
+                </select>
+              </div>
+            </div>
+            <div class="row align-items-center border">
+              <div class="col-auto">
+                <label for="listaFormaPago" class="form-label">Banco <strong class="obligatorio">*</strong></label>
+                <select id="listaFormaPago" class="form-select">
+                  <option value="0">Santander</option>
+                  <option value="1">Transferencia</option>
+                  <option value="2">Cheque</option>
+                </select>
+              </div>
+              <div class="col-auto">
+                <label for="folioTransferencia" class="form-label">Folio Transferencia</label>
+                <input id="folioTransferencia" type="text" class="form-control" autocomplete="off" required>
               </div>
             </div>
           </section>
-        </div>
+        </div>-->
       </form>
     </div>
   </div>
 
   <footer th:insert="fragments/footer :: template-footer" class="bg-dark text-center mt-auto footer"></footer>
 
-  <script th:src="@{/jquery-3.6.0.min.js}"></script>
+  <script type="text/javascript">
+    $(function () {
+      $('#date').datepicker({
+        dateFormat: "yy-mm-dd"
+      });
+    });
+  </script>
+
+
   <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
 </body>
 
