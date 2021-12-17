@@ -41,9 +41,9 @@
 
     <div class="col-md-12 p-3">
       <form class="needs-validation">
-        <div class="row">
+        <div class="row g-5">
           <!--first: div para el folio del recibo-->
-          <div class="col-md-5">
+          <div class="col-md-7">
             <h4>Datos Requeridos</h4>
             <!--consultar recibo-->
             <div class="row pb-3">
@@ -61,8 +61,8 @@
               </div>
             </div>
             <!--section informacion requerida-->
-            <section class="">
-              <div class="row py-2">
+            <section>
+              <div class="row">
                 <div class="col-md-6">
                   <label for="listaFormaPago" class="form-label">Forma de pago <strong class="obligatorio">*</strong></label>
                   <select id="listaFormaPago" class="form-select">
@@ -77,7 +77,7 @@
                 </div>
               </div>
               <!--div opciones formas de pago-->
-              <div class="row py-2 border rounded" style="display: none;">
+              <div class="row py-2">
                 <div class="col-md-6">
                   <label for="listaFormaPago" class="form-label">Banco <strong class="obligatorio">*</strong></label>
                   <select id="listaFormaPago" class="form-select">
@@ -98,65 +98,32 @@
             </section>
           </div>
           <!--second: div informacion del recibo-->
-          <div class="col-md-7">
-            <section class="row pb-3 border rounded" style="background-color: #eceff1;">
+          <div class="col-md-5">
+            <div class="row border rounded py-2">
               <h4>Acerca del recibo</h4>
-                <div class="row">
-                  <div class="col-md-4 mt-2">
-                    <label for="clienteRFC" class="form-label">Cliente RFC</label>
-                    <input id="clienteRFC" type="text" class="form-control">
-                  </div>
-                  <div class="col-md-8 mt-2">
-                    <label for="clienteNombre" class="form-label">Nombre Cliente</label>
-                    <input id="clienteNombre" type="text" class="form-control">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-4 mt-2">
-                    <label for="importeHonorario" class="form-label">Importe</label>
-                    <input id="importeHonorario" type="text" class="form-control">
-                  </div>
-                  <div class="col-md-8 mt-2">
-                    <label for="" class="form-label">Concepto</label>
-                    <input id="" type="text" class="form-control">
-                  </div>
-                </div>
-            </section>
+              <div class="col-md-12">
+                <label for="clienteRFC" class="form-label">Cliente RFC :</label>
+                <input id="clienteRFC" type="text" class="form-control">
+              </div>
+              <div class="col-md-12 mt-2">
+                <label for="clienteNombre" class="form-label">Nombre Cliente :</label>
+                <input id="clienteNombre" type="text" class="form-control">
+              </div>
+              <div class="col-md-6 mt-2">
+                <label for="importeHonorario" class="form-label">Importe :</label>
+                <input id="importeHonorario" type="text" class="form-control">
+              </div>
+              <div class="col-md-6 mt-2">
+                <label for="fechaRecibo" class="form-label">Fecha :</label>
+                <input id="fechaRecibo" type="text" class="form-control">
+              </div>
+              <div class="col-md-12 mt-2">
+                <label for="concepto" class="form-label">Concepto :</label>
+                <input id="concepto" type="text" class="form-control">
+              </div>
+            </div>
           </div>
         </div>
-        <!--<div class="row mt-2">
-          <section class="mt-5">
-            <h4>Datos Requeridos</h4>
-            <div class="row py-2">
-              <div class="col-auto">
-                <label for="date" class="form-label">Fecha del pago <strong class="obligatorio">*</strong></label>
-                <input id="date" type="text" class="form-control" name="fecha" placeholder="Año-Mes-Dia" autocomplete="off" required>
-              </div>
-              <div class="col-auto">
-                <label for="listaFormaPago" class="form-label">Forma de pago <strong class="obligatorio">*</strong></label>
-                <select id="listaFormaPago" class="form-select">
-                  <option value="0">Efectivo</option>
-                  <option value="1">Transferencia</option>
-                  <option value="2">Cheque</option>
-                </select>
-              </div>
-            </div>
-            <div class="row align-items-center border">
-              <div class="col-auto">
-                <label for="listaFormaPago" class="form-label">Banco <strong class="obligatorio">*</strong></label>
-                <select id="listaFormaPago" class="form-select">
-                  <option value="0">Santander</option>
-                  <option value="1">Transferencia</option>
-                  <option value="2">Cheque</option>
-                </select>
-              </div>
-              <div class="col-auto">
-                <label for="folioTransferencia" class="form-label">Folio Transferencia</label>
-                <input id="folioTransferencia" type="text" class="form-control" autocomplete="off" required>
-              </div>
-            </div>
-          </section>
-        </div>-->
       </form>
     </div>
   </div>
