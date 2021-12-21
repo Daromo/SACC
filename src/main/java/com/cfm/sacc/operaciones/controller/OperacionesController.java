@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.cfm.sacc.clientes.model.Cliente;
 import com.cfm.sacc.clientes.service.IClienteService;
 import com.cfm.sacc.jreports.client.IJReportsGenerator;
-import com.cfm.sacc.operaciones.model.ReciboHonorario;
+import com.cfm.sacc.operaciones.model.ReciboHonorarioContabilidad;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -31,18 +31,18 @@ public class OperacionesController {
 	IJReportsGenerator jasperReportsGenerator;
 	
 	/*
-	 * RENDERIZA EL FORMULARIO PARA GENERAR EL RECIBO DE HONORARIO
+	 * RENDERIZA EL FORMULARIO PARA GENERAR EL RECIBO DE HONORARIO POR EL SERVCIO DE CONTABILIDAD
 	 */
 	@GetMapping("/recibo-honorario")
-	public String renderFormRecibo(ReciboHonorario reciboHonorario, Model model) {
+	public String renderFormRecibo(ReciboHonorarioContabilidad reciboHonorario, Model model) {
 		List<Cliente> lista = clientesService.getClientesActivos();
 		model.addAttribute("clientes", lista);
 		return "operaciones/formGenerarRecibo";
 	}
 	
 	@PostMapping(value = "/generar-recibo", params = "add")
-	public ResponseEntity<byte[]> guardar(ReciboHonorario reciboHonorario) throws FileNotFoundException, JRException {
-		List<ReciboHonorario> recibo = Arrays.asList(reciboHonorario);
+	public ResponseEntity<byte[]> guardar(ReciboHonorarioContabilidad reciboHonorario) throws FileNotFoundException, JRException {
+		List<ReciboHonorarioContabilidad> recibo = Arrays.asList(reciboHonorario);
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("title", "HONORARIOS");
 		
@@ -55,8 +55,8 @@ public class OperacionesController {
 	 * NO SE GUARDA EL REGISTRO EN DB
 	 */
 	@PostMapping(value = "/generar-recibo", params = "view")
-	public ResponseEntity<byte[]> vistaPrevia (ReciboHonorario reciboHonorario) throws FileNotFoundException, JRException {
-		List<ReciboHonorario> recibo = Arrays.asList(reciboHonorario);
+	public ResponseEntity<byte[]> vistaPrevia (ReciboHonorarioContabilidad reciboHonorario) throws FileNotFoundException, JRException {
+		List<ReciboHonorarioContabilidad> recibo = Arrays.asList(reciboHonorario);
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("title", "Vista previa - Documento sin validez");
 		

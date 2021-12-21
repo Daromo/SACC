@@ -31,39 +31,42 @@
       <p>Formulario para generar el recibo correspondientes al pago de honorarios de <strong>Corporativo Fiscal Magno</strong></p>
     </div>
   </div>
-  <div class="container col-md-10 col-sm-12">
+  <div class="container">
     <!--Settings-->
     <!--<div>
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
         ¡Ups! ha ocurrido un error para obtener el nombre de los clientes, vuelva a intentarlo más tarde.
       </div>
     </div>-->
-
-    <div class="col-md-12 p-3">
+    <main>
       <form class="needs-validation">
         <div class="row g-5">
           <!--first: div para el folio del recibo-->
-          <div class="col-md-7">
+          <div class="col-md-7 py-3 border rounded-3" style="background-color: #F8F8FF;">
             <h4>Datos Requeridos</h4>
             <!--consultar recibo-->
             <div class="row pb-3">
               <div class="row col-md-12">
-                <label for="" class="col-form-label">Folio del Recibo <strong class="obligatorio">*</strong></label>
+                <label for="folioRecibo" class="col-form-label">Folio del Recibo <strong class="obligatorio">*</strong></label>
               </div>
               <div class="col-auto">
                 <input type="text" id="folioRecibo" class="form-control" required>
               </div>
               <div class="col-auto">
-                <input type="submit" class="btn btn-success" value="Consultar" />
+                <input type="submit" class="btn btn-success" value="Validar" />
               </div>
               <div class="col-auto">
-                <span class="form-text">Ver detalle del recibo de honorarios en la sección “Acerca del recibo”</span>
+                <small class="form-text">Validar la informacion del recibo del honorario en la sección Acerca del recibo</small>
               </div>
             </div>
             <!--section informacion requerida-->
             <section>
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
+                  <label for="date" class="form-label">Fecha del pago <strong class="obligatorio">*</strong></label>
+                  <input id="date" type="text" class="form-control" name="fecha" placeholder="Año-Mes-Dia" autocomplete="off" required>
+                </div>
+                <div class="col-md-4">
                   <label for="listaFormaPago" class="form-label">Forma de pago <strong class="obligatorio">*</strong></label>
                   <select id="listaFormaPago" class="form-select">
                     <option value="0">Efectivo</option>
@@ -71,61 +74,81 @@
                     <option value="2">Cheque</option>
                   </select>
                 </div>
-                <div class="col-md-5">
-                  <label for="date" class="form-label">Fecha del pago <strong class="obligatorio">*</strong></label>
-                  <input id="date" type="text" class="form-control" name="fecha" placeholder="Año-Mes-Dia" autocomplete="off" required>
-                </div>
               </div>
               <!--div opciones formas de pago-->
               <div class="row py-2">
-                <div class="col-md-6">
+                <div class="col-md-4">
+                  <label for="folioTransferencia" class="form-label">Folio Transferencia <strong class="obligatorio">*</strong></label>
+                  <input id="folioTransferencia" type="text" class="form-control" autocomplete="off" required>
+                </div>
+                <div class="col-md-4">
+                  <label for="folioCheque" class="form-label">Folio Cheque <strong class="obligatorio">*</strong></label>
+                  <input id="folioCheque" type="text" class="form-control" autocomplete="off" required>
+                </div>
+                <div class="col-md-4">
                   <label for="listaFormaPago" class="form-label">Banco <strong class="obligatorio">*</strong></label>
                   <select id="listaFormaPago" class="form-select">
                     <option value="0">Santander</option>
                     <option value="1">Bancomer</option>
                     <option value="2">Banamex</option>
-                  </select>
-                </div>
-                <div class="col-md-5">
-                  <label for="folioTransferencia" class="form-label">Folio Transferencia <strong class="obligatorio">*</strong></label>
-                  <input id="folioTransferencia" type="text" class="form-control" autocomplete="off" required>
-                </div>
-                <div class="col-md-6 pt-3">
-                  <label for="folioCheque" class="form-label">Folio Cheque <strong class="obligatorio">*</strong></label>
-                  <input id="folioCheque" type="text" class="form-control" autocomplete="off" required>
+                  </select>                
                 </div>
               </div>
+              <hr>
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="listaConcepto" class="form-label">Concepto del honorario <strong class="obligatorio">*</strong></label>
+                  <select id="listaConcepto" class="form-select">
+                    <option value="0">Servicios Contables</option>
+                    <option value="1">Prestamo</option>
+                  </select> 
+                </div>
+                <div class="col-md-4">
+                  <label for="periodo" class="form-label">Periodo</label>
+                  <select id="periodo" class="form-select">
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                  </select>
+                </div>
+                <small class="form-text">El periodo corresponde al mes del cobro de los serivicios contables</small>
+              </div>
+              <hr>
+              <input type="submit" class="btn btn-primary" value="Guardar" name="view"/>
             </section>
           </div>
           <!--second: div informacion del recibo-->
-          <div class="col-md-5">
-            <div class="row border rounded py-2">
-              <h4>Acerca del recibo</h4>
-              <div class="col-md-12">
-                <label for="clienteRFC" class="form-label">Cliente RFC :</label>
+          <div class="col-md-5">            
+            <div class="row py-3 px-2 border rounded-3 shadow">
+              <h4 class="text-center pb-2 text-primary">Información acerca del recibo</h4>
+              <div class="col-md-4">
+                <label for="clienteRFC" class="form-label">Cliente RFC</label>
                 <input id="clienteRFC" type="text" class="form-control">
               </div>
-              <div class="col-md-12 mt-2">
-                <label for="clienteNombre" class="form-label">Nombre Cliente :</label>
-                <input id="clienteNombre" type="text" class="form-control">
+              <div class="col-md-4">
+                <label for="importeHonorario" class="form-label">Importe</label>
+                <div class="input-group">
+                  <input id="importeHonorario" type="text" class="form-control">
+                  <span class="input-group-text">$</span>
+                </div>
               </div>
-              <div class="col-md-6 mt-2">
-                <label for="importeHonorario" class="form-label">Importe :</label>
-                <input id="importeHonorario" type="text" class="form-control">
-              </div>
-              <div class="col-md-6 mt-2">
-                <label for="fechaRecibo" class="form-label">Fecha :</label>
+              <div class="col-md-4">
+                <label for="fechaRecibo" class="form-label">Fecha</label>
                 <input id="fechaRecibo" type="text" class="form-control">
               </div>
               <div class="col-md-12 mt-2">
-                <label for="concepto" class="form-label">Concepto :</label>
+                <label for="clienteNombre" class="form-label">Nombre Cliente</label>
+                <input id="clienteNombre" type="text" class="form-control">
+              </div>
+              <div class="col-md-12 mt-2">
+                <label for="concepto" class="form-label">Descripción</label>
                 <input id="concepto" type="text" class="form-control">
               </div>
+              <small class="form-text">Sección solo para visualización de información</small>
             </div>
           </div>
         </div>
       </form>
-    </div>
+    </main>
   </div>
 
   <footer th:insert="fragments/footer :: template-footer" class="bg-dark text-center mt-auto footer"></footer>

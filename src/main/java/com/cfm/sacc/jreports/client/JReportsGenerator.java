@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.cfm.sacc.operaciones.model.ReciboHonorario;
+import com.cfm.sacc.operaciones.model.ReciboHonorarioContabilidad;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -24,10 +24,10 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 public class JReportsGenerator implements IJReportsGenerator {
 
 	@Override
-	public ResponseEntity<byte[]> generarReciboHonorario(List<ReciboHonorario> listReciboHonorario,
+	public ResponseEntity<byte[]> generarReciboHonorario(List<ReciboHonorarioContabilidad> listReciboHonorario,
 			HashMap<String, Object> params) throws FileNotFoundException, JRException {
 		
-		JasperReport compileReport = JasperCompileManager.compileReport(new FileInputStream("src/main/resources/report_templates/recibo_honorario.jrxml"));
+		JasperReport compileReport = JasperCompileManager.compileReport(new FileInputStream("src/main/resources/report_templates/recibo_honorario_contabilidad.jrxml"));
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listReciboHonorario);
 		JasperPrint print = JasperFillManager.fillReport(compileReport, params, dataSource);
 		
