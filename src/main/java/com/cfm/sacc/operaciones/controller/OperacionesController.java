@@ -82,7 +82,9 @@ public class OperacionesController {
 	 * RENDERIZAR EL FORMULARIO PARA REGISTRAR EL PAGO DE HONORARIOS 
 	 */
 	@GetMapping("/registrar-pago-honorario")
-	public String renderFormRegistrarPago(Pago pago) {
+	public String renderFormRegistrarPago(Pago pago, Model model) {
+		List<Cliente> lista = clientesService.getClientesActivos();
+		model.addAttribute("clientes", lista);
 		return "operaciones/formRegistrarPago";
 	}
 	
@@ -96,13 +98,14 @@ public class OperacionesController {
 	}
 	
 	/*
-	 * 
+	 * PETICION PARA OBTENER LOS PERIODOS DE PAGO DE LOS CLIENTES
 	 */
 	@GetMapping("/periodos/{clienteRFC}")
-	public ResponseEntity<Object> getPeriodos(@PathVariable String clienteRFC){
+	public ResponseEntity<Object> getPeriodos(@PathVariable String clienteRFC, Model model){
 		List<Periodo> lista = operacionesService.getPeridosByCliente(clienteRFC);
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "getPeridos"+Parseador.objectToJson(uid, lista));
+		model.addAttribute("periodos", lista);
 		return new ResponseEntity<>(lista, HttpStatus.OK);
 	}
 	

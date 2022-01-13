@@ -17,7 +17,7 @@ public class Pago {
 	private Integer tipoHonorarioId;
 	private Integer tarifaId;
 	private String formaPagoId;
-	private String bancoEmisorId;
+	private String bancoEmisorId = "999";
 	private String folioCheque;
 	private Integer metodoPagoId;
 	private String folioComprobante;
