@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cfm.sacc.clientes.model.Cliente;
 import com.cfm.sacc.clientes.service.IClienteService;
@@ -92,9 +93,15 @@ public class OperacionesController {
 	 * GUARDAR REGISTROS DEL PAGO EN DB
 	 */
 	@PostMapping("/guardar")
-	public void addPago(Pago pago) {
+	public String addPago(Pago pago, RedirectAttributes redirectAttributes) {
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "addPago"+Parseador.objectToJson(uid, pago));
+		HttpStatus statusCode = operacionesService.addPago(pago);
+		if(statusCode == HttpStatus.OK) {
+			redirectAttributes.addFlashAttribute("settings", "Registro guardado con éxito.");
+			return "redirect:/operaciones/registrar-pago-honorario";
+		}
+		return null;
 	}
 	
 	/*

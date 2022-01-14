@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import com.cfm.sacc.operaciones.model.BancoEmisor;
 import com.cfm.sacc.operaciones.model.ConceptoPago;
 import com.cfm.sacc.operaciones.model.FormaPago;
 import com.cfm.sacc.operaciones.model.MetodoPago;
+import com.cfm.sacc.operaciones.model.Pago;
 import com.cfm.sacc.operaciones.model.Periodo;
 import com.cfm.sacc.operaciones.model.Tarifa;
 import com.cfm.sacc.operaciones.model.TipoHonorario;
@@ -55,6 +57,9 @@ public class OperacionesServices implements IOperacionesServices {
 	
 	@Value("${operaciones.periodos.cliente.url}")
 	String urlPeriodos;
+	
+	@Value("${operaciones.agregar.pago.url}")
+	String urlAddPago;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -167,5 +172,13 @@ public class OperacionesServices implements IOperacionesServices {
 			flagList = new ArrayList<>();
 		}
 		return flagList;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public HttpStatus addPago(Pago pago) {
+		ResponseEntity<JsonNode> response;
+		response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlAddPago, pago, HttpMethod.POST, APPLICATION_JSON);
+		return response.getStatusCode();
 	}
 }
