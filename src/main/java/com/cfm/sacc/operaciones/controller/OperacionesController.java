@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ import com.cfm.sacc.operaciones.service.IOperacionesServices;
 import com.cfm.sacc.util.GUIDGenerator;
 import com.cfm.sacc.util.LogHandler;
 import com.cfm.sacc.util.Parseador;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -43,7 +45,10 @@ public class OperacionesController {
 	@Autowired
 	IJReportsGenerator jasperReportsGenerator;
 	
-	/*
+	@Autowired
+	ModelMapper modelMapper;
+	
+	/**
 	 * RENDERIZA EL FORMULARIO PARA GENERAR EL RECIBO DE HONORARIO POR EL SERVCIO DE CONTABILIDAD
 	 */
 	@GetMapping("/recibo-honorario")
@@ -54,7 +59,7 @@ public class OperacionesController {
 		return "operaciones/formGenerarRecibo";
 	}
 	
-	/*
+	/**
 	 * GENERAR EL REVISO & ALMACENAR DATOS EN DB
 	 */
 	@PostMapping(value = "/generar-recibo", params = "add")
@@ -66,7 +71,7 @@ public class OperacionesController {
 		return jasperReportsGenerator.generarReciboHonorario(recibo, params);
 	}
 	
-	/*
+	/**
 	 * VISTA PREVIA DEL RECIBO DEL HONORARIO
 	 * NO SE GUARDA EL REGISTRO EN DB
 	 */
@@ -79,33 +84,63 @@ public class OperacionesController {
 		return jasperReportsGenerator.generarReciboHonorario(recibo, params);
 	}
 	
-	/*
+	/**
 	 * RENDERIZAR EL FORMULARIO PARA REGISTRAR EL PAGO DE HONORARIOS 
 	 */
 	@GetMapping("/registrar-pago-honorario")
 	public String renderFormRegistrarPago(Pago pago, Model model) {
-		List<Cliente> lista = clientesService.getClientesActivos();
-		model.addAttribute("clientes", lista);
+		model.addAttribute("clientes", clientesService.getClientesActivos());
 		return "operaciones/formRegistrarPago";
 	}
 	
-	/*
+	/**
 	 * GUARDAR REGISTROS DEL PAGO EN DB
 	 */
 	@PostMapping("/guardar")
-	public String addPago(Pago pago, RedirectAttributes redirectAttributes) {
+	public String addPago(Pago pago, RedirectAttributes redirectAttributes, Model model) throws JsonProcessingException {
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "addPago"+Parseador.objectToJson(uid, pago));
-		HttpStatus statusCode = operacionesService.addPago(pago);
-		if(statusCode == HttpStatus.OK) {
-			redirectAttributes.addFlashAttribute("settings", "Registro guardado con éxito.");
+		ResponseEntity<String> response = operacionesService.addPago(pago);
+		if(response.getStatusCode() == HttpStatus.OK) {
+			redirectAttributes.addFlashAttribute("success", "Registro guardado con éxito.");
 			return "redirect:/operaciones/registrar-pago-honorario";
+		}else {
+			model.addAttribute("clientes", clientesService.getClientesActivos());
+			model.addAttribute("error", response.getBody());
+			return "operaciones/formRegistrarPago";
 		}
-		return null;
 	}
 	
-	/*
-	 * PETICION PARA OBTENER LOS PERIODOS DE PAGO DE LOS CLIENTES
+	/**
+	 * GENERAR EL RECIBO & ALMACENAR DATOS EN DB
+	 */
+	@PostMapping(value = "/guardar", params = "add")
+	public ResponseEntity<byte[]> generarReciboHonorarios(Pago pago) throws FileNotFoundException, JRException {
+		ReciboHonorarioContabilidad reciboHonorario = modelMapper.map(pago, ReciboHonorarioContabilidad.class);
+		List<ReciboHonorarioContabilidad> recibo = Arrays.asList(reciboHonorario);
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("title", "HONORARIOS");
+		
+		return jasperReportsGenerator.generarReciboHonorario(recibo, params);
+	}
+	
+	/**
+	 * VISTA PREVIA DEL RECIBO DEL HONORARIO
+	 * NO SE GUARDA EL REGISTRO EN DB
+	 */
+	@PostMapping(value = "/guardar", params = "view")
+	public ResponseEntity<byte[]> vistaPreviaReciboHonorarios(Pago pago) throws FileNotFoundException, JRException {
+		ReciboHonorarioContabilidad reciboHonorario = modelMapper.map(pago, ReciboHonorarioContabilidad.class);
+		List<ReciboHonorarioContabilidad> recibo = Arrays.asList(reciboHonorario);
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("title", "Vista previa - Documento sin validez");
+		
+		return jasperReportsGenerator.generarReciboHonorario(recibo, params);
+	}
+	
+	
+	/**
+	 * EndPoint PARA OBTENER LOS PERIODOS DE PAGO DE LOS CLIENTES
 	 */
 	@GetMapping("/periodos/{clienteRFC}")
 	public ResponseEntity<Object> getPeriodos(@PathVariable String clienteRFC, Model model){
@@ -116,7 +151,7 @@ public class OperacionesController {
 		return new ResponseEntity<>(lista, HttpStatus.OK);
 	}
 	
-	/*
+	/**
 	 * CATALOGOS OPERACIONES
 	 */
 	@ModelAttribute

@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class BancoEmisor {
-	private Integer id;
+	private String id;
 	private String nombre;
 	private String numeroCuenta;
 	private Date fechaRegistro;

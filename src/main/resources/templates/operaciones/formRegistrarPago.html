@@ -28,132 +28,143 @@
   <div class="jumbotron">
     <div class="container">
       <h3>Registrar Pago</h3>
-      <p>Formulario para generar el recibo correspondientes al pago de honorarios de <strong>Corporativo Fiscal Magno</strong></p>
+      <p>Formulario para registrar el pago de honorarios de <strong>Corporativo Fiscal Magno</strong></p>
     </div>
   </div>
   <div class="container">
-    <!--Settings-->
+    <!--mensajes-->
     <div>
       <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${clientes.empty}">
         ¡Ups! ha ocurrido un error para obtener el nombre de los clientes, vuelva a intentarlo más tarde.
       </div>
-      <div class="alert alert-primary alert-dismissible fade show" role="alert" th:if="${settings}">
-        <strong th:text="${settings}"></strong>
+      <div class="alert alert-primary alert-dismissible fade show" role="alert" th:if="${success}">
+        <strong th:text="${success}"></strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error}">
+        <strong th:text="${error}"></strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     </div>
     <main>
-      <div class="container" style="max-width: 1200px;">
-      <form th:object="${pago}" th:action="@{/operaciones/guardar}" th:method="post">
-        <div class="row">
-          <div class="col-md-12">
-            <!--Cliente Informacion-->
-            <div class="row py-2">
-              <h5>Datos del cliente</h5>
-              <div class="col-md-3">
-                <label for="clienteRFC" class="form-label">Cliente RFC <strong class="obligatorio">*</strong></label>
-                <input type="text" id="inputClienteRFC" class="form-control" th:field="*{clienteRFC}" data-bs-toggle="modal" data-bs-target="#clientesModal" required>
-              </div>
-              <div class="col-md-5">
-                <label for="nombre" class="form-label">Nombre Cliente</label>
-                <input id="nombre" type="text" class="form-control" disabled placeholder="nombre cliente">
-              </div>
-            </div>
-            <hr>
-            <!--Pago Informacion-->
-            <section>
-              <div class="row py-2">
-                <div class="col-md-3">
-                  <label for="selectConceptosPago" class="form-label">Concepto de pago <strong class="obligatorio">*</strong></label>
-                  <select id="selectConceptosPago" class="form-select" th:field="*{conceptoPagoId}" th:required="true">
-                    <option value="">-Seleccionar-</option>
-                    <option th:each="conceptoPago: ${listaConceptosPago}" 
-                      th:text="${conceptoPago.nombre}" 
-                      th:value="${conceptoPago.id}"></option>
-                  </select>
-                </div>
-                <div class="col-md-3">
-                  <label for="selectTarifas" class="form-label">Tarifa <strong class="obligatorio">*</strong></label>
-                  <select id="selectTarifas" class="form-select" th:field="*{tarifaId}" th:required="true">
-                    <option value="">-Seleccionar-</option>
-                    <option th:each="tarifa : ${listaTarifas}"
-                      th:text="${tarifa.nombre}"
-                      th:value="${tarifa.id}"></option>
-                  </select>
-                </div>
-                <div class="col-md-2">
-                  <label for="selectMetodosPago" class="form-label">Metodo de pago <strong class="obligatorio">*</strong></label>
-                  <select id="selectMetodosPago" class="form-select" th:field="*{metodoPagoId}" th:required="true">
-                    <option value="">-Seleccionar-</option>
-                    <option th:each="metodoPago : ${listaMetodosPago}"  
-                      th:text="${metodoPago.nombre}"
-                      th:value="${metodoPago.id}"></option>
-                  </select>
-                </div>
-                <!--div periodo-->
-                <div class="col-md-2">
-                  <label for="inputPeriodo" class="form-label">ID Periodo <strong class="obligatorio">*</strong></label>
-                  <input id="inputPeriodo" type="text" class="form-control" th:field="*{periodoId}"/>
-                </div>
-
-                <div class="col-md-2">
-                  <label for="selectFomasPago" class="form-label">Forma de pago <strong class="obligatorio">*</strong></label>
-                  <select id="selectFomasPago" class="form-select" th:field="*{formaPagoId}" th:required="true">
-                    <option value="">-Seleccionar-</option>
-                    <option th:each="formaPago : ${listaFormaPago}"
-                      th:text="${formaPago.nombre}"
-                      th:value="${formaPago.id}"></option>
-                  </select>
-                </div>
-                <!--div dinamico-->
-                <div class="row pt-3" id="divBancos" style="display: none;">
+      <div class="container" style="max-width: 1100px;">
+        <form th:object="${pago}" th:action="@{/operaciones/guardar}" th:method="post">
+          <div class="row">
+            <div class="col-md-12">
+              <!--section informacion cliente-->
+              <section class="border p-3">
+                <div class="row">
+                  <h4>Acerca del cliente</h4>
                   <div class="col-md-3">
-                    <label for="selectBancos" class="form-label">Banco Emisor <strong class="obligatorio">*</strong></label>
-                    <select id="selectBancos" class="form-select" th:field="*{bancoEmisorId}">
+                    <label for="clienteRFC" class="form-label">Cliente RFC <strong class="obligatorio">*</strong></label>
+                    <input type="text" id="inputClienteRFC" class="form-control" th:field="*{clienteRFC}" data-bs-toggle="modal" 
+                      data-bs-target="#clientesModal" required>
+                  </div>
+                  <div class="col-md-5">
+                    <label for="nombre" class="form-label">Nombre Cliente</label>
+                    <input id="nombre" type="text" class="form-control" placeholder="nombre cliente" disabled style="background: #eceff1;">
+                    <small class="text-form text-muted">Campo solo para visualización del nombre del cliente</small>
+                  </div>
+                </div>
+              </section>
+              <hr>
+              <!--section informacion pago-->
+              <section class="border p-3">
+                <div class="row">
+                  <h4>Acerca del pago</h4>
+                  <div class="col-md-3">
+                    <label for="inputPeriodo" class="form-label">Periodo ID <strong class="obligatorio">*</strong></label>
+                    <input id="inputPeriodo" type="text" class="form-control" th:field="*{periodoId}" />
+                  </div>
+                  <div class="col-md-3">
+                    <label for="selectConceptosPago" class="form-label">Concepto de pago <strong
+                        class="obligatorio">*</strong></label>
+                    <select id="selectConceptosPago" class="form-select" th:field="*{conceptoPagoId}"
+                      th:required="true">
                       <option value="">-Seleccionar-</option>
-                      <option th:each="bancoEmisor : ${listaBancos}" 
-                        th:text="${bancoEmisor.nombre}"
-                        th:value="${bancoEmisor.id}"></option>
+                      <option th:each="conceptoPago: ${listaConceptosPago}" th:text="${conceptoPago.nombre}"
+                        th:value="${conceptoPago.id}"></option>
                     </select>
                   </div>
                   <div class="col-md-3">
+                    <label for="selectTarifas" class="form-label">Tarifa <strong class="obligatorio">*</strong></label>
+                    <select id="selectTarifas" class="form-select" th:field="*{tarifaId}" th:required="true">
+                      <option value="">-Seleccionar-</option>
+                      <option th:each="tarifa : ${listaTarifas}" th:text="${tarifa.nombre}" th:value="${tarifa.id}">
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row pt-3">
+                  <div class="col-md-3">
+                    <label for="selectMetodosPago" class="form-label">Metodo de pago <strong
+                        class="obligatorio">*</strong></label>
+                    <select id="selectMetodosPago" class="form-select" th:field="*{metodoPagoId}" th:required="true">
+                      <option value="">-Seleccionar-</option>
+                      <option th:each="metodoPago : ${listaMetodosPago}" th:text="${metodoPago.nombre}"
+                        th:value="${metodoPago.id}"></option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="selectFomasPago" class="form-label">Forma de pago <strong
+                        class="obligatorio">*</strong></label>
+                    <select id="selectFomasPago" class="form-select" th:field="*{formaPagoId}" th:required="true">
+                      <option value="">-Seleccionar-</option>
+                      <option th:each="formaPago : ${listaFormaPago}" th:text="${formaPago.nombre}"
+                        th:value="${formaPago.id}"></option>
+                    </select>
+                  </div>
+                  <div class="col-md-3" id="divFolioCheque">
                     <label for="" class="form-label">Folio cheque</label>
-                    <input type="text" class="form-control" th:field="*{folioCheque}" autocomplete="off">
+                    <input id="inputFolioCheque" type="text" class="form-control" th:field="*{folioCheque}" autocomplete="off">
+                  </div>
+                  <div class="col-md-3" id="divListBancos">
+                    <label for="selectBancos" class="form-label">Banco Emisor <strong
+                        class="obligatorio">*</strong></label>
+                    <select id="selectBancos" class="form-select" th:field="*{bancoEmisorId}">
+                      <option value="">-Seleccionar-</option>
+                      <option th:each="bancoEmisor : ${listaBancos}" th:text="${bancoEmisor.nombre}"
+                        th:value="${bancoEmisor.id}">
+                      </option>
+                    </select>
                   </div>
                 </div>
-              </div>
-            </section>
-            <hr>
-            <section>
-              <div class="row py-2">
-                <div class="col-md-3">
-                  <label for="selectTipoHonorarios" class="form-label">Tipo Honorario <strong class="obligatorio">*</strong></label>
-                  <select id="selectTipoHonorarios" class="form-select" th:field="*{tipoHonorarioId}" th:required="true">
-                    <option value="">-Seleccionar-</option>
-                    <option th:each="tipoHonorario : ${listaTiposHonorario}" 
-                      th:text="${tipoHonorario.nombre}"
-                      th:value="${tipoHonorario.id}"></option>
-                  </select>
-                </div>
-                <div class="col-md-3">
-                  <label for="" class="form-label">Folio comprobante</label>
-                  <input type="text" class="form-control" th:field="*{folioComprobante}" autocomplete="off">
-                </div>
-                <div class="col-md-6" id="divReciboHonorariosButtons" style="display: none;">
-                  <label class="form-label">Recibo de Honorarios</label>
-                  <div class="d-flex justify-content-center">
-                    <input type="submit" class="btn btn-outline-success px-2 form-control" value="Generar recibo" name="add"/>
-                    <input type="submit" class="btn btn-outline-primary form-control" value="Vista previa" name="view"/> 
+                <hr class="my-3">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label for="selectTipoHonorarios" class="form-label">Tipo Honorario <strong
+                        class="obligatorio">*</strong></label>
+                    <select id="selectTipoHonorarios" class="form-select" th:field="*{tipoHonorarioId}"
+                      th:required="true">
+                      <option value="">-Seleccionar-</option>
+                      <option th:each="tipoHonorario : ${listaTiposHonorario}" th:text="${tipoHonorario.nombre}"
+                        th:value="${tipoHonorario.id}"></option>
+                    </select>
                   </div>
-                  <small class="form-text">Opciones para generar el recibo de honorarios en formato PDF</small>
+                  <div class="col-md-3">
+                    <label for="inputFolioComprobante" class="form-label">Folio comprobante</label>
+                    <input type="text" id="inputFolioComprobante" class="form-control" th:field="*{folioComprobante}"
+                      autocomplete="off" placeholder="Folio recibo / Folio Factura">
+                  </div>
+                  <div class="col-md-6" id="divReciboHonorariosButtons" style="display: none;">
+                    <label class="form-label">Recibo de Honorarios</label>
+                    <div class="d-grid gap-2 d-md-block">
+                      <input type="submit" class="btn btn-outline-success px-2" value="Generar recibo" name="add" />
+                      <input type="submit" class="btn btn-outline-primary" value="Vista previa" name="view" />
+                    </div>
+                    <small class="form-text">Opciones para generar el recibo en formato PDF</small>
+                  </div>
                 </div>
+              </section>
+        
+              <div class="d-grid gap-2 d-md-block mt-3">
+                <input type="submit" class="btn btn-primary" value="Guardar" />
+                <input type="submit" class="btn btn-warning" value="Cancelar" />
               </div>
-              <input type="submit" class="btn btn-primary mt-2" value="Guardar"/>
-            </section>
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
     </main>
   </div>
 
@@ -187,10 +198,12 @@
         <!--CONTENEDOR-->
         <div class="modal-body" id="items_clientes">
           <!--DIV PARA MOSTRAR LOS DATOS DE LOS CLIENTES-->
-          <div class="border border-secondary rounded mb-2 card-body bg-light"  th:each="clienteTemp : ${clientes}" th:id="${clienteTemp.rfc}">
-              <h5 th:if="${clienteTemp.regimenFiscal.id != 601}" class="card-title">[[${clienteTemp.apPaternoCliente}+' '+${clienteTemp.apMaternoCliente}+' '+${clienteTemp.nombreCliente}]]</h5>
-              <h5 th:unless="${clienteTemp.regimenFiscal.id != 601}" class="card-title">[[${clienteTemp.razonSocial}]]</h5>
-              <p class="card-text" th:text="${clienteTemp.rfc}">cliente_rfc</p>
+          <div class="border border-secondary rounded-2 my-2 card-body bg-light" th:each="clienteTemp : ${clientes}"
+            th:id="${clienteTemp.rfc}">
+            <h5 th:if="${clienteTemp.regimenFiscal.id != 601}" class="card-title">[[${clienteTemp.apPaternoCliente}+' '+${clienteTemp.apMaternoCliente}+' '+${clienteTemp.nombreCliente}]]</h5>
+            <h5 th:unless="${clienteTemp.regimenFiscal.id != 601}" class="card-title">[[${clienteTemp.razonSocial}]]
+            </h5>
+            <p class="card-text" th:text="${clienteTemp.rfc}">cliente_rfc</p>
           </div>
         </div>
         <div class="modal-footer">
@@ -206,4 +219,5 @@
   <script th:src="@{/js/disable_inputs.js}"></script>
   <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
 </body>
+
 </html>

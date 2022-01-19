@@ -2,7 +2,7 @@ package com.cfm.sacc.operaciones.service;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.cfm.sacc.operaciones.model.BancoEmisor;
 import com.cfm.sacc.operaciones.model.ConceptoPago;
@@ -12,6 +12,7 @@ import com.cfm.sacc.operaciones.model.Pago;
 import com.cfm.sacc.operaciones.model.Periodo;
 import com.cfm.sacc.operaciones.model.Tarifa;
 import com.cfm.sacc.operaciones.model.TipoHonorario;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface IOperacionesServices {
 	List<ConceptoPago> getConceptosPago();
@@ -22,5 +23,5 @@ public interface IOperacionesServices {
 	List<MetodoPago> getMetodosPago();
 	
 	List<Periodo> getPeridosByCliente(String clienteRFC);
-	HttpStatus addPago(Pago pago);
+	ResponseEntity<String> addPago(Pago pago) throws JsonProcessingException;
 }

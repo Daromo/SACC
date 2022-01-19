@@ -174,11 +174,18 @@ public class OperacionesServices implements IOperacionesServices {
 		return flagList;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public HttpStatus addPago(Pago pago) {
-		ResponseEntity<JsonNode> response;
-		response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlAddPago, pago, HttpMethod.POST, APPLICATION_JSON);
-		return response.getStatusCode();
+	public ResponseEntity<String> addPago(Pago pago) throws JsonProcessingException{
+		try {
+			clientWsService.consumeService(urlAddPago, pago, HttpMethod.POST, APPLICATION_JSON);
+		}catch (Exception e) {
+			String messageException = e.getMessage();
+			int index = messageException.indexOf(':');
+			messageException = messageException.substring(index+1, messageException.length());
+			JsonNode json = objectMapper.readTree(messageException);
+			String detalleException = json.findPath("detalle").asText();
+			return new ResponseEntity<>(detalleException, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 }

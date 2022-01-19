@@ -31,10 +31,19 @@ function disableInputsClientesForm () {
 
 function disableInputsPagosForm () {
   $('#selectFomasPago').change(function () {
-    if ($(this).val() !== '01') {
-      $('#divBancos').show()
-    } else {
-      $('#divBancos').hide()
+    if ($(this).val() === '03') {
+      $('#divListBancos').show()
+      $('#divFolioCheque').hide(1000)
+      $('#inputFolioCheque').val('')
+    } else if ($(this).val() === '02'){
+      $('#divFolioCheque').show()
+      $('#divListBancos').hide(1000)
+      $('#selectBancos').val('999')
+    }else{
+      $('#divListBancos').hide(1000)
+      $('#divFolioCheque').hide(1000)
+      $('#selectBancos').val('999')
+      $('#inputFolioCheque').val('')
     }
   })
 }
@@ -44,7 +53,7 @@ function showDivReciboHonorarios () {
     if ($(this).val() === '1') {
       $('#divReciboHonorariosButtons').show()
     }else{
-      $('#divReciboHonorariosButtons').hide()
+      $('#divReciboHonorariosButtons').hide(1000)
     }
   })
 }
