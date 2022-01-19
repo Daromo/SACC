@@ -69,7 +69,7 @@ public class OperacionesServices implements IOperacionesServices {
 			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlConceptosPago, null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<ConceptoPago>>(){});
-		} catch (JsonProcessingException e) {
+		} catch (Exception e) {
 			String uid = GUIDGenerator.generateGUID();
 			LogHandler.error(uid, getClass(), uid, e);
 			flagList = new ArrayList<>();
@@ -85,7 +85,7 @@ public class OperacionesServices implements IOperacionesServices {
 			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlTiposHonorarios, null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<TipoHonorario>>(){});
-		} catch (JsonProcessingException e) {
+		} catch (Exception e) {
 			String uid = GUIDGenerator.generateGUID();
 			LogHandler.error(uid, getClass(), uid, e);
 			flagList = new ArrayList<>();
@@ -101,7 +101,7 @@ public class OperacionesServices implements IOperacionesServices {
 			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlTarifas, null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<Tarifa>>(){});
-		} catch (JsonProcessingException e) {
+		} catch (Exception e) {
 			String uid = GUIDGenerator.generateGUID();
 			LogHandler.error(uid, getClass(), uid, e);
 			flagList = new ArrayList<>();
@@ -117,7 +117,7 @@ public class OperacionesServices implements IOperacionesServices {
 			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlFormasPago, null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<FormaPago>>(){});
-		} catch (JsonProcessingException e) {
+		} catch (Exception e) {
 			String uid = GUIDGenerator.generateGUID();
 			LogHandler.error(uid, getClass(), uid, e);
 			flagList = new ArrayList<>();
@@ -133,7 +133,7 @@ public class OperacionesServices implements IOperacionesServices {
 			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlBancosEmisor, null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<BancoEmisor>>(){});
-		} catch (JsonProcessingException e) {
+		} catch (Exception e) {
 			String uid = GUIDGenerator.generateGUID();
 			LogHandler.error(uid, getClass(), uid, e);
 			flagList = new ArrayList<>();
@@ -149,7 +149,7 @@ public class OperacionesServices implements IOperacionesServices {
 			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlMetodosPago, null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<MetodoPago>>(){});
-		} catch (JsonProcessingException e) {
+		} catch (Exception e) {
 			String uid = GUIDGenerator.generateGUID();
 			LogHandler.error(uid, getClass(), uid, e);
 			flagList = new ArrayList<>();
@@ -166,7 +166,7 @@ public class OperacionesServices implements IOperacionesServices {
 			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(url, null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<Periodo>>(){});
-		} catch (JsonProcessingException e) {
+		} catch (Exception e) {
 			String uid = GUIDGenerator.generateGUID();
 			LogHandler.error(uid, getClass(), uid, e);
 			flagList = new ArrayList<>();

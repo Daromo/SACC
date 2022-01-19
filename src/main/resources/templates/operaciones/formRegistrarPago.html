@@ -34,8 +34,9 @@
   <div class="container">
     <!--mensajes-->
     <div>
-      <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${clientes.empty}">
-        ¡Ups! ha ocurrido un error para obtener el nombre de los clientes, vuelva a intentarlo más tarde.
+      <div class="alert alert-warning alert-dismissible fade show" role="alert" 
+      th:if="${clientes.empty or listaConceptosPago.empty}">
+        ¡Ups! ha ocurrido un error para obtener algunos recursos del sitio, vuelva a intentarlo más tarde.
       </div>
       <div class="alert alert-primary alert-dismissible fade show" role="alert" th:if="${success}">
         <strong th:text="${success}"></strong>
