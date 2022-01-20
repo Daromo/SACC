@@ -27,22 +27,35 @@ $(function () {
     var clienteRFC = $('#inputClienteRFC').val().replace(/ /g, '')
     if (clienteRFC != '') {
       clearModalPeriodos()
-      var uri = 'http://localhost:8090/operaciones/periodos/' + clienteRFC
-      var periodo
-
+      var uri = 'http://localhost:8090/operaciones/periodos/' + clienteRFC;
+      var periodo;
+      var detalle_status_pago;
+      var class_status_pago;
       $.getJSON(uri, function (result) {
         if (result.length > 0) {
           $.each(result, function (key, value) {
-            console.log(typeof result)
             periodo = monthNames[value.mes - 1] + ' ' + value.ejercicio
-            var contenedor =
-              '<div id="' +
-              value.id +
-              '" class="border border-secondary rounded mb-2 card-body bg-light">' +
-              '<h5 class="card-title">' +
-              periodo +
-              '<h5>' +
-              '</div>'
+            //validar el status del pago & asignar la clase del badge
+            if(value.statusPago === 'A'){
+              detalle_status_pago = 'Activo'
+              class_status_pago = 'class="badge bg-info"'
+            }else{
+              detalle_status_pago = 'Vencido'
+              class_status_pago = 'class="badge bg-danger"'
+            }
+            var contenedor = 
+            '<div id="' + value.id + '" class="border border-secondary rounded mb-2 card-body bg-light">' +
+                '<div class="media d-flex">'+
+                  '<div class="align-self-center">'+
+                    '<h4 class="card-title">' + periodo + '</h4>' +
+                  '</div>'+
+                  '<div class="media-body text-right">'+
+                    '<span '+class_status_pago+'>'+detalle_status_pago+'</span></hr>' +
+                    '<h6 class="mt-1">Fecha corte: '+ value.fechaCorte+'</h6>'+
+                  '</div>'+
+                '</div>'
+            '</div>'
+            
             $('#items_periodos').append(contenedor)
           })
         } else {
@@ -57,10 +70,11 @@ $(function () {
         document.getElementById('modalPeriodos'),
         {}
       )
+
       myModal.show()
       listenerClicModalPeriodos()
     } else {
-      console.log('RFC vacio')
+      alert("RFC Vacio");
     }
   })
 })
