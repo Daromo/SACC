@@ -19,6 +19,8 @@
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 
+  <!--CDN BOOTSTRAP ICONS-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -32,28 +34,37 @@
     </div>
   </div>
   <div class="container">
-    <!--mensajes-->
-    <div>
-      <div class="alert alert-warning alert-dismissible fade show" role="alert" 
-      th:if="${clientes.empty or listaConceptosPago.empty}">
-        ¡Ups! ha ocurrido un error para obtener algunos recursos del sitio, vuelva a intentarlo más tarde.
-      </div>
-      <div class="alert alert-primary alert-dismissible fade show" role="alert" th:if="${success}">
-        <strong th:text="${success}"></strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error}">
-        <strong th:text="${error}"></strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    </div>
     <main>
       <div class="container" style="max-width: 1100px;">
+        <!--section mensajes-->
+        <section>
+          <div class="alert alert-warning alert-dismissible fade show" role="alert" 
+          th:if="${clientes.empty or listaConceptosPago.empty}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+              <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+            ¡Ups! ha ocurrido un error para obtener algunos recursos del sitio, vuelva a intentarlo más tarde.
+          </div>
+          <div class="alert alert-primary alert-dismissible fade show" role="alert" th:if="${success}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+            </svg>
+            <strong th:text="${success}"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+            </svg>
+            <strong th:text="${error}"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        </section>
         <form th:object="${pago}" th:action="@{/operaciones/guardar}" th:method="post">
           <div class="row">
-            <div class="col-md-12">
+            <div class="border rounded shadow">
               <!--section informacion cliente-->
-              <section class="border p-3">
+              <section class="p-3">
                 <div class="row">
                   <h4>Acerca del cliente</h4>
                   <div class="col-md-3">
@@ -68,9 +79,9 @@
                   </div>
                 </div>
               </section>
-              <hr>
+              <hr class="my-2">
               <!--section informacion pago-->
-              <section class="border p-3">
+              <section class="p-3">
                 <div class="row">
                   <h4>Acerca del pago</h4>
                   <div class="col-md-3">
@@ -157,11 +168,10 @@
                   </div>
                 </div>
               </section>
-        
-              <div class="d-grid gap-2 d-md-block mt-3">
-                <input type="submit" class="btn btn-primary" value="Guardar" />
-                <input type="submit" class="btn btn-warning" value="Cancelar" />
-              </div>
+            </div>
+            <div class="d-grid gap-2 d-md-block mt-3">
+              <input type="submit" class="btn btn-primary" value="Guardar" />
+              <input type="submit" class="btn btn-warning" value="Cancelar" />
             </div>
           </div>
         </form>
