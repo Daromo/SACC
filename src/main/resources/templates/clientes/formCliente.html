@@ -22,6 +22,13 @@
   <header th:insert="fragments/menu :: menu-principal" 
   	class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
   </header>
+
+  <div class="jumbotron">
+    <div class="container">
+      <h3>Nuevo Cliente</h3>
+      <p>Formulario para registrar nuevo cliente en el sistema <strong>SACC</strong></p>
+    </div>
+  </div>
   
   <div class="container col-md-8">
     <div class="card border-0">
@@ -33,11 +40,17 @@
           ¡Ups! ha ocurrido un error para obtener el nombre de los regímenes fiscales, vuelva a intentarlo más tarde.
         </div>
       </div>
-      <h4 class="card-header border-info"><strong th:text="${titulo}"></strong></h4>
       <div class="card-body">
         <form class="needs-validation" th:object="${cliente}" th:action="@{/clientes/guardar}" th:method="post">
+          <!--errores data binding-->
+          <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+            Por favor corrija los siguientes errores:
+            <ul>
+              <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
+            </ul>
+          </div>
           <!-- SECTION GENERALES -->
-          <section class="row pb-3 border">
+          <section class="row pb-3 border rounded">
             <div class="card-header"><strong>Generales</strong></div>
             <div class="col-md-5 mt-2">
               <div class="form-group">
@@ -48,9 +61,10 @@
             </div>
             <div class="col-md-7 mt-2">
               <label for="regimenFiscal" class="form-label">Régimen Fiscal <strong
-                  class="obligatorio">*</strong></label>
-              <select class="form-select" id="regimenFiscalId" name="regimenFiscalId" required>
-                <option disabled selected th:if="${titulo != 'Modificar Cliente'}">Seleccionar régimen fiscal</option>
+              class="obligatorio">*</strong></label>
+              <select class="form-select" id="regimenFiscalId" name="regimenFiscalId" th:required="true">
+                <!--<option disabled selected th:if="${titulo != 'Modificar Cliente'}">Seleccionar régimen fiscal</option>-->
+                <option value="">-Seleccionar-</option>
                 <option th:if="${titulo != 'Nuevo Cliente'}" th:each="regimenTemp: ${listaRegimen}"
                   th:text="${regimenTemp.nombre}" th:selected="${regimenTemp.id == cliente.regimenFiscal.id}"
                   th:value="${regimenTemp.id}"></option>

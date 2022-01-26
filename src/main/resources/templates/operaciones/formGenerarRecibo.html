@@ -57,6 +57,13 @@
         </section>
         <!--Div formulario-->
         <form th:object="${reciboHonorario}" th:action="@{/operaciones/recibo-honorario}" th:method="post">
+          <!--errores data binding-->
+          <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
+          Por favor corrija los siguientes errores:
+            <ul>
+              <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
+            </ul>
+          </div>
           <div class="row">
             <div class="border rounded shadow py-4">
               <section class="px-3">

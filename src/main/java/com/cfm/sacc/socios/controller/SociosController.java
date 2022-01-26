@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -57,7 +59,14 @@ public class SociosController {
 	 * METODO PARA AGREGAR EL PORCENTAJE A LA TABLA DE DETALLES
 	 */
 	@GetMapping("/porcentaje/agregar/detalle")
-	public String agregarDetallePorcentaje(Porcentaje porcentaje, Model model, RedirectAttributes redirectAtrAttributes) {
+	public String agregarDetallePorcentaje(Porcentaje porcentaje, BindingResult bindingResult,
+			Model model, RedirectAttributes redirectAtrAttributes) {
+		
+		// Validacion del Data Binding de los datos de entrada con la clase de modelo 
+		if (bindingResult.hasErrors()) {
+			return PATH_FORM_PORCENTAJES;
+		}
+		
 		for(Porcentaje item : detallesPorcentajes) {
 			if (porcentaje.getSocioRFC().equals(item.getSocioRFC())) {
 				redirectAtrAttributes.addFlashAttribute("settings", "¡El cliente ya existe!");
@@ -81,20 +90,20 @@ public class SociosController {
 	/*
 	 * CANCELAR LOS DATOS DEL FORMULARIO
 	 */
-	@GetMapping("/porcentaje/cancelar")
+	@PostMapping(value = "/porcentaje/guardar", params = "cancelar")
 	public String cancelarPorcentajes(Porcentaje porcentaje) {
 		detallesPorcentajes.clear();
 		return PATH_FORM_PORCENTAJES;
 	}
 	
 	/*
-	 * GUARDAR LA LISTA DE PORCENTAJES EN EL SERVICIO
+	 * Metodo para guardar la lista de porcentajes en la base de datos
 	 */
-	@GetMapping("/porcentaje/guardar")
+	@PostMapping(value = "/porcentaje/guardar", params = "add")
 	public String agregarPorcentaje(RedirectAttributes redirectAttributes) throws JsonProcessingException{
 		Optional<Integer> suma = detallesPorcentajes.stream().map(Porcentaje::getCantidadPorcentaje).reduce((a,b) -> a+b);
 		if(!(suma.isPresent() && suma.get()==100)) {
-			redirectAttributes.addFlashAttribute("settings", "Verifique los porcantajes, la suma debe ser igual a 100.");
+			redirectAttributes.addFlashAttribute("settings", "Verifique los porcentajes, la suma debe ser igual a 100.");
 			return "redirect:/socios/porcentajes/form";
 		}
 		if (socioService.addPorcentaje(detallesPorcentajes) == HttpStatus.OK) {

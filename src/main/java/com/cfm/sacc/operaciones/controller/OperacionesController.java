@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,7 +61,13 @@ public class OperacionesController {
 	 * @param reciboHonorario, redirectAttributes, model
 	 */
 	@PostMapping(value = "/recibo-honorario", params = "add")
-	public String addReciboHonorario(ReciboHonorario reciboHonorario, RedirectAttributes redirectAttributes, Model model) throws JRException, IOException {
+	public String addReciboHonorario(ReciboHonorario reciboHonorario, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, Model model) throws JRException, IOException {
+		
+		// Validacion del Data Binding de los datos de entrada con la clase de modelo 
+		if (bindingResult.hasErrors()) {
+			return "operaciones/formGenerarRecibo";
+		}
 		
 		Integer idReciboHonorario;
 		String fileName;
@@ -129,7 +136,14 @@ public class OperacionesController {
 	 * @param Pago
 	 */
 	@PostMapping("/guardar")
-	public String addPago(Pago pago, RedirectAttributes redirectAttributes, Model model) throws JsonProcessingException {
+	public String addPago(Pago pago, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+			Model model) throws JsonProcessingException {
+		
+		// Validacion del Data Binding de los datos de entrada con la clase de modelo 
+		if (bindingResult.hasErrors()) {
+			return "operaciones/formRegistrarPago";
+		}
+		
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "addPago"+Parseador.objectToJson(uid, pago));
 		ResponseEntity<String> response = serviceOperaciones.addPago(pago);

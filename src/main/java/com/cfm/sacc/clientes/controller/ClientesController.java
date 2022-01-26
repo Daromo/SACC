@@ -10,6 +10,7 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -112,7 +113,13 @@ public class ClientesController {
 	
 	// GUARDAR LOS DATOS DEL DATOS DEL FORMULARIO
 	@PostMapping("/guardar")
-	public String addCliente(Cliente cliente, RedirectAttributes redirectAttributes) {
+	public String addCliente(Cliente cliente, BindingResult bindingResult, Model model,
+			RedirectAttributes redirectAttributes) {
+		// Validacion del Data Binding de los datos de entrada con la clase de modelo  
+		if (bindingResult.hasErrors()) {
+			model.addAttribute(TITULO_MODEL, "Nuevo Cliente");
+			return "clientes/formCliente";
+		}
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "addCliente:"+Parseador.objectToJson(uid, cliente));
 		HttpStatus statusCode = clientesService.addCliente(cliente);

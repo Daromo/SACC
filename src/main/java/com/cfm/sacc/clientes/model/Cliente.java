@@ -34,5 +34,5 @@ public class Cliente {
 	private String correo;
 	private String correoAlternativo;
 	private String domicilio;
-	private String codigoPostal;
+	private Integer codigoPostal;
 }
