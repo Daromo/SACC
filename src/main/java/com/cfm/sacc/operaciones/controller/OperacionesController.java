@@ -161,7 +161,7 @@ public class OperacionesController {
 	 */
 	@ModelAttribute
 	public void setGenericos(Model model) {
-		model.addAttribute("clientes", serviceCliente.getClientesInactivos());
+		model.addAttribute("clientes", serviceCliente.getClientesActivos());
 		model.addAttribute("listaConceptosPago", serviceOperaciones.getConceptosPago());
 		model.addAttribute("listaMetodosPago", serviceOperaciones.getMetodosPago());
 		model.addAttribute("listaFormaPago", serviceOperaciones.getFormasPago());
