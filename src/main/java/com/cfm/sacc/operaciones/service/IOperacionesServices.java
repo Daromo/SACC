@@ -10,18 +10,20 @@ import com.cfm.sacc.operaciones.model.FormaPago;
 import com.cfm.sacc.operaciones.model.MetodoPago;
 import com.cfm.sacc.operaciones.model.Pago;
 import com.cfm.sacc.operaciones.model.Periodo;
-import com.cfm.sacc.operaciones.model.Tarifa;
+import com.cfm.sacc.operaciones.model.ReciboHonorario;
 import com.cfm.sacc.operaciones.model.TipoHonorario;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface IOperacionesServices {
 	List<ConceptoPago> getConceptosPago();
 	List<TipoHonorario> getTiposHonorarios();
-	List<Tarifa> getTarifas();
 	List<FormaPago> getFormasPago();
 	List<BancoEmisor> getBancosEmisor();
 	List<MetodoPago> getMetodosPago();
 	
 	List<Periodo> getPeridosByCliente(String clienteRFC);
 	ResponseEntity<String> addPago(Pago pago) throws JsonProcessingException;
+	ResponseEntity<Integer> addReciboHonorario(ReciboHonorario recibo) throws JsonProcessingException;
+	
+	String convertNumberToLetters(Float number);
 }

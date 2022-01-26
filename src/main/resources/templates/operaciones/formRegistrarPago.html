@@ -72,25 +72,33 @@
                     <input type="text" id="inputClienteRFC" class="form-control" th:field="*{clienteRFC}" data-bs-toggle="modal" 
                       data-bs-target="#clientesModal" required>
                   </div>
-                  <div class="col-md-5">
+                  <div class="col-md-6">
                     <label for="nombre" class="form-label">Nombre Cliente</label>
                     <input id="nombre" type="text" class="form-control" placeholder="nombre cliente" disabled style="background: #eceff1;">
                     <small class="text-form text-muted">Campo solo para visualización del nombre del cliente</small>
                   </div>
                 </div>
               </section>
-              <hr class="my-2">
+              <hr class="my-4">
               <!--section informacion pago-->
-              <section class="p-3">
+              <section class="px-3">
                 <div class="row">
                   <h4>Acerca del pago</h4>
                   <div class="col-md-3">
                     <label for="inputPeriodo" class="form-label">Periodo ID <strong class="obligatorio">*</strong></label>
-                    <input id="inputPeriodo" type="text" class="form-control" th:field="*{periodoId}" />
+                    <div class="input-group">
+                      <input id="inputPeriodo" type="text" class="form-control" th:field="*{periodoId}" />
+                      <span class="input-group-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
+                          <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                          <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                        </svg>
+                      </span>
+                    </div>
                   </div>
                   <div class="col-md-3">
                     <label for="selectConceptosPago" class="form-label">Concepto de pago <strong
-                        class="obligatorio">*</strong></label>
+                    class="obligatorio">*</strong></label>
                     <select id="selectConceptosPago" class="form-select" th:field="*{conceptoPagoId}"
                       th:required="true">
                       <option value="">-Seleccionar-</option>
@@ -99,31 +107,54 @@
                     </select>
                   </div>
                   <div class="col-md-3">
+                    <label for="selectTipoHonorarios" class="form-label">Tipo Honorario <strong
+                    class="obligatorio">*</strong></label>
+                    <select id="selectTipoHonorarios" class="form-select" th:field="*{tipoHonorarioId}" th:required="true">
+                      <option value="">-Seleccionar-</option>
+                      <option th:each="tipoHonorario : ${listaTiposHonorario}" th:text="${tipoHonorario.nombre}"
+                      th:value="${tipoHonorario.id}"></option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="inputFolioComprobante" class="form-label">Folio comprobante <strong class="obligatorio">*</strong> </label>
+                    <div class="input-group">
+                      <input type="text" id="inputFolioComprobante" class="form-control" th:field="*{folioReciboFactura}"
+                      autocomplete="off" placeholder="Recibo/Factura">
+                      <span class="input-group-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+                          <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27zm.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0l-.509-.51z"/>
+                          <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                  <!--<div class="col-md-3">
                     <label for="selectTarifas" class="form-label">Tarifa <strong class="obligatorio">*</strong></label>
                     <select id="selectTarifas" class="form-select" th:field="*{tarifaId}" th:required="true">
                       <option value="">-Seleccionar-</option>
                       <option th:each="tarifa : ${listaTarifas}" th:text="${tarifa.nombre}" th:value="${tarifa.id}">
                       </option>
                     </select>
-                  </div>
+                  </div>-->
                 </div>
+                
                 <div class="row pt-3">
                   <div class="col-md-3">
                     <label for="selectMetodosPago" class="form-label">Metodo de pago <strong
-                        class="obligatorio">*</strong></label>
+                    class="obligatorio">*</strong></label>
                     <select id="selectMetodosPago" class="form-select" th:field="*{metodoPagoId}" th:required="true">
                       <option value="">-Seleccionar-</option>
                       <option th:each="metodoPago : ${listaMetodosPago}" th:text="${metodoPago.nombre}"
-                        th:value="${metodoPago.id}"></option>
+                      th:value="${metodoPago.id}"></option>
                     </select>
                   </div>
                   <div class="col-md-3">
                     <label for="selectFomasPago" class="form-label">Forma de pago <strong
-                        class="obligatorio">*</strong></label>
+                    class="obligatorio">*</strong></label>
                     <select id="selectFomasPago" class="form-select" th:field="*{formaPagoId}" th:required="true">
                       <option value="">-Seleccionar-</option>
                       <option th:each="formaPago : ${listaFormaPago}" th:text="${formaPago.nombre}"
-                        th:value="${formaPago.id}"></option>
+                      th:value="${formaPago.id}"></option>
                     </select>
                   </div>
                   <div class="col-md-3" id="divFolioCheque">
@@ -132,40 +163,38 @@
                   </div>
                   <div class="col-md-3" id="divListBancos">
                     <label for="selectBancos" class="form-label">Banco Emisor <strong
-                        class="obligatorio">*</strong></label>
+                    class="obligatorio">*</strong></label>
                     <select id="selectBancos" class="form-select" th:field="*{bancoEmisorId}">
                       <option value="">-Seleccionar-</option>
                       <option th:each="bancoEmisor : ${listaBancos}" th:text="${bancoEmisor.nombre}"
-                        th:value="${bancoEmisor.id}">
+                      th:value="${bancoEmisor.id}">
                       </option>
                     </select>
                   </div>
                 </div>
-                <hr class="my-3">
-                <div class="row">
+                <hr class="my-4">
+                <div class="row pb-3">
                   <div class="col-md-3">
-                    <label for="selectTipoHonorarios" class="form-label">Tipo Honorario <strong
-                        class="obligatorio">*</strong></label>
-                    <select id="selectTipoHonorarios" class="form-select" th:field="*{tipoHonorarioId}"
-                      th:required="true">
-                      <option value="">-Seleccionar-</option>
-                      <option th:each="tipoHonorario : ${listaTiposHonorario}" th:text="${tipoHonorario.nombre}"
-                        th:value="${tipoHonorario.id}"></option>
-                    </select>
+                    <div class="form-group">
+                      <label for="inputImporte" class="form-label">Importe honorario fiscal</label>
+                      <div class="input-group">
+                        <input id="inputImporte" type="text" class="form-control" placeholder="Ejemplo: 1000" th:field="*{importe}">
+                        <span class="input-group-text">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                            <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"/>
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-md-3">
-                    <label for="inputFolioComprobante" class="form-label">Folio comprobante</label>
-                    <input type="text" id="inputFolioComprobante" class="form-control" th:field="*{folioComprobante}"
-                      autocomplete="off" placeholder="Folio recibo / Folio Factura">
-                  </div>
-                  <div class="col-md-6" id="divReciboHonorariosButtons" style="display: none;">
+                  <!--<div class="col-md-6" id="divReciboHonorariosButtons" style="display: none;">
                     <label class="form-label">Recibo de Honorarios</label>
                     <div class="d-grid gap-2 d-md-block">
                       <input type="submit" class="btn btn-outline-success px-2" value="Generar recibo" name="add" />
                       <input type="submit" class="btn btn-outline-primary" value="Vista previa" name="view" />
                     </div>
                     <small class="form-text">Opciones para generar el recibo en formato PDF</small>
-                  </div>
+                  </div>-->
                 </div>
               </section>
             </div>

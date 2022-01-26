@@ -11,15 +11,16 @@ import lombok.ToString;
 @ToString
 public class Pago {
 	private Integer id;
+	// Necesario para validar reglas negocio
 	private String clienteRFC;
 	private Integer periodoId;
 	private Integer conceptoPagoId;
 	private Integer tipoHonorarioId;
-	private Integer tarifaId;
 	private String formaPagoId;
 	private String bancoEmisorId = "999";
 	private String folioCheque;
 	private Integer metodoPagoId;
-	private String folioComprobante;
+	private String folioReciboFactura;
 	private Date fechaRegistro;
+	private Float importe;
 }

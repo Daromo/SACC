@@ -2,6 +2,8 @@ package com.cfm.sacc.operaciones.model;
 
 import java.util.Date;
 
+import com.cfm.sacc.clientes.model.Cliente;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class Periodo {
 	private Integer id;
-	private String clienteRFC;
+	private Cliente cliente;
 	private Integer ejercicio;
 	private Integer mes;
 	private Integer diaPago;

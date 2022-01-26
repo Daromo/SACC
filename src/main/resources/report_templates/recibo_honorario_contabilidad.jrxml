@@ -7,7 +7,7 @@
 	</queryString>
 	<field name="id" class="java.lang.Integer"/>
 	<field name="nombreCliente" class="java.lang.String"/>
-	<field name="importeHonorario" class="java.lang.Float"/>
+	<field name="importe" class="java.lang.Float"/>
 	<field name="importeLetra" class="java.lang.String"/>
 	<field name="conceptoMes" class="java.lang.String"/>
 	<background>
@@ -103,7 +103,7 @@
 				<text><![CDATA[BUENO POR:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="20" y="80" width="170" height="20" uuid="9e3a6746-64fc-4fc1-9bbc-cc2f884a266f"/>
+				<reportElement x="20" y="80" width="160" height="20" uuid="9e3a6746-64fc-4fc1-9bbc-cc2f884a266f"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
@@ -142,21 +142,21 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{importeHonorario}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="190" y="80" width="314" height="20" uuid="43b915a8-1236-4543-bc53-224514001eab"/>
+				<reportElement x="180" y="80" width="324" height="20" uuid="43b915a8-1236-4543-bc53-224514001eab"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{importeLetra}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{importeLetra}.concat( " PESOS 00/100 M.N" )]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="20" y="120" width="484" height="20" uuid="f093792f-ee03-4dff-a688-a64293d5db5d"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true" isUnderline="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{conceptoMes}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{conceptoMes}.toUpperCase()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

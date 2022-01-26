@@ -1,8 +1,8 @@
 package com.cfm.sacc.operaciones.controller;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -18,12 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.cfm.sacc.clientes.model.Cliente;
 import com.cfm.sacc.clientes.service.IClienteService;
 import com.cfm.sacc.jreports.client.IJReportsGenerator;
 import com.cfm.sacc.operaciones.model.Pago;
 import com.cfm.sacc.operaciones.model.Periodo;
-import com.cfm.sacc.operaciones.model.ReciboHonorarioContabilidad;
+import com.cfm.sacc.operaciones.model.ReciboHonorario;
 import com.cfm.sacc.operaciones.service.IOperacionesServices;
 import com.cfm.sacc.util.GUIDGenerator;
 import com.cfm.sacc.util.LogHandler;
@@ -37,10 +36,10 @@ import net.sf.jasperreports.engine.JRException;
 public class OperacionesController {
 	
 	@Autowired
-	IClienteService clientesService;
+	IClienteService serviceCliente;
 	
 	@Autowired
-	IOperacionesServices operacionesService;
+	IOperacionesServices serviceOperaciones;
 	
 	@Autowired
 	IJReportsGenerator jasperReportsGenerator;
@@ -49,102 +48,107 @@ public class OperacionesController {
 	ModelMapper modelMapper;
 	
 	/**
-	 * RENDERIZA EL FORMULARIO PARA GENERAR EL RECIBO DE HONORARIO POR EL SERVCIO DE CONTABILIDAD
+	 * Metodo que renderiza el formulario para registrar los datos del recibo de honorario
 	 */
 	@GetMapping("/recibo-honorario")
-	public String renderFormRecibo(ReciboHonorarioContabilidad reciboHonorario, Model model) {
-		//LISTA DE CLIENTES PARA RENDERIZAR EN EL MODAL
-		List<Cliente> lista = clientesService.getClientesActivos();
-		model.addAttribute("clientes", lista);
+	public String renderFormRecibo(ReciboHonorario reciboHonorario) {
 		return "operaciones/formGenerarRecibo";
 	}
 	
 	/**
-	 * GENERAR EL REVISO & ALMACENAR DATOS EN DB
+	 * Metodo para guardar los datos del recibo de honorario sencillo en base de datos
+	 * @param reciboHonorario, redirectAttributes, model
 	 */
-	@PostMapping(value = "/generar-recibo", params = "add")
-	public ResponseEntity<byte[]> guardar(ReciboHonorarioContabilidad reciboHonorario) throws FileNotFoundException, JRException {
-		List<ReciboHonorarioContabilidad> recibo = Arrays.asList(reciboHonorario);
-		HashMap<String, Object> params = new HashMap<>();
-		params.put("title", "HONORARIOS");
+	@PostMapping(value = "/recibo-honorario", params = "add")
+	public String addReciboHonorario(ReciboHonorario reciboHonorario, RedirectAttributes redirectAttributes, Model model) throws JRException, IOException {
 		
-		return jasperReportsGenerator.generarReciboHonorario(recibo, params);
+		Integer idReciboHonorario;
+		String fileName;
+		String uid = GUIDGenerator.generateGUID();
+		LogHandler.info(uid, getClass(), "generarReciboHonorario"+Parseador.objectToJson(uid, reciboHonorario));
+		// Recuperamos el importe en letra desde la API externa
+		String importeLetra = serviceOperaciones.convertNumberToLetters(reciboHonorario.getImporte());
+		if (!importeLetra.equals("null")) {
+			reciboHonorario.setImporteLetra(importeLetra);
+			ResponseEntity<Integer> responseAddRecibo = serviceOperaciones.addReciboHonorario(reciboHonorario);
+			if(responseAddRecibo.getStatusCode() == HttpStatus.OK) {
+				// Recuperamos el id del recibo para asignarlo al objeto reciboHonorario e imprimir el id
+				idReciboHonorario = responseAddRecibo.getBody();
+				reciboHonorario.setId(idReciboHonorario);
+				// Concatenamos el id del recibo del honorario al nombre del reporte
+				fileName = "recibo_honorario_" + idReciboHonorario.toString() + ".pdf";
+			}else {
+				// Recuperamos el mensaje del header para renderizar los errores en la vista
+				String headerResponse = responseAddRecibo.getHeaders().toString();
+				model.addAttribute("error", headerResponse);
+				return "operaciones/formGenerarRecibo";
+			}
+		}else {
+			throw new FileNotFoundException("Error al convertir el numero a letras");
+		}
+		
+		//List<ReciboHonorario> recibo = Arrays.asList(reciboHonorario);
+		//String contentDisposition = "attachment;filename=" + fileName;
+		//return jasperReportsGenerator.generarReciboHonorario(recibo, "HONORARIOS", contentDisposition);
+		
+		List<ReciboHonorario> recibo = Arrays.asList(reciboHonorario);
+		jasperReportsGenerator.generatedPDF(recibo, fileName);
+		redirectAttributes.addFlashAttribute("success", "Recibo generado con exito");
+		return "redirect:/operaciones/recibo-honorario";
+
 	}
 	
 	/**
-	 * VISTA PREVIA DEL RECIBO DEL HONORARIO
-	 * NO SE GUARDA EL REGISTRO EN DB
+	 * Metodo para generar la vista previa del recibo desde el navegador
+	 * @param reciboHonorario
 	 */
-	@PostMapping(value = "/generar-recibo", params = "view")
-	public ResponseEntity<byte[]> vistaPrevia (ReciboHonorarioContabilidad reciboHonorario) throws FileNotFoundException, JRException {
-		List<ReciboHonorarioContabilidad> recibo = Arrays.asList(reciboHonorario);
-		HashMap<String, Object> params = new HashMap<>();
-		params.put("title", "Vista previa - Documento sin validez");
-		
-		return jasperReportsGenerator.generarReciboHonorario(recibo, params);
+	@PostMapping(value = "/recibo-honorario", params = "view")
+	public ResponseEntity<byte[]> vistaPreviaReciboHonorario(ReciboHonorario reciboHonorario) throws JRException, IOException {
+		String importeLetra = serviceOperaciones.convertNumberToLetters(reciboHonorario.getImporte());
+		if (!importeLetra.equals("null")) {
+			reciboHonorario.setImporteLetra(importeLetra);
+		}else{
+			throw new FileNotFoundException("Error al convertir el numero a letras");
+		}
+		List<ReciboHonorario> recibo = Arrays.asList(reciboHonorario);
+		String contentDisposition = "filename;filename=recibo_vista_previa.pdf";
+		return jasperReportsGenerator.generarReciboHonorario(recibo, "Vista previa - Documento sin validez", contentDisposition);
 	}
 	
 	/**
-	 * RENDERIZAR EL FORMULARIO PARA REGISTRAR EL PAGO DE HONORARIOS 
+	 * Metodo que renderiza el formulario para registrar un nuevo pago
+	 * @param pago
 	 */
 	@GetMapping("/registrar-pago-honorario")
-	public String renderFormRegistrarPago(Pago pago, Model model) {
-		model.addAttribute("clientes", clientesService.getClientesActivos());
+	public String renderFormRegistrarPago(Pago pago) {
 		return "operaciones/formRegistrarPago";
 	}
 	
 	/**
-	 * GUARDAR REGISTROS DEL PAGO EN DB
+	 * Metodo para guardar el registro del pago en base de datos
+	 * @param Pago
 	 */
 	@PostMapping("/guardar")
 	public String addPago(Pago pago, RedirectAttributes redirectAttributes, Model model) throws JsonProcessingException {
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "addPago"+Parseador.objectToJson(uid, pago));
-		ResponseEntity<String> response = operacionesService.addPago(pago);
+		ResponseEntity<String> response = serviceOperaciones.addPago(pago);
 		if(response.getStatusCode() == HttpStatus.OK) {
 			redirectAttributes.addFlashAttribute("success", "Registro guardado con éxito.");
 			return "redirect:/operaciones/registrar-pago-honorario";
 		}else {
-			model.addAttribute("clientes", clientesService.getClientesActivos());
 			model.addAttribute("error", response.getBody());
 			return "operaciones/formRegistrarPago";
 		}
 	}
 	
 	/**
-	 * GENERAR EL RECIBO & ALMACENAR DATOS EN DB
-	 */
-	@PostMapping(value = "/guardar", params = "add")
-	public ResponseEntity<byte[]> generarReciboHonorarios(Pago pago) throws FileNotFoundException, JRException {
-		ReciboHonorarioContabilidad reciboHonorario = modelMapper.map(pago, ReciboHonorarioContabilidad.class);
-		List<ReciboHonorarioContabilidad> recibo = Arrays.asList(reciboHonorario);
-		HashMap<String, Object> params = new HashMap<>();
-		params.put("title", "HONORARIOS");
-		
-		return jasperReportsGenerator.generarReciboHonorario(recibo, params);
-	}
-	
-	/**
-	 * VISTA PREVIA DEL RECIBO DEL HONORARIO
-	 * NO SE GUARDA EL REGISTRO EN DB
-	 */
-	@PostMapping(value = "/guardar", params = "view")
-	public ResponseEntity<byte[]> vistaPreviaReciboHonorarios(Pago pago) throws FileNotFoundException, JRException {
-		ReciboHonorarioContabilidad reciboHonorario = modelMapper.map(pago, ReciboHonorarioContabilidad.class);
-		List<ReciboHonorarioContabilidad> recibo = Arrays.asList(reciboHonorario);
-		HashMap<String, Object> params = new HashMap<>();
-		params.put("title", "Vista previa - Documento sin validez");
-		
-		return jasperReportsGenerator.generarReciboHonorario(recibo, params);
-	}
-	
-	
-	/**
-	 * EndPoint PARA OBTENER LOS PERIODOS DE PAGO DE LOS CLIENTES
+	 * Metodo para obtener los periodos de pago con status pendiente & activo de cada cliente
+	 * @param cliente RFC
 	 */
 	@GetMapping("/periodos/{clienteRFC}")
 	public ResponseEntity<Object> getPeriodos(@PathVariable String clienteRFC, Model model){
-		List<Periodo> lista = operacionesService.getPeridosByCliente(clienteRFC);
+		List<Periodo> lista = serviceOperaciones.getPeridosByCliente(clienteRFC);
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "getPeridos"+Parseador.objectToJson(uid, lista));
 		model.addAttribute("periodos", lista);
@@ -152,15 +156,16 @@ public class OperacionesController {
 	}
 	
 	/**
-	 * CATALOGOS OPERACIONES
+	 * Metodo que agrega los atributos generales para todos los modelos del controlador
+	 * @param model
 	 */
 	@ModelAttribute
 	public void setGenericos(Model model) {
-		model.addAttribute("listaConceptosPago", operacionesService.getConceptosPago());
-		model.addAttribute("listaTarifas", operacionesService.getTarifas());
-		model.addAttribute("listaMetodosPago", operacionesService.getMetodosPago());
-		model.addAttribute("listaFormaPago", operacionesService.getFormasPago());
-		model.addAttribute("listaBancos", operacionesService.getBancosEmisor());
-		model.addAttribute("listaTiposHonorario", operacionesService.getTiposHonorarios());
+		model.addAttribute("clientes", serviceCliente.getClientesInactivos());
+		model.addAttribute("listaConceptosPago", serviceOperaciones.getConceptosPago());
+		model.addAttribute("listaMetodosPago", serviceOperaciones.getMetodosPago());
+		model.addAttribute("listaFormaPago", serviceOperaciones.getFormasPago());
+		model.addAttribute("listaBancos", serviceOperaciones.getBancosEmisor());
+		model.addAttribute("listaTiposHonorario", serviceOperaciones.getTiposHonorarios());
 	}
 }

@@ -9,11 +9,12 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @ToString
-public class ReciboHonorarioContabilidad {
+public class ReciboHonorario {
 	private Integer id;
 	private String clienteRFC;
 	private String nombreCliente;
-	private Float importeHonorario;
+	private Float importe;
+	private Integer periodoId;
 	private String importeLetra;
 	private String conceptoMes;
 }

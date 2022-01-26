@@ -46,6 +46,8 @@ function disableInputsPagosForm () {
       $('#inputFolioCheque').val('')
     }
   })
+
+  $('#')
 }
 
 function showDivReciboHonorarios () {
@@ -57,4 +59,5 @@ function showDivReciboHonorarios () {
     }
   })
 }
+
 

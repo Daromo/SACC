@@ -89,9 +89,10 @@ function clearModalPeriodos () {
 function listenerClicModalPeriodos () {
   $('body').on('click', '#items_periodos div', function (e) {
     var periodo = $(this).attr('id')
-    console.log(periodo)
+    var mes = $('#'+periodo).find('.card-title').html();
     //settear valores a los inputs
     $('#inputPeriodo').val(periodo)
+    $('#inputConceptoMes').val(mes)
     //close modal
     $('#modalPeriodos').modal('toggle')
   })

@@ -24,7 +24,7 @@
 
   <div class="jumbotron">
     <div class="container">
-      <h3>Recibo de Honorarios</h3>
+      <h3>Recibo Honorario Sencillo</h3>
       <p>Formulario para generar el recibo correspondientes al pago de honorarios por servicios contables de los
       clientes de <strong>Corporativo Fiscal Magno</strong></p>
     </div>
@@ -40,59 +40,79 @@
             </svg>
             ¡Ups! ha ocurrido un error para obtener el nombre de los clientes, vuelva a intentarlo más tarde.
           </div>
+          <div class="alert alert-primary alert-dismissible fade show" role="alert" th:if="${success}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+            </svg>
+            <strong th:text="${success}"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+            </svg>
+            <strong th:text="${error}"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
         </section>
         <!--Div formulario-->
-        <form th:object="${reciboHonorarioContabilidad}" th:action="@{/operaciones/generar-recibo}" th:method="post">
+        <form th:object="${reciboHonorario}" th:action="@{/operaciones/recibo-honorario}" th:method="post">
           <div class="row">
-            <!-- FORM GRID -->
-            <div class="col-md-12 col-sm-12 border rounded-3 p-3 shadow">
-              <h5>Datos Generales </h5>
-              <div class="row">
-                <div class="col-md-4">
-                  <label for="rfc" class="form-label">RFC <strong class="obligatorio">*</strong></label>
-                  <input id="rfc" type="text" class="form-control" th:field="*{clienteRFC}" maxlength="13"
-                    oninput="this.value = this.value.toUpperCase()" required>
+            <div class="border rounded shadow py-4">
+              <section class="px-3">
+                <div class="row">
+                  <h4>Acerca del cliente</h4>
+                  <div class="col-md-3">                  
+                    <label for="clienteRFC" class="form-label">Cliente RFC <strong class="obligatorio">*</strong></label>
+                    <input type="text" id="inputClienteRFC" class="form-control" th:field="*{clienteRFC}" data-bs-toggle="modal" 
+                    data-bs-target="#clientesModal" oninput="this.value = this.value.toUpperCase()" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="nombre" class="form-label">Nombre Cliente</label>
+                    <input id="nombre" type="text" class="form-control" th:field="*{nombreCliente}" placeholder="nombre cliente" style="background: #eceff1;">
+                    <small class="text-form text-muted">Campo solo para visualización del nombre del cliente</small>
+                  </div>
                 </div>
-                <div class="col-md-5">
-                  <label for="nombre" class="form-label">Nombre Cliente <strong class="obligatorio">*</strong></label>
-                  <input id="nombre" type="text" class="form-control" th:field="*{nombreCliente}"
-                    oninput="this.value = this.value.toUpperCase()" required>
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label" style="color: white;">.</label>
-                  <a class="btn btn-outline-primary form-control" role="button" href="#" data-bs-toggle="modal" data-bs-target="#clientesModal">Consultar Cliente</a>
-                </div>
-                <small class="form-text">Seleccionar el nombre y el rfc del cliente desde el botón Consultar
-                  Cliente</small>
-              </div>
-              <div class="row pt-3">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="importe" class="form-label">Importe <strong class="obligatorio">*</strong></label>
-                    <div class="input-group">
-                      <input id="importe" type="text" class="form-control" th:field="*{importeHonorario}"
+              </section>
+              <hr>
+              <section class="px-3">
+                <div class="row">
+                  <h4>Acerca del recibo</h4>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="inputImporte" class="form-label">Importe <strong class="obligatorio">*</strong></label>
+                      <div class="input-group">
+                        <input id="inputImporte" type="text" class="form-control" th:field="*{importe}"
                         placeholder="Ejemplo: 2000" required>
-                      <span class="input-group-text">$</span>
+                        <span class="input-group-text">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16">
+                            <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"/>
+                          </svg>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col-md-5">
-                  <label for="importeConLetra" class="form-label">Importe con letra <strong
-                      class="obligatorio">*</strong></label>
-                  <input id="importeConLetra" type="text" class="form-control" th:field="*{importeLetra}"
-                    oninput="this.value = this.value.toUpperCase()"
-                    placeholder="Ejemplo: 2,000.00 DOS MIL PESOS 00/100 M.N." required>
-                </div>
-              </div>
-              <div class="row pt-3">
-                <div class="col-md-9">
-                  <div class="form-group">
-                    <label for="conceptoMes" class="form-label">Concepto Mes <strong class="obligatorio">*</strong></label>
-                    <input id="conceptoMes" type="text" class="form-control" th:field="*{conceptoMes}" 
-                    oninput="this.value = this.value.toUpperCase()" placeholder="Ejemplo: JULIO 2021" required>
+                  <div class="col-md-3">
+                    <label for="inputPeriodo" class="form-label">Periodo ID <strong class="obligatorio">*</strong></label>
+                    <div class="input-group">
+                      <input id="inputPeriodo" type="text" class="form-control" th:field="*{periodoId}" required/>
+                      <span class="input-group-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
+                          <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                          <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                        </svg>
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div class="col-md-3">
+                    <label for="inputConceptoMes" class="form-label">Descripción periodo</label>
+                    <input id="inputConceptoMes" type="text" class="form-control" th:field="*{conceptoMes}" 
+                    oninput="this.value = this.value.toUpperCase()" style="background: #eceff1;"/>
+                    <small class="text-form text-muted">Campo solo para visualización</small>
                   </div>
                 </div>
-              </div>
+              </section>
             </div>
           </div>
           <div class="d-grid gap-2 d-md-block mt-3">
@@ -103,6 +123,25 @@
         </form>
       </div>
     </main>
+  </div>
+  
+  <!-- Modal Periodos -->
+  <div class="modal fade" id="modalPeriodos" tabindex="-1" aria-labelledby="periodoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" style="background-color: #eceff1;">
+        <div class="modal-header">
+          <h4 class="modal-title" id="periodoModalLabel">Periodos de Pago</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!--CONTENEDOR-->
+        <div class="modal-body" id="items_periodos">
+  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Modal Clientes -->
@@ -115,11 +154,10 @@
         </div>
         <!--CONTENEDOR-->
         <div class="modal-body" id="items_clientes">
-          <!--CARD PARA MOSTRAR LOS DATOS DE LOS CLIENTES-->
-          <div class="border border-secondary rounded mb-2 card-body bg-light" th:each="clienteTemp : ${clientes}"
+          <!--DIV PARA MOSTRAR LOS DATOS DE LOS CLIENTES-->
+          <div class="border border-secondary rounded-2 my-2 card-body bg-light" th:each="clienteTemp : ${clientes}"
             th:id="${clienteTemp.rfc}">
-            <h5 th:if="${clienteTemp.regimenFiscal.id != 601}" class="card-title">[[${clienteTemp.apPaternoCliente}+'
-              '+${clienteTemp.apMaternoCliente}+' '+${clienteTemp.nombreCliente}]]</h5>
+            <h5 th:if="${clienteTemp.regimenFiscal.id != 601}" class="card-title">[[${clienteTemp.apPaternoCliente}+' '+${clienteTemp.apMaternoCliente}+' '+${clienteTemp.nombreCliente}]]</h5>
             <h5 th:unless="${clienteTemp.regimenFiscal.id != 601}" class="card-title">[[${clienteTemp.razonSocial}]]
             </h5>
             <p class="card-text" th:text="${clienteTemp.rfc}">cliente_rfc</p>
@@ -132,24 +170,9 @@
     </div>
   </div>
 
-  <footer th:insert="fragments/footer :: template-footer" class="bg-dark text-center mt-auto footer">
-  </footer>
+  <footer th:insert="fragments/footer :: template-footer" class="bg-dark text-center mt-auto footer"></footer>
 
-  <script type="text/javascript">
-    $(function () {
-      $('body').on('click', '#items_clientes div', function (e) {
-        var rfc = $(this).attr('id');
-        var nombre = $('#' + rfc).find('.card-title').html();
-        console.log(nombre);
-        //settear valores a los inputs
-        $('#nombre').val(nombre);
-        $('#rfc').val(rfc);
-        //close modal
-        $('#clientesModal').modal('toggle');
-      });
-    });
-  </script>
-
+  <script th:src="@{/js/modal_actions.js}"></script>
   <script th:src="@{/jquery-3.6.0.min.js}"></script>
   <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
 </body>
