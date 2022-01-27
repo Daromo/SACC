@@ -45,3 +45,7 @@ body > .container {
   -ms-flex: 1;
   flex: 1;
 }
+
+.page-error{
+  background-color: #eceff1;
+}
