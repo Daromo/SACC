@@ -61,6 +61,10 @@ public class ClienteService implements IClienteService{
 	@Value("${clientes.buscar.url}")
 	String urlBuscarCliente;
 	
+	/**
+	 * Consumir API para obtener la lista de cliente con status activo
+	 * @return List<Cliente>
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Cliente> getClientesActivos(){
@@ -77,6 +81,10 @@ public class ClienteService implements IClienteService{
 		return flagList;
 	}
 	
+	/**
+	 * Consumir API para obtener la lista de cliente con status inactivo
+	 * @return List<Cliente>
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Cliente> getClientesInactivos() {
@@ -92,7 +100,12 @@ public class ClienteService implements IClienteService{
 		}
 		return flagList;
 	}
-
+	
+	/**
+	 * Consumir API para obtener el registro de un cliente por su RFC
+	 * @param cliente RFC
+	 * @return Cliente
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Cliente findByRFC(String clienteRFC) {
@@ -106,7 +119,12 @@ public class ClienteService implements IClienteService{
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Consumir API para dar de baja a un cliente
+	 * @param cliente RFC
+	 * @return Http response status
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public HttpStatus bajaCliente(String clienteRFC) {
@@ -115,6 +133,11 @@ public class ClienteService implements IClienteService{
 		return response.getStatusCode();
 	}
 
+	/**
+	 * Consumir API para dar de reactivar a un cliente dado de baja
+	 * @param cliente RFC
+	 * @return Http response status
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public HttpStatus reactivarCliente(String clienteRFC) {
@@ -122,7 +145,11 @@ public class ClienteService implements IClienteService{
 		ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(url, null, HttpMethod.PUT, APPLICATION_JSON); 
 		return response.getStatusCode();
 	}
-
+	
+	/**
+	 * Consumir API para obtener el catalogo de regimen fiscal
+	 * @return List<RegimenFiscal>
+	 */
 	@Cacheable("regimenFiscalCache")
 	@SuppressWarnings("unchecked")
 	@Override
@@ -144,20 +171,40 @@ public class ClienteService implements IClienteService{
 	}
 	
 	/**
-	 * Se valida la fecha de ingreso de un cliente para determinar el metodo (Modificar o Agregar Nuevo)
+	 * Se valida status de un cliente para determinar el metodo (Modificar o Agregar)
+	 * @param Cliente
+	 * @throws JsonProcessingException 
+	 * @throws  
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public HttpStatus addCliente(Cliente cliente) {
-		ResponseEntity<JsonNode> response;
-		if (cliente.getFechaIngreso() == null) {
-			response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlAgregarCliente, cliente, HttpMethod.POST, APPLICATION_JSON);
-		}else {
-			response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlModificarCliente, cliente, HttpMethod.PUT, APPLICATION_JSON);
+	public ResponseEntity<String> guardarCliente(Cliente cliente) throws JsonProcessingException {
+		try {
+			/* Validar el status del cliente para determinar el metodo HTTP: 
+			 * Por defecto, cuando se agrega a un nuevo cliente el valor del status siempre sera nulo.
+			 */
+			if (cliente.getStatus() == null) {
+				clientWsService.consumeService(urlAgregarCliente, cliente, HttpMethod.POST, APPLICATION_JSON);
+			}else {
+				clientWsService.consumeService(urlModificarCliente, cliente, HttpMethod.PUT, APPLICATION_JSON);
+			}
+		}catch (Exception e) {
+			String messageException = e.getMessage();
+			int index = messageException.indexOf(':');
+			messageException = messageException.substring(index+1, messageException.length());
+			JsonNode json = objectMapper.readTree(messageException);
+			String detalleException = json.findPath("detalle").asText();
+			return new ResponseEntity<>(detalleException, HttpStatus.BAD_REQUEST);
 		}
-		return response.getStatusCode();
+		return new ResponseEntity<>("success", HttpStatus.OK);
 	}
-
+	
+	/**
+	 * Consumir API para buscar cliente de acuerdo a las propiedades del objeto que
+	 * se recibe como parametro, en la vista se forza al usuario a buscar solo por
+	 * RFC o Regimen Fiscal.
+	 * @param Cliente
+	 * @return List<Cliente>
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Cliente> searchCliente(Cliente cliente) {

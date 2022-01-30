@@ -12,19 +12,17 @@ $(function () {
 function disableInputsClientesForm () {
   $('#regimenFiscalId').change(function () {
     if ($(this).val() === '601') {
-      $('#razonSocial').prop('disabled', false)
-      $('#nombreCliente').prop('disabled', true)
-      $('#apPaternoCliente').prop('disabled', true)
-      $('#apMaternoCliente').prop('disabled', true)
+      $('#divPersonasFisicas').hide("drop",{ direction: "down" }, "slow" );
+      $('#divPersonasMorales').show( "drop", 1000 );
+      //Limpiar inputs
       $('#nombreCliente').val('')
       $('#apPaternoCliente').val('')
       $('#apMaternoCliente').val('')
-    } else {
-      $('#nombreCliente').prop('disabled', false)
-      $('#apPaternoCliente').prop('disabled', false)
-      $('#apMaternoCliente').prop('disabled', false)
-      $('#razonSocial').prop('disabled', true)
-      $('#razonSocial').val('')
+    } else{
+      $('#divPersonasMorales').hide("drop",{ direction: "down" }, "slow" );
+      $('#divPersonasFisicas').show( "drop", 1000 );
+      //Limpiar inputs
+      $('#razonSocial').val('')      
     }
   })
 }
