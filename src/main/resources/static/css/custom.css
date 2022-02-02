@@ -19,7 +19,8 @@
   padding-top: 3.5rem;
   padding-bottom: 3.5rem;
   border-radius: 0px 0px 10px 10px;
-  background-color: #eceff1;
+  /*background: #F0F8FF;*/
+ background-color: #eceff1;
 }
 
 /** CUSTOM FOOTER**/
@@ -52,7 +53,8 @@ body > .container {
 
 /** HOME **/
 .gradient {
-  background: #ffd700;
+	background: #F0F8FF;
+	border-radius: 0px 0px 10px 10px;
 }
 
 .icon {
