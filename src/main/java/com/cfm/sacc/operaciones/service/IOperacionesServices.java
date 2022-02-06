@@ -26,4 +26,8 @@ public interface IOperacionesServices {
 	ResponseEntity<Integer> addReciboHonorario(ReciboHonorario recibo) throws JsonProcessingException;
 	
 	String convertNumberToLetters(Float number);
+	
+	List<Pago> getPagosListByFormaPago(String formaPagoId, String startDate, String endDate) throws JsonProcessingException;
+	List<Pago> getPagosListByTipoHonorario(Integer tipoHonorarioId, String startDate, String endDate) throws JsonProcessingException;
+	
 }

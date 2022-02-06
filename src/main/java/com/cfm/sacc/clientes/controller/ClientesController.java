@@ -39,7 +39,7 @@ public class ClientesController {
 	private static final String FORM_ADD_CLIENTE = "clientes/formAddCliente";
 	private static final String FORM_UPDATE_CLIENTE = "clientes/formUpdateCliente";
 	
-	private static final String PATH_REDIRECT_CLIENTES_ACTIVOS = "redirect:/clientes/activos/";
+	private static final String REDIRECT_CLIENTES_ACTIVOS = "redirect:/clientes/activos/";
 	
 	@Autowired
 	IClienteService clientesService;
@@ -110,7 +110,7 @@ public class ClientesController {
 		LogHandler.info(uid, getClass(), "reactivarCliente"+Parseador.objectToJson(uid, statusCode));
 		if (statusCode == HttpStatus.OK) {
 			redirectAttributes.addFlashAttribute(ATTRIBUTE_SETTINGS_FLASH, "Registro actualizado con éxito.");
-			return PATH_REDIRECT_CLIENTES_ACTIVOS;
+			return REDIRECT_CLIENTES_ACTIVOS;
 		}else
 			return null;
 	}
@@ -154,7 +154,7 @@ public class ClientesController {
 		ResponseEntity<String> response = clientesService.guardarCliente(cliente);
 		if(response.getStatusCode() == HttpStatus.OK) {
 			redirectAttributes.addFlashAttribute(ATTRIBUTE_SETTINGS_FLASH, "Registro guardado con éxito.");
-			return PATH_REDIRECT_CLIENTES_ACTIVOS;
+			return REDIRECT_CLIENTES_ACTIVOS;
 		}else {
 			model.addAttribute("error", response.getBody());
 			return FORM_ADD_CLIENTE;
@@ -179,7 +179,7 @@ public class ClientesController {
 		ResponseEntity<String> response = clientesService.guardarCliente(cliente);
 		if(response.getStatusCode() == HttpStatus.OK) {
 			redirectAttributes.addFlashAttribute(ATTRIBUTE_SETTINGS_FLASH, "Registro actualizado con éxito.");
-			return PATH_REDIRECT_CLIENTES_ACTIVOS;
+			return REDIRECT_CLIENTES_ACTIVOS;
 		}else {
 			model.addAttribute("error", response.getBody());
 			return FORM_UPDATE_CLIENTE;
@@ -199,7 +199,7 @@ public class ClientesController {
 		
 		if(searchListClientes.isEmpty()) {
 			redirectAttributes.addFlashAttribute("msgBusqueda", "Sin resultado para esta búsqueda");
-			return PATH_REDIRECT_CLIENTES_ACTIVOS;
+			return REDIRECT_CLIENTES_ACTIVOS;
 		}
 		model.addAttribute(ATTRIBUTE_LISTA_CLIENTES, searchListClientes);
 		return "clientes/listClientes";

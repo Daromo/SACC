@@ -1,0 +1,130 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SACC | Registrar Pago</title>
+
+  <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/custom.css}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+
+  <!--CDN DATEPICKER-->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
+  <!--CDN BOOTSTRAP ICONS-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+  <header th:insert="fragments/menu :: menu-principal" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  </header>
+
+  <div class="jumbotron">
+    <div class="container">
+      <h3>Reporte de pagos por forma de pago</h3>
+      <p>Formulario para obtener los pagos de honorarios de acuerdo a la <strong>Forma de pago</strong></p>
+    </div>
+  </div>
+  <div class="container">
+    <main>
+      <div class="container" style="max-width: 1100px;">
+        <!--section mensajes-->
+        <section>
+          <div class="alert alert-warning alert-dismissible fade show" role="alert" 
+          th:if="${listaTiposHonorario.empty}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+              <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+            ¡Ups! ha ocurrido un error para obtener algunos recursos del sitio, vuelva a intentarlo más tarde.
+          </div>
+          <div class="alert alert-primary alert-dismissible fade show" role="alert" th:if="${success}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+            </svg>
+            <strong th:text="${success}"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+            </svg>
+            <strong th:text="${error}"></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        </section>
+        <form th:object="${reporte}" th:action="@{/operaciones/reporteFormaPago}" th:method="get">
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-lg-5 col-xl-5">
+              <section class="p-3 border rounded shadow">
+                <div class="mb-3">
+                  <label for="selectFomasPago" class="form-label">
+                    Forma de pago <strong class="obligatorio">*</strong>
+                  </label>
+                  <select id="selectFomasPago" class="form-select" 
+                    th:field="*{formaPagoId}">
+                    <option value="">-Seleccionar-</option>
+                    <option th:each="formaPago : ${listaFormaPago}" th:text="${formaPago.nombre}"
+                    th:value="${formaPago.id}"></option>
+                  </select>
+                </div>
+                <div class="row  mb-3">
+                  <div class="col">
+                    <label for="fechaInicio" class="form-label">
+                      Fecha pago inicio <strong class="obligatorio">*</strong></label>
+                    </label>
+                    <input id="fechaInicio" type="text" class="form-control" th:field="*{startDate}" autocomplete="off" required>
+                    <small class="form-text text-muted">Año-Mes-Día</small>
+                  </div>
+                  <div class="col">
+                    <label for="fechaFin" class="form-label">
+                      Fecha pago fin <strong class="obligatorio">*</strong></label>
+                    </label>
+                    <input id="fechaFin" type="text" class="form-control" th:field="*{endDate}" autocomplete="off" required>
+                    <small class="form-text text-muted">Año-Mes-Día</small>
+                  </div>
+                </div>
+              </section>
+              <div class="d-grid gap-2 col-12 mx-auto py-2">
+                <input type="submit" class="btn btn-primary" value="Generar" />
+                <a class="btn btn-warning" role="button" href="/">Cancelar</a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script type="text/javascript">
+    $.datepicker.regional['es'] = {
+      closeText: 'Cerrar',
+      prevText: '< Ant',
+      nextText: 'Sig >',
+      currentText: 'Hoy',
+      monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+      dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
+      dateFormat: "yy-mm-dd"
+    };
+    $.datepicker.setDefaults($.datepicker.regional['es']);
+    $(function(){
+      $('#fechaInicio').datepicker();
+      $('#fechaFin').datepicker();
+    });
+  </script>
+
+  <footer th:insert="fragments/footer :: template-footer" class="bg-dark text-center mt-auto footer"></footer>
+  
+  <script th:src="@{/js/modal_actions.js}"></script>
+  <script th:src="@{/js/disable_inputs.js}"></script>
+  <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+</body>
+
+</html>

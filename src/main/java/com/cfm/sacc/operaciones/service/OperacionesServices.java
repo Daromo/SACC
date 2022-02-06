@@ -65,6 +65,12 @@ public class OperacionesServices implements IOperacionesServices {
 	@Value("${numeros.letras.url}")
 	String urlConvertNumberToLetters;
 	
+	@Value("${operaciones.reportes.pagos.forma.pago}")
+	String urlReportePagosFormaPago;
+	
+	@Value("${operaciones.reportes.pagos.tipo.honorario}")
+	String urlReportePagosTipoHonorario;
+	
 	/**
 	 * Consumir API para obtener el catalogo de conceptos de pago
 	 */
@@ -239,6 +245,26 @@ public class OperacionesServices implements IOperacionesServices {
 			LogHandler.error(uid, getClass(), "convertNumberToLetters", e);
 		}
 		return "null";
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Pago> getPagosListByFormaPago(String formaPagoId, String startDate, String endDate) throws JsonProcessingException {
+		String url = urlReportePagosFormaPago+
+				"formaPagoId="+formaPagoId+"&startDate="+startDate+"&endDate="+endDate;
+		ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(url, null, HttpMethod.GET, APPLICATION_JSON);
+		String json = objectMapper.writeValueAsString(response.getBody());
+		return objectMapper.readValue(json, new TypeReference<List<Pago>>(){});
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Pago> getPagosListByTipoHonorario(Integer tipoHonorarioId, String startDate, String endDate) throws JsonProcessingException {
+		String url = urlReportePagosTipoHonorario+
+				"tipoHonorarioId="+tipoHonorarioId+"&startDate="+startDate+"&endDate="+endDate;
+		ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(url, null, HttpMethod.GET, APPLICATION_JSON);
+		String json = objectMapper.writeValueAsString(response.getBody());
+		return objectMapper.readValue(json, new TypeReference<List<Pago>>(){});
 	}
 	
 	private String getServerExceptionDetail(String messageException) {

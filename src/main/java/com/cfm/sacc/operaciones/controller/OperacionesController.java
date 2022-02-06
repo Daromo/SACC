@@ -24,6 +24,7 @@ import com.cfm.sacc.jreports.client.IJReportsGenerator;
 import com.cfm.sacc.operaciones.model.Pago;
 import com.cfm.sacc.operaciones.model.Periodo;
 import com.cfm.sacc.operaciones.model.ReciboHonorario;
+import com.cfm.sacc.operaciones.model.Reporte;
 import com.cfm.sacc.operaciones.service.IOperacionesServices;
 import com.cfm.sacc.util.GUIDGenerator;
 import com.cfm.sacc.util.LogHandler;
@@ -35,6 +36,9 @@ import net.sf.jasperreports.engine.JRException;
 @Controller
 @RequestMapping("/operaciones")
 public class OperacionesController {
+	
+	private static final String FORM_GENERAR_RECIBO = "operaciones/formGenerarRecibo";
+	private static final String FORM_REGISTRAR_PAGO = "operaciones/formRegistrarPago";
 	
 	@Autowired
 	IClienteService serviceCliente;
@@ -53,7 +57,7 @@ public class OperacionesController {
 	 */
 	@GetMapping("/recibo-honorario")
 	public String renderFormRecibo(ReciboHonorario reciboHonorario) {
-		return "operaciones/formGenerarRecibo";
+		return FORM_GENERAR_RECIBO;
 	}
 	
 	/**
@@ -61,12 +65,12 @@ public class OperacionesController {
 	 * @param reciboHonorario, redirectAttributes, model
 	 */
 	@PostMapping(value = "/recibo-honorario", params = "add")
-	public String addReciboHonorario(ReciboHonorario reciboHonorario, BindingResult bindingResult,
+	public String guardarReciboHonorario(ReciboHonorario reciboHonorario, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes, Model model) throws JRException, IOException {
 		
 		// Validacion del Data Binding de los datos de entrada con la clase de modelo 
 		if (bindingResult.hasErrors()) {
-			return "operaciones/formGenerarRecibo";
+			return FORM_GENERAR_RECIBO;
 		}
 		
 		Integer idReciboHonorario;
@@ -88,7 +92,7 @@ public class OperacionesController {
 				// Recuperamos el mensaje del header para renderizar los errores en la vista
 				String headerResponse = responseAddRecibo.getHeaders().toString();
 				model.addAttribute("error", headerResponse);
-				return "operaciones/formGenerarRecibo";
+				return FORM_GENERAR_RECIBO;
 			}
 		}else {
 			throw new FileNotFoundException("Error al convertir el numero a letras");
@@ -128,7 +132,7 @@ public class OperacionesController {
 	 */
 	@GetMapping("/registrar-pago-honorario")
 	public String renderFormRegistrarPago(Pago pago) {
-		return "operaciones/formRegistrarPago";
+		return FORM_REGISTRAR_PAGO;
 	}
 	
 	/**
@@ -136,12 +140,12 @@ public class OperacionesController {
 	 * @param Pago
 	 */
 	@PostMapping("/guardar")
-	public String addPago(Pago pago, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+	public String guardarPago(Pago pago, BindingResult bindingResult, RedirectAttributes redirectAttributes,
 			Model model) throws JsonProcessingException {
 		
 		// Validacion del Data Binding de los datos de entrada con la clase de modelo 
 		if (bindingResult.hasErrors()) {
-			return "operaciones/formRegistrarPago";
+			return FORM_REGISTRAR_PAGO;
 		}
 		
 		String uid = GUIDGenerator.generateGUID();
@@ -152,21 +156,63 @@ public class OperacionesController {
 			return "redirect:/operaciones/registrar-pago-honorario";
 		}else {
 			model.addAttribute("error", response.getBody());
-			return "operaciones/formRegistrarPago";
+			return FORM_REGISTRAR_PAGO;
 		}
 	}
 	
 	/**
-	 * Metodo para obtener los periodos de pago con status pendiente & activo de cada cliente
+	 * Metodo para obtener los periodos de pago con status Pago Parcial, Pago Activo & Pago Vencido de cada cliente
 	 * @param cliente RFC
 	 */
 	@GetMapping("/periodos/{clienteRFC}")
-	public ResponseEntity<Object> getPeriodos(@PathVariable String clienteRFC, Model model){
+	public ResponseEntity<Object> obtenerPeriodos(@PathVariable String clienteRFC, Model model){
 		List<Periodo> lista = serviceOperaciones.getPeridosByCliente(clienteRFC);
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "getPeridos"+Parseador.objectToJson(uid, lista));
 		model.addAttribute("periodos", lista);
 		return new ResponseEntity<>(lista, HttpStatus.OK);
+	}
+	
+	/**
+	 * Metodo que renderiza el formulario para generar el reporte de pagos de acuerdo al tipo de honorario
+	 * @param Reporte
+	 */
+	@GetMapping("/reporte/pagos/tipo-honorario")
+	public String renderFormReporteTipoHonorario(Reporte reporte) {
+		return "operaciones/reporteTipoHonorario";
+	}
+	
+	/**
+	 * Metodo que renderiza el formulario para generar el reporte de pagos de acuerdo a la forma de pago
+	 * @param Reporte
+	 */
+	@GetMapping("/reporte/pagos/forma-pago")
+	public String renderFormReporteFormaPago(Reporte reporte) {
+		return "operaciones/reporteFormaPago";
+	}
+	
+	/**
+	 * Metodo para obtener la lista de pagos filtrada por la forma de pago & el rango de fechas definido por el usuario
+	 * @param Reporte
+	 */
+	@GetMapping("/reporteFormaPago")
+	public String obtenerReportePagosFormaPago(Reporte reporte) throws JsonProcessingException {
+		String uid = GUIDGenerator.generateGUID();
+		LogHandler.info(uid, getClass(), "obtenerReportePagosTipoHonorario"+Parseador.objectToJson(uid, reporte));
+		List<Pago> listaPagos = serviceOperaciones.getPagosListByFormaPago(reporte.getFormaPagoId(), reporte.getStartDate(), reporte.getEndDate());
+		return "operaciones/reporteFormaPago";
+	}
+	
+	/**
+	 * Metodo para obtener la lista de pagos filtrada por el tipo de honrario & el rango de fechas definido por el usuario
+	 * @param Reporte
+	 */
+	@GetMapping("/reporteTipoHonorario")
+	public String obtenerReportePagosTipoHonorario(Reporte reporte) throws JsonProcessingException {
+		String uid = GUIDGenerator.generateGUID();
+		LogHandler.info(uid, getClass(), "obtenerReportePagosTipoHonorario"+Parseador.objectToJson(uid, reporte));
+		List<Pago> listaPagos = serviceOperaciones.getPagosListByTipoHonorario(reporte.getTipoHonorarioId(), reporte.getStartDate(), reporte.getEndDate());
+		return "operaciones/reporteTipoHonorario";
 	}
 	
 	/**

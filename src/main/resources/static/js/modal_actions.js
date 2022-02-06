@@ -39,6 +39,9 @@ $(function () {
             if(value.statusPago === 'A'){
               detalle_status_pago = 'Activo'
               class_status_pago = 'class="badge bg-info"'
+            }else if(value.statusPago == 'P'){
+              detalle_status_pago = 'Parcial'
+              class_status_pago = 'class="badge bg-warning"'
             }else{
               detalle_status_pago = 'Vencido'
               class_status_pago = 'class="badge bg-danger"'

@@ -18,7 +18,6 @@ public class Cliente {
 	private String rfc;
 	
 	private Integer regimenFiscalId;
-	
 	private Map<String,Object> regimenFiscal;
 	
 	private String nombreCliente;

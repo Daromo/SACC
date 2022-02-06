@@ -20,5 +20,5 @@ public class Periodo {
 	private Date fechaCorte;
 	private Character statusPago;
 	private Date fechaRegistro;
-	private Date fechaPago;
+	private Date fechaModificacion;
 }
