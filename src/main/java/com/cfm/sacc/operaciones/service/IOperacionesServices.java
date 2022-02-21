@@ -15,19 +15,21 @@ import com.cfm.sacc.operaciones.model.TipoHonorario;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface IOperacionesServices {
+	
 	List<ConceptoPago> getConceptosPago();
 	List<TipoHonorario> getTiposHonorarios();
 	List<FormaPago> getFormasPago();
 	List<BancoEmisor> getBancosEmisor();
 	List<MetodoPago> getMetodosPago();
-	
 	List<Periodo> getPeridosByCliente(String clienteRFC);
+	
+	List<Pago> getPagosCliente(String clienteRFC) throws JsonProcessingException;
+	List<Pago> getPagosListByFormaPago(String formaPagoId, String startDate, String endDate) throws JsonProcessingException;
+	List<Pago> getPagosListByTipoHonorario(Integer tipoHonorarioId, String startDate, String endDate) throws JsonProcessingException;
+	
 	ResponseEntity<String> addPago(Pago pago) throws JsonProcessingException;
 	ResponseEntity<Integer> addReciboHonorario(ReciboHonorario recibo) throws JsonProcessingException;
 	
 	String convertNumberToLetters(Float number);
-	
-	List<Pago> getPagosListByFormaPago(String formaPagoId, String startDate, String endDate) throws JsonProcessingException;
-	List<Pago> getPagosListByTipoHonorario(Integer tipoHonorarioId, String startDate, String endDate) throws JsonProcessingException;
-	
+
 }

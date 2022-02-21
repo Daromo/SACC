@@ -43,4 +43,7 @@ public class OperacionesProperties {
 	
 	@Value("${operaciones.reportes.pagos.tipo.honorario}")
 	String urlReportePagosTipoHonorario;
+	
+	@Value("${operaciones.pagos.cliente.url}")
+	String urlHistorialPagos;
 }

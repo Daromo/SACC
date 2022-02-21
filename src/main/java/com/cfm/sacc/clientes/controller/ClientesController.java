@@ -23,6 +23,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cfm.sacc.clientes.model.Cliente;
 import com.cfm.sacc.clientes.service.IClienteService;
+import com.cfm.sacc.operaciones.model.Pago;
+import com.cfm.sacc.operaciones.service.IOperacionesServices;
 import com.cfm.sacc.util.GUIDGenerator;
 import com.cfm.sacc.util.LogHandler;
 import com.cfm.sacc.util.Parseador;
@@ -43,6 +45,9 @@ public class ClientesController {
 	
 	@Autowired
 	IClienteService clientesService;
+	
+	@Autowired
+	IOperacionesServices operacionesServices;
 	
 	/**
 	 * Metodo para obtener todos los clientes activos
@@ -70,6 +75,29 @@ public class ClientesController {
 		LogHandler.info(uid, getClass(), "getClientesInactivos"+Parseador.objectToJson(uid, lista));
 		model.addAttribute(ATTRIBUTE_LISTA_CLIENTES, lista);
 		return "clientes/reactivarCliente";
+	}
+	
+	@GetMapping("/pagos/{rfc}")
+	public String renderHistoriaPagosCliente(@PathVariable("rfc") String clienteRFC, Model model) throws JsonProcessingException {
+		List<Pago> historialPagos = operacionesServices.getPagosCliente(clienteRFC);
+		Cliente cliente = clientesService.findByRFC(clienteRFC);
+		model.addAttribute("nombreCliente", cliente.getNombreLargo());
+		model.addAttribute("listaPagos", historialPagos);
+		return "clientes/historiaPagosCliente";
+	}
+	
+	/**
+	 * Metodo que renderiza el formulario para editar los datos del cliente
+	 * @param cliente RFC
+	 */
+	@GetMapping("/edit/{rfc}")
+	public String renderFormEditCliente(@PathVariable("rfc") String clienteRFC, Model model){		
+		Cliente cliente = clientesService.findByRFC(clienteRFC);
+		String uid = GUIDGenerator.generateGUID();
+		LogHandler.info(uid, getClass(), "renderFormEditCliente"+Parseador.objectToJson(uid, cliente));
+		
+		model.addAttribute(ATTRIBUTE_MODEL_CLIENTE, cliente);
+		return FORM_UPDATE_CLIENTE;
 	}
 	
 	/**
@@ -124,20 +152,6 @@ public class ClientesController {
 	}
 	
 	/**
-	 * Metodo que renderiza el formulario para editar los datos del cliente
-	 * @param cliente RFC
-	 */
-	@GetMapping("/edit/{rfc}")
-	public String renderFormEditCliente(@PathVariable("rfc") String clienteRFC, Model model){		
-		Cliente cliente = clientesService.findByRFC(clienteRFC);
-		String uid = GUIDGenerator.generateGUID();
-		LogHandler.info(uid, getClass(), "renderFormEditCliente"+Parseador.objectToJson(uid, cliente));
-		
-		model.addAttribute(ATTRIBUTE_MODEL_CLIENTE, cliente);
-		return FORM_UPDATE_CLIENTE;
-	}
-	
-	/**
 	 * Metodo para guardar el registro del nuevo cliente en base de datos
 	 * @param Cliente
 	 * @throws JsonProcessingException 
@@ -160,7 +174,6 @@ public class ClientesController {
 			return FORM_ADD_CLIENTE;
 		}
 	}
-	
 	
 	/**
 	 * Metodo para modificar los datos de un cliente

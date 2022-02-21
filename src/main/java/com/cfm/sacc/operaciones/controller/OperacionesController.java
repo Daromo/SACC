@@ -155,7 +155,7 @@ public class OperacionesController {
 		ResponseEntity<String> response = serviceOperaciones.addPago(pago);
 		if(response.getStatusCode() == HttpStatus.OK) {
 			redirectAttributes.addFlashAttribute("success", "Registro guardado con éxito.");
-			return "redirect:/operaciones/registrar-pago-honorario";
+			return "redirect:/clientes/pagos/".concat(pago.getClienteRFC());
 		}else {
 			model.addAttribute("error", response.getBody());
 			return FORM_REGISTRAR_PAGO;

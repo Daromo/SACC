@@ -255,4 +255,13 @@ public class OperacionesServices implements IOperacionesServices {
 		}
 		return "Not found detail";
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Pago> getPagosCliente(String clienteRFC) throws JsonProcessingException {
+		String url = operacionesProperties.getUrlHistorialPagos().concat(clienteRFC);
+		ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(url, null, HttpMethod.GET, APPLICATION_JSON);
+		String json = objectMapper.writeValueAsString(response.getBody());
+		return objectMapper.readValue(json, new TypeReference<List<Pago>>(){});
+	}
 }

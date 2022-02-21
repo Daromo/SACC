@@ -66,44 +66,47 @@
           <strong th:text="${msgBusqueda}"></strong>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-
-        <table id="tblCliente" class="table table-hover col-sm-12">
-          <caption>Lista de clientes activos</caption>
-          <thead class="thead-light">
-            <tr>
-              <th scope="col">RFC</th>
-              <th scope="col">Nombre Cliente</th>
-              <th scope="col">Regimen Fiscal</th>
-              <th scope="col">Estatus</th>
-              <th scope="col" colspan="3">Opciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr th:each="clienteTemp : ${clientes}">
-              <td th:text="${clienteTemp.rfc}"></td>
-              <td>
-                <span th:text="${clienteTemp.nombreLargo}"></span>
-              </td>
-              <td th:text="${clienteTemp.regimenFiscal.nombre}"></td>
-              <td>
-                <span th:if="${#strings.equals(clienteTemp.status, 'A')}" class="badge bg-info">Activo</span>
-                <span th:unless="${#strings.equals(clienteTemp.status, 'A')}" class="badge bg-danger">Inactivo</span>
-              </td>
-              <td>
-                <a class="btn btn-success btn-sm"
-                  th:href="@{/clientes/edit/{rfc} (rfc=${clienteTemp.rfc})}">Modificar</a>
-              </td>
-              <td>
-                <a class="btn btn-outline-primary btn-sm" th:href="@{/clientes/view/{rfc} (rfc=${clienteTemp.rfc}) }"
-                  role="button">Ver</a>
-              </td>
-              <td>
-                <a class="btn btn-warning btn-sm" th:href="@{/clientes/baja/{rfc} (rfc=${clienteTemp.rfc}) }"
-                  onclick="return confirm('¿Desea dar de baja al cliente seleccionado?')" role="button">Baja</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        
+        <div class="table-responsive">
+          <table id="tblCliente" class="table table-hover col-sm-12">
+            <caption>Lista de clientes activos</caption>
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">RFC</th>
+                <th scope="col">Nombre Cliente</th>
+                <th scope="col">Regimen Fiscal</th>
+                <th scope="col">Estatus</th>
+                <th scope="col">Pagos</th>
+                <th scope="col">Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="clienteTemp : ${clientes}">
+                <td th:text="${clienteTemp.rfc}"></td>
+                <td>
+                  <span th:text="${clienteTemp.nombreLargo}"></span>
+                </td>
+                <td th:text="${clienteTemp.regimenFiscal.nombre}"></td>
+                <td>
+                  <span th:if="${#strings.equals(clienteTemp.status, 'A')}" class="badge bg-info">Activo</span>
+                  <span th:unless="${#strings.equals(clienteTemp.status, 'A')}" class="badge bg-danger">Inactivo</span>
+                </td>
+                <td>
+                  <a class="btn btn-success btn-sm" th:href="@{/clientes/pagos/{rfc} (rfc=${clienteTemp.rfc})}">Historia</a>
+                </td>
+                <td>
+                  <a class="btn btn-outline-primary btn-sm" th:href="@{/clientes/edit/{rfc} (rfc=${clienteTemp.rfc})}">Modificar</a>
+                  <a class="btn btn-outline-secondary btn-sm" th:href="@{/clientes/view/{rfc} (rfc=${clienteTemp.rfc})}" role="button">Ver</a>
+                  <a class="btn btn-outline-warning btn-sm" th:href="@{/clientes/baja/{rfc} (rfc=${clienteTemp.rfc}) }"
+                    onclick="return confirm('¿Desea dar de baja al cliente seleccionado?')" role="button">
+                    Baja
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
       </div>
     </div>
   </div>
