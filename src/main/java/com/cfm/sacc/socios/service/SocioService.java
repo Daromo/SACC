@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.cfm.sacc.config.SociosProperties;
 import com.cfm.sacc.socios.model.Porcentaje;
 import com.cfm.sacc.socios.model.PorcentajeSocioRep;
 import com.cfm.sacc.socios.model.Socio;
@@ -31,32 +31,21 @@ public class SocioService implements ISocioService {
 	IClientWsService clientWsService;
 	
 	@Autowired
+	SociosProperties sociosProperties;
+	
+	@Autowired
 	ObjectMapper objectMapper;
 	
 	@Autowired
 	ModelMapper modelMapper;
-	
-	@Value("${socios.activos.lista.url}")
-	String urlSociosActivos;
-	
-	@Value("${socios.lista.url}")
-	String urlAllSocios;
-	
-	@Value("${socios.lista.porcentajes.url}")
-	String urlAllPorcentajes;
-	
-	@Value("${socios.agregar.porcentaje.url}")
-	String urlAgregarPorcentaje;
-	
-	@Value("${socios.last.clave.porcentaje.url}")
-	String urlLastClavePorcentaje;
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Socio> getAllSocios() {
 		List<Socio> flagList;
 		try {
-			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlAllSocios, null, HttpMethod.GET, APPLICATION_JSON);
+			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(
+					sociosProperties.getUrlAllSocios(), null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<Socio>>(){});
 		} catch (Exception e) {
@@ -72,7 +61,8 @@ public class SocioService implements ISocioService {
 	public List<Socio> getSociosActivos() {
 		List<Socio> flagList;
 		try {
-			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlSociosActivos, null, HttpMethod.GET, APPLICATION_JSON);
+			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(
+					sociosProperties.getUrlSociosActivos(), null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<Socio>>(){});
 		}catch (Exception e) {
@@ -88,7 +78,8 @@ public class SocioService implements ISocioService {
 	public List<PorcentajeSocioRep> getAllPorcentajes() {
 		List<PorcentajeSocioRep> flagList;
 		try {
-			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlAllPorcentajes, null, HttpMethod.GET, APPLICATION_JSON);
+			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(
+					sociosProperties.getUrlAllPorcentajes(), null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<PorcentajeSocioRep>>(){});
 		}catch (Exception e) {
@@ -102,7 +93,8 @@ public class SocioService implements ISocioService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public HttpStatus addPorcentaje(List<Porcentaje> listaPorcentajes) throws JsonProcessingException {
-		ResponseEntity<JsonNode> responseLastPorcentaje = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlLastClavePorcentaje, null, HttpMethod.GET, "text/plain, java.lang.String");
+		ResponseEntity<JsonNode> responseLastPorcentaje = (ResponseEntity<JsonNode>) clientWsService.consumeService(
+				sociosProperties.getUrlLastClavePorcentaje(), null, HttpMethod.GET, "text/plain, java.lang.String");
 		String contentBody = objectMapper.writeValueAsString(responseLastPorcentaje.getBody());
 		JsonNode json = objectMapper.readTree(contentBody);
 		String clave = json.get("clave").toString();
@@ -110,7 +102,8 @@ public class SocioService implements ISocioService {
 		
 		listaPorcentajes.forEach(porcentaje -> porcentaje.setClave("PS-"+(claveNum+1)));
 		
-		ResponseEntity<JsonNode> responseSave = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlAgregarPorcentaje, listaPorcentajes, HttpMethod.POST, APPLICATION_JSON);
+		ResponseEntity<JsonNode> responseSave = (ResponseEntity<JsonNode>) clientWsService.consumeService(
+				sociosProperties.getUrlAgregarPorcentaje(), listaPorcentajes, HttpMethod.POST, APPLICATION_JSON);
 		return responseSave.getStatusCode();
 	}
 

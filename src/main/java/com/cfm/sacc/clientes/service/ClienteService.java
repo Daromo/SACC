@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -14,6 +13,7 @@ import org.springframework.web.client.ResourceAccessException;
 
 import com.cfm.sacc.clientes.model.Cliente;
 import com.cfm.sacc.clientes.model.RegimenFiscal;
+import com.cfm.sacc.config.ClientesProperties;
 import com.cfm.sacc.util.GUIDGenerator;
 import com.cfm.sacc.util.LogHandler;
 import com.cfm.sacc.util.Parseador;
@@ -34,32 +34,8 @@ public class ClienteService implements IClienteService{
 	@Autowired
 	ObjectMapper objectMapper;
 	
-	@Value("${clientes.activos.url}")
-	String urlClientesActivos;
-	
-	@Value("${clientes.inactivos.url}")
-	String urlClientesInactivos;
-	
-	@Value("${clientes.buscar.rfc.url}")
-	String urlBuscarClienteRFC;
-	
-	@Value("${clientes.baja.url}")
-	String urlBajaCliente;
-	
-	@Value("${clientes.reactivar.url}")
-	String urlReactivarCliente;
-	
-	@Value("${clientes.lista.regimen.url}")
-	String urlListaRegimenFiscales;
-	
-	@Value("${clientes.agregar.url}")
-	String urlAgregarCliente;
-	
-	@Value("${clientes.modificar.url}")
-	String urlModificarCliente;
-	
-	@Value("${clientes.buscar.url}")
-	String urlBuscarCliente;
+	@Autowired
+	ClientesProperties clientesProperties;
 	
 	/**
 	 * Consumir API para obtener la lista de cliente con status activo
@@ -70,7 +46,8 @@ public class ClienteService implements IClienteService{
 	public List<Cliente> getClientesActivos(){
 		List<Cliente> flagList;
 		try {
-			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlClientesActivos, null, HttpMethod.GET, APPLICATION_JSON);
+			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(
+					clientesProperties.getUrlClientesActivos(), null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<Cliente>>(){});
 		} catch (Exception e) {
@@ -90,7 +67,8 @@ public class ClienteService implements IClienteService{
 	public List<Cliente> getClientesInactivos() {
 		List<Cliente> flagList;
 		try {
-			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlClientesInactivos, null, HttpMethod.GET, APPLICATION_JSON);
+			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(
+					clientesProperties.getUrlClientesInactivos(), null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<Cliente>>(){});
 		} catch (Exception e) {
@@ -109,7 +87,7 @@ public class ClienteService implements IClienteService{
 	@SuppressWarnings("unchecked")
 	@Override
 	public Cliente findByRFC(String clienteRFC) {
-		String url = urlBuscarClienteRFC.concat(clienteRFC);
+		String url = clientesProperties.getUrlBuscarClienteRFC().concat(clienteRFC);
 		try {
 			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(url, null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
@@ -128,7 +106,7 @@ public class ClienteService implements IClienteService{
 	@SuppressWarnings("unchecked")
 	@Override
 	public HttpStatus bajaCliente(String clienteRFC) {
-		String url = urlBajaCliente.concat(clienteRFC);
+		String url = clientesProperties.getUrlBajaCliente().concat(clienteRFC);
 		ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(url, null, HttpMethod.PUT, APPLICATION_JSON);		
 		return response.getStatusCode();
 	}
@@ -141,7 +119,7 @@ public class ClienteService implements IClienteService{
 	@SuppressWarnings("unchecked")
 	@Override
 	public HttpStatus reactivarCliente(String clienteRFC) {
-		String url = urlReactivarCliente.concat(clienteRFC);
+		String url = clientesProperties.getUrlReactivarCliente().concat(clienteRFC);
 		ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(url, null, HttpMethod.PUT, APPLICATION_JSON); 
 		return response.getStatusCode();
 	}
@@ -156,7 +134,8 @@ public class ClienteService implements IClienteService{
 	public List<RegimenFiscal> getRegimenFiscal(){
 		List<RegimenFiscal> flagList;
 		try {
-			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlListaRegimenFiscales, null, HttpMethod.GET, APPLICATION_JSON);
+			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(
+					clientesProperties.getUrlListaRegimenFiscales(), null, HttpMethod.GET, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<RegimenFiscal>>(){});
 		} catch (JsonProcessingException e) {
@@ -180,12 +159,13 @@ public class ClienteService implements IClienteService{
 	public ResponseEntity<String> guardarCliente(Cliente cliente) throws JsonProcessingException {
 		try {
 			/* Validar el status del cliente para determinar el metodo HTTP: 
-			 * Por defecto, cuando se agrega a un nuevo cliente el valor del status siempre sera nulo.
-			 */
+			 * Por defecto, cuando se agrega a un nuevo cliente el valor del status siempre sera nulo.*/
 			if (cliente.getStatus() == null) {
-				clientWsService.consumeService(urlAgregarCliente, cliente, HttpMethod.POST, APPLICATION_JSON);
+				clientWsService.consumeService(
+						clientesProperties.getUrlAgregarCliente(), cliente, HttpMethod.POST, APPLICATION_JSON);
 			}else {
-				clientWsService.consumeService(urlModificarCliente, cliente, HttpMethod.PUT, APPLICATION_JSON);
+				clientWsService.consumeService(
+						clientesProperties.getUrlModificarCliente(), cliente, HttpMethod.PUT, APPLICATION_JSON);
 			}
 		}catch (Exception e) {
 			String messageException = e.getMessage();
@@ -210,7 +190,8 @@ public class ClienteService implements IClienteService{
 	public List<Cliente> searchCliente(Cliente cliente) {
 		List<Cliente> flagList;
 		try {
-			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(urlBuscarCliente, cliente, HttpMethod.POST, APPLICATION_JSON);
+			ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(
+					clientesProperties.getUrlBuscarCliente(), cliente, HttpMethod.POST, APPLICATION_JSON);
 			String json = objectMapper.writeValueAsString(response.getBody());
 			return objectMapper.readValue(json, new TypeReference<List<Cliente>>(){});
 		} catch (JsonProcessingException e) {
