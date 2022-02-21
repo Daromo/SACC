@@ -28,6 +28,8 @@ public class Cliente {
 	
 	private String razonSocial;
 	
+	private String nombreLargo;
+	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone =  "America/Mexico_City")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fechaIngreso;

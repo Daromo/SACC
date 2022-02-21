@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,10 +24,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cfm.sacc.clientes.service.IClienteService;
 import com.cfm.sacc.jreports.client.IJReportsGenerator;
+import com.cfm.sacc.operaciones.model.FormaPago;
 import com.cfm.sacc.operaciones.model.Pago;
 import com.cfm.sacc.operaciones.model.Periodo;
 import com.cfm.sacc.operaciones.model.ReciboHonorario;
 import com.cfm.sacc.operaciones.model.Reporte;
+import com.cfm.sacc.operaciones.model.TipoHonorario;
 import com.cfm.sacc.operaciones.service.IOperacionesServices;
 import com.cfm.sacc.util.GUIDGenerator;
 import com.cfm.sacc.util.LogHandler;
@@ -66,7 +71,7 @@ public class OperacionesController {
 	 */
 	@PostMapping(value = "/recibo-honorario", params = "add")
 	public String guardarReciboHonorario(ReciboHonorario reciboHonorario, BindingResult bindingResult,
-			RedirectAttributes redirectAttributes, Model model) throws JRException, IOException {
+			RedirectAttributes redirectAttributes, Model model, HttpServletRequest request, HttpServletResponse response) throws JRException, IOException {
 		
 		// Validacion del Data Binding de los datos de entrada con la clase de modelo 
 		if (bindingResult.hasErrors()) {
@@ -98,12 +103,9 @@ public class OperacionesController {
 			throw new FileNotFoundException("Error al convertir el numero a letras");
 		}
 		
-		//List<ReciboHonorario> recibo = Arrays.asList(reciboHonorario);
-		//String contentDisposition = "attachment;filename=" + fileName;
-		//return jasperReportsGenerator.generarReciboHonorario(recibo, "HONORARIOS", contentDisposition);
-		
 		List<ReciboHonorario> recibo = Arrays.asList(reciboHonorario);
-		jasperReportsGenerator.generatedPDF(recibo, fileName);
+		jasperReportsGenerator.descargarRecibiHonorario(recibo, fileName, response);
+		
 		redirectAttributes.addFlashAttribute("success", "Recibo generado con exito");
 		return "redirect:/operaciones/recibo-honorario";
 
@@ -194,25 +196,52 @@ public class OperacionesController {
 	/**
 	 * Metodo para obtener la lista de pagos filtrada por la forma de pago & el rango de fechas definido por el usuario
 	 * @param Reporte
+	 * @throws JRException 
+	 * @throws FileNotFoundException 
 	 */
 	@GetMapping("/reporteFormaPago")
-	public String obtenerReportePagosFormaPago(Reporte reporte) throws JsonProcessingException {
+	public ResponseEntity<byte[]> obtenerReportePagosFormaPago(Reporte reporte) 
+			throws JsonProcessingException, FileNotFoundException, JRException {
+		
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "obtenerReportePagosTipoHonorario"+Parseador.objectToJson(uid, reporte));
-		List<Pago> listaPagos = serviceOperaciones.getPagosListByFormaPago(reporte.getFormaPagoId(), reporte.getStartDate(), reporte.getEndDate());
-		return "operaciones/reporteFormaPago";
+		String startDate = reporte.getStartDate();
+		String endDAte = reporte.getEndDate();
+		List<Pago> listaPagos = serviceOperaciones.getPagosListByFormaPago(reporte.getFormaPagoId(), startDate, endDAte);
+		List<FormaPago> listFormaPago = serviceOperaciones.getFormasPago();
+		String nombreFormaPago = listFormaPago
+				.stream()
+				.filter(f -> f.getId().equals(reporte.getFormaPagoId()))
+				.findFirst()
+				.get()
+				.getNombre();
+		
+		return jasperReportsGenerator.reportePagosFormaPago(listaPagos, startDate, endDAte, nombreFormaPago);
 	}
 	
 	/**
 	 * Metodo para obtener la lista de pagos filtrada por el tipo de honrario & el rango de fechas definido por el usuario
 	 * @param Reporte
+	 * @throws JRException 
+	 * @throws FileNotFoundException 
 	 */
 	@GetMapping("/reporteTipoHonorario")
-	public String obtenerReportePagosTipoHonorario(Reporte reporte) throws JsonProcessingException {
+	public ResponseEntity<byte[]> obtenerReportePagosTipoHonorario(Reporte reporte) 
+			throws JsonProcessingException, FileNotFoundException, JRException {
+		
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "obtenerReportePagosTipoHonorario"+Parseador.objectToJson(uid, reporte));
-		List<Pago> listaPagos = serviceOperaciones.getPagosListByTipoHonorario(reporte.getTipoHonorarioId(), reporte.getStartDate(), reporte.getEndDate());
-		return "operaciones/reporteTipoHonorario";
+		String startDate = reporte.getStartDate();
+		String endDAte = reporte.getEndDate();
+		List<Pago> listaPagos = serviceOperaciones.getPagosListByTipoHonorario(reporte.getTipoHonorarioId(), startDate, endDAte);
+		List<TipoHonorario> listTipoHonorario = serviceOperaciones.getTiposHonorarios();
+		String nombreTipoHonorario = listTipoHonorario
+				.stream()
+				.filter(f -> f.getId().equals(reporte.getTipoHonorarioId()))
+				.findFirst()
+				.get()
+				.getNombre();
+		return jasperReportsGenerator.reportePagosTipoHonorario(listaPagos, startDate, endDAte, nombreTipoHonorario);
 	}
 	
 	/**

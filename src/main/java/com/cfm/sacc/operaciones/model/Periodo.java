@@ -18,7 +18,7 @@ public class Periodo {
 	private Integer mes;
 	private Integer diaPago;
 	private Date fechaCorte;
-	private Character statusPago;
+	private Character statusPeriodoPago;
 	private Date fechaRegistro;
 	private Date fechaModificacion;
 }

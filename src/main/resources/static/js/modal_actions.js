@@ -36,10 +36,10 @@ $(function () {
           $.each(result, function (key, value) {
             periodo = monthNames[value.mes - 1] + ' ' + value.ejercicio
             //validar el status del pago & asignar la clase del badge
-            if(value.statusPago === 'A'){
+            if(value.statusPeriodoPago === 'A'){
               detalle_status_pago = 'Activo'
               class_status_pago = 'class="badge bg-info"'
-            }else if(value.statusPago == 'P'){
+            }else if(value.statusPeriodoPago == 'P'){
               detalle_status_pago = 'Parcial'
               class_status_pago = 'class="badge bg-warning"'
             }else{
