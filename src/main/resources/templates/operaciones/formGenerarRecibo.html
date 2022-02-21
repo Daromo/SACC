@@ -163,10 +163,8 @@
         <div class="modal-body" id="items_clientes">
           <!--DIV PARA MOSTRAR LOS DATOS DE LOS CLIENTES-->
           <div class="border border-secondary rounded-2 my-2 card-body bg-light" th:each="clienteTemp : ${clientes}"
-            th:id="${clienteTemp.rfc}">
-            <h5 th:if="${clienteTemp.regimenFiscal.id != 601}" class="card-title">[[${clienteTemp.apPaternoCliente}+' '+${clienteTemp.apMaternoCliente}+' '+${clienteTemp.nombreCliente}]]</h5>
-            <h5 th:unless="${clienteTemp.regimenFiscal.id != 601}" class="card-title">[[${clienteTemp.razonSocial}]]
-            </h5>
+          th:id="${clienteTemp.rfc}">
+            <h5 th:text="${clienteTemp.nombreLargo}" class="card-title"></h5>
             <p class="card-text" th:text="${clienteTemp.rfc}">cliente_rfc</p>
           </div>
         </div>

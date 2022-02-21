@@ -57,9 +57,7 @@
             <tr th:each="clienteTemp : ${clientes}">
               <td th:text="${clienteTemp.rfc}"></td>
               <td>
-                <span th:if="${clienteTemp.razonSocial != null}" th:text="${clienteTemp.razonSocial}"></span>
-                <span th:unless="${clienteTemp.razonSocial != null}"
-                  th:text="${clienteTemp.apPaternoCliente} +' '+ ${clienteTemp.apMaternoCliente} +' '+ ${clienteTemp.nombreCliente}"></span>
+                <span th:text="${clienteTemp.nombreLargo}"></span>
               </td>
               <td th:text="${clienteTemp.regimenFiscal.nombre}"></td>
               <td>
