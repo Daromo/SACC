@@ -28,14 +28,14 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
 public class JReportsGenerator implements IJReportsGenerator {
-
+	
 	@Override
 	public ResponseEntity<byte[]> generarReciboHonorario(List<ReciboHonorario> listRecibo, 
 			String documentTitle, String contentDisposition) throws FileNotFoundException, JRException {
 		
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("title", documentTitle);
-		
+		//compilar el diseño para generar el archivo .jasper
 		JasperReport compileReport = JasperCompileManager
 				.compileReport(new FileInputStream("src/main/resources/report_templates/recibo_honorario_contabilidad.jrxml"));
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listRecibo);
@@ -56,7 +56,7 @@ public class JReportsGenerator implements IJReportsGenerator {
 		params.put("title", "HONORARIOS");
 		
 		try {
-			//compilar el archivo para generar el archivo .jasper
+			//compilar el diseño para generar el archivo .jasper
 			JasperReport compileReport = JasperCompileManager
 					.compileReport(new FileInputStream("src/main/resources/report_templates/recibo_honorario_contabilidad.jrxml"));
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listRecibo);

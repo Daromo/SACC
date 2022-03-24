@@ -8,6 +8,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+/**
+ * @author Jose Daniel Rojas Morales
+ * @version 1.0.0
+ */
 @Service
 public class ClientWsService implements IClientWsService {
 

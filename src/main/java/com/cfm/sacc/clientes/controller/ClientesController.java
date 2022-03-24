@@ -30,6 +30,10 @@ import com.cfm.sacc.util.LogHandler;
 import com.cfm.sacc.util.Parseador;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+/**
+ * @author Jose Daniel Rojas Morales
+ * @version 1.0.0
+ */
 @Controller
 @RequestMapping(value="/clientes")
 public class ClientesController {
@@ -37,10 +41,8 @@ public class ClientesController {
 	private static final String ATTRIBUTE_LISTA_CLIENTES = "clientes";
 	private static final String ATTRIBUTE_MODEL_CLIENTE = "cliente";
 	private static final String ATTRIBUTE_SETTINGS_FLASH = "settings";
-	
 	private static final String FORM_ADD_CLIENTE = "clientes/formAddCliente";
 	private static final String FORM_UPDATE_CLIENTE = "clientes/formUpdateCliente";
-	
 	private static final String REDIRECT_CLIENTES_ACTIVOS = "redirect:/clientes/activos/";
 	
 	@Autowired

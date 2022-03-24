@@ -4,7 +4,6 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
   <meta name="author" content="">
 
   <title>SACC | Clientes Activos</title>
@@ -92,7 +91,7 @@
                   <span th:unless="${#strings.equals(clienteTemp.status, 'A')}" class="badge bg-danger">Inactivo</span>
                 </td>
                 <td>
-                  <a class="btn btn-success btn-sm" th:href="@{/clientes/pagos/{rfc} (rfc=${clienteTemp.rfc})}">Historia</a>
+                  <a class="btn btn-success btn-sm" th:href="@{/clientes/pagos/{rfc} (rfc=${clienteTemp.rfc})}">Historial</a>
                 </td>
                 <td>
                   <a class="btn btn-outline-primary btn-sm" th:href="@{/clientes/edit/{rfc} (rfc=${clienteTemp.rfc})}">Modificar</a>

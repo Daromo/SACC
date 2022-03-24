@@ -23,6 +23,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * @author Jose Daniel Rojas Morales
+ * @version 1.0.0
+ */
 @Service
 public class ClienteService implements IClienteService{
 
@@ -38,7 +42,7 @@ public class ClienteService implements IClienteService{
 	ClientesProperties clientesProperties;
 	
 	/**
-	 * Consumir API para obtener la lista de cliente con status activo
+	 * Consumir Microservicio para obtener la lista de cliente con status activo
 	 * @return List<Cliente>
 	 */
 	@SuppressWarnings("unchecked")
@@ -59,7 +63,7 @@ public class ClienteService implements IClienteService{
 	}
 	
 	/**
-	 * Consumir API para obtener la lista de cliente con status inactivo
+	 * Consumir Microservicio para obtener la lista de cliente con status inactivo
 	 * @return List<Cliente>
 	 */
 	@SuppressWarnings("unchecked")
@@ -80,7 +84,7 @@ public class ClienteService implements IClienteService{
 	}
 	
 	/**
-	 * Consumir API para obtener el registro de un cliente por su RFC
+	 * Consumir Microservicio para obtener el registro de un cliente por su RFC
 	 * @param cliente RFC
 	 * @return Cliente
 	 */
@@ -99,7 +103,7 @@ public class ClienteService implements IClienteService{
 	}
 	
 	/**
-	 * Consumir API para dar de baja a un cliente
+	 * Consumir Microservicio para dar de baja a un cliente
 	 * @param cliente RFC
 	 * @return Http response status
 	 */
@@ -107,12 +111,13 @@ public class ClienteService implements IClienteService{
 	@Override
 	public HttpStatus bajaCliente(String clienteRFC) {
 		String url = clientesProperties.getUrlBajaCliente().concat(clienteRFC);
-		ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) clientWsService.consumeService(url, null, HttpMethod.PUT, APPLICATION_JSON);		
+		ResponseEntity<JsonNode> response = (ResponseEntity<JsonNode>) 
+				clientWsService.consumeService(url, null, HttpMethod.PUT, APPLICATION_JSON);		
 		return response.getStatusCode();
 	}
 
 	/**
-	 * Consumir API para dar de reactivar a un cliente dado de baja
+	 * Consumir Microservicio para dar de reactivar a un cliente dado de baja
 	 * @param cliente RFC
 	 * @return Http response status
 	 */
@@ -125,7 +130,7 @@ public class ClienteService implements IClienteService{
 	}
 	
 	/**
-	 * Consumir API para obtener el catalogo de regimen fiscal
+	 * Consumir Microservicio para obtener el catalogo de regimen fiscal
 	 * @return List<RegimenFiscal>
 	 */
 	@Cacheable("regimenFiscalCache")
@@ -179,8 +184,8 @@ public class ClienteService implements IClienteService{
 	}
 	
 	/**
-	 * Consumir API para buscar cliente de acuerdo a las propiedades del objeto que
-	 * se recibe como parametro, en la vista se forza al usuario a buscar solo por
+	 * Consumir Microservicio para buscar un cliente de acuerdo a las propiedades del objeto que
+	 * se recibe como parametro, la vista forza al usuario a buscar solo por
 	 * RFC o Regimen Fiscal.
 	 * @param Cliente
 	 * @return List<Cliente>
