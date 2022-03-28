@@ -78,8 +78,7 @@ public class ClientesController {
 		List<Cliente> lista = clientesService.getClientesInactivos();
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "getClientesInactivos"+Parseador.objectToJson(uid, lista));
-		Pagination.buildPagination(page, lista, "/clientes/activos", ATTRIBUTE_LISTA_CLIENTES, model);
-		model.addAttribute(ATTRIBUTE_LISTA_CLIENTES, lista);
+		Pagination.buildPagination(page, lista, "/clientes/inactivos", ATTRIBUTE_LISTA_CLIENTES, model);
 		return "clientes/reactivarCliente";
 	}
 	

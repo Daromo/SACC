@@ -42,8 +42,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         <div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
-        <table id="tblCliente" class="table table-hover">
-          <caption>Lista de clientes inactivos</caption>
+        <table id="tblCliente" class="table table-hover">          
           <thead class="thead-light">
             <tr>
               <th scope="col">RFC</th>
@@ -72,6 +71,7 @@
             </tr>
           </tbody>
         </table>
+        <nav th:replace="fragments/paginator-nav :: paginator"></nav>
       </div>
     </div>
   </div> 
