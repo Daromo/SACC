@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cfm.sacc.clientes.model.Cliente;
@@ -28,6 +29,7 @@ import com.cfm.sacc.operaciones.service.IOperacionesServices;
 import com.cfm.sacc.util.GUIDGenerator;
 import com.cfm.sacc.util.LogHandler;
 import com.cfm.sacc.util.Parseador;
+import com.cfm.sacc.util.pagination.Pagination;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
@@ -57,11 +59,12 @@ public class ClientesController {
 	 * @return List<Cliente>
 	 */
 	@GetMapping("/activos")
-	public String getClientesActivos(Model model){		
+	public String getClientesActivos(@RequestParam(name = "page",defaultValue = "0") int page, Model model) {
 		List<Cliente> lista = clientesService.getClientesActivos();
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "getClientesActivos"+Parseador.objectToJson(uid, lista));
-		model.addAttribute(ATTRIBUTE_LISTA_CLIENTES, lista);
+		
+		Pagination.buildPagination(page, lista, "/clientes/activos", ATTRIBUTE_LISTA_CLIENTES, model);
 		return "clientes/listClientes";
 	}
 	
@@ -71,10 +74,11 @@ public class ClientesController {
 	 * @return List<Cliente>
 	 */
 	@GetMapping("/inactivos")
-	public String getClienteInactivos(Model model) {
+	public String getClienteInactivos(@RequestParam(name = "page",defaultValue = "0") int page, Model model) {
 		List<Cliente> lista = clientesService.getClientesInactivos();
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "getClientesInactivos"+Parseador.objectToJson(uid, lista));
+		Pagination.buildPagination(page, lista, "/clientes/activos", ATTRIBUTE_LISTA_CLIENTES, model);
 		model.addAttribute(ATTRIBUTE_LISTA_CLIENTES, lista);
 		return "clientes/reactivarCliente";
 	}
@@ -206,8 +210,12 @@ public class ClientesController {
 	 * @param Cliente
 	 */
 	@GetMapping("/buscar")
-	public String filtrarClientes(Cliente cliente, Model model, RedirectAttributes redirectAttributes) {
+	public String filtrarClientes(@RequestParam(name = "page",defaultValue = "0") int page,Cliente cliente, Model model, RedirectAttributes redirectAttributes) {
 		LogHandler.info(null, getClass(), "CLIENTE A BUSCAR:"+cliente);
+		cliente.setStatus('A');
+		if(cliente.getRfc()!=null)
+			cliente.setRfc("null".contains(cliente.getRfc())?null:cliente.getRfc());
+		
 		List<Cliente> searchListClientes = clientesService.searchCliente(cliente);
 		String uid = GUIDGenerator.generateGUID();
 		LogHandler.info(uid, getClass(), "filtrarClientes:"+Parseador.objectToJson(uid, searchListClientes));
@@ -216,7 +224,10 @@ public class ClientesController {
 			redirectAttributes.addFlashAttribute("msgBusqueda", "Sin resultado para esta búsqueda");
 			return REDIRECT_CLIENTES_ACTIVOS;
 		}
-		model.addAttribute(ATTRIBUTE_LISTA_CLIENTES, searchListClientes);
+		
+		String rfc=cliente.getRfc()==null?"":cliente.getRfc();
+		String regimenFiscalId=cliente.getRegimenFiscalId()==null?"":cliente.getRegimenFiscalId().toString();
+		Pagination.buildPagination(page, searchListClientes, "/clientes/buscar?rfc="+rfc+"&regimenFiscalId="+regimenFiscalId, ATTRIBUTE_LISTA_CLIENTES, model);
 		return "clientes/listClientes";
 	}
 	

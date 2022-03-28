@@ -68,7 +68,6 @@
         
         <div class="table-responsive">
           <table id="tblCliente" class="table table-hover col-sm-12">
-            <caption>Lista de clientes activos</caption>
             <thead class="thead-light">
               <tr>
                 <th scope="col">RFC</th>
@@ -104,13 +103,12 @@
               </tr>
             </tbody>
           </table>
-        </div>
-        
+          <nav th:replace="fragments/paginator-nav :: paginator"></nav>
+        </div>         
       </div>
     </div>
   </div>
   <!-- container -->
-  
   <footer th:insert="fragments/footer :: template-footer" 
     class="bg-dark text-center mt-auto footer">
   </footer>

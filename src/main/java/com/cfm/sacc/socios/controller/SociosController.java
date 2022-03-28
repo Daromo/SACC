@@ -1,6 +1,7 @@
 package com.cfm.sacc.socios.controller;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cfm.sacc.socios.model.Porcentaje;
+import com.cfm.sacc.socios.model.Socio;
 import com.cfm.sacc.socios.service.ISocioService;
+import com.cfm.sacc.util.pagination.Pagination;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Controller
@@ -33,7 +37,9 @@ public class SociosController {
 	 * RENDERIZAR LA LISTA DE TODOS LOS SOCIOS
 	 */
 	@GetMapping("/activos")
-	public String renderListSocios(RedirectAttributes redirectAttributes) {
+	public String renderListSocios(@RequestParam(name = "page",defaultValue = "0") int page, Model model) {
+		List<Socio> lista = socioService.getAllSocios();
+		Pagination.buildPagination(page, lista, "/socios/activos", "socios", model);
 		return "socios/listSocios";
 	}
 	
@@ -120,7 +126,7 @@ public class SociosController {
 	@ModelAttribute
 	public void setGenericos(Model model) {
 		model.addAttribute("listaDetallesPorcentajes", detallesPorcentajes);
-		model.addAttribute("socios",socioService.getAllSocios());
+//		model.addAttribute("socios",socioService.getAllSocios());
 		model.addAttribute("socios_activos", socioService.getSociosActivos());
 	}
 }
